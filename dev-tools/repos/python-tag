@@ -59,6 +59,7 @@ wazo-service
 wazo-setupd
 wazo-setupd-client
 wazo-stat
+wazo-sysconfd
 wazo-sysconfd-client
 wazo-ui
 wazo-upgrade
@@ -81,5 +82,4 @@ xivo-monitoring
 xivo-res-freeze-check
 xivo-swagger-doc
 xivo-sync
-xivo-sysconfd
 xivo-utils
