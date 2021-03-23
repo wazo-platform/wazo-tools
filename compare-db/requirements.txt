@@ -3,6 +3,7 @@ git+https://github.com/wazo-platform/xivo-lib-python  # from xivo-dao
 alembic==1.0.0
 docker-compose
 migra[pg]
+packaging  # missing from sqlbag -> from migra
 sh
 sqlalchemy==1.2.18
 sqlalchemy-utils==0.32.21
