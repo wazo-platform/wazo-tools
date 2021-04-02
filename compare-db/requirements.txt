@@ -4,6 +4,7 @@ alembic==1.0.0
 docker-compose
 migra[pg]
 packaging  # missing from sqlbag -> from migra
+pytz==2019.1
 sh
 sqlalchemy==1.2.18
 sqlalchemy-utils==0.32.21
