@@ -47,6 +47,7 @@ wazo-plugind-client
 wazo-provd
 wazo-provd-cli
 wazo-provd-client
+wazo-provd-plugins
 wazo-purge-db
 wazo-res-amqp
 wazo-res-consul
