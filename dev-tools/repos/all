@@ -37,6 +37,7 @@ wazo-debug
 wazo-dird
 wazo-dird-client
 wazo-dist
+wazo-docker
 wazo-dxtora
 wazo-dxtorc
 wazo-keyring
