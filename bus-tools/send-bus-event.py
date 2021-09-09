@@ -44,7 +44,11 @@ def main():
         producer = kombu.Producer(connection, exchange=exchange)
         with sys.stdin if args.input_event_file == '-' else open(args.input_event_file, 'r') as f:
             event_data = json.load(f)
-        producer.publish(event_data, routing_key=args.routing_key)
+        headers = {
+            'name': event_data['name'],
+            'required_acl': event_data['required_acl'],
+        }
+        producer.publish(event_data, routing_key=args.routing_key, headers=headers)
 
 
 if __name__ == '__main__':
