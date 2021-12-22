@@ -33,6 +33,7 @@ wazo-dbms
 wazo-debug
 wazo-dird
 wazo-dird-client
+wazo-dist
 wazo-docker
 wazo-dxtora
 wazo-dxtorc
@@ -75,7 +76,6 @@ xivo-bus
 xivo-certs
 xivo-config
 xivo-dao
-wazo-dist
 xivo-fetchfw
 xivo-lib-python
 xivo-manage-db

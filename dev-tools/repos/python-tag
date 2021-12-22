@@ -7,9 +7,9 @@ libpri
 wazo-agentd
 wazo-agentd-cli
 wazo-agentd-client
+wazo-agid
 wazo-amid
 wazo-amid-client
-wazo-agid
 wazo-ansible
 wazo-asterisk-config
 wazo-asterisk-doc-extractor
