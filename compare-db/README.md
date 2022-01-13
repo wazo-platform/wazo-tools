@@ -3,7 +3,9 @@
 ## Prerequisites
 
 ```sh
-apt-get install docker-engine
+apt-get install docker-ce
+curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+chmod +x ~/.docker/cli-plugins/docker-compose
 pip install -r requirements.txt
 ```
 
