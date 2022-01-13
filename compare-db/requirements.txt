@@ -1,7 +1,6 @@
 git+https://github.com/wazo-platform/xivo-dao
 git+https://github.com/wazo-platform/xivo-lib-python  # from xivo-dao
 alembic==1.0.0
-docker-compose
 migra[pg]
 packaging  # missing from sqlbag -> from migra
 pytz==2019.1
