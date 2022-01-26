@@ -29,7 +29,7 @@ wazo-calld
 wazo-calld-client
 wazo-chatd
 wazo-chatd-client
-wazo-codec-open-source
+wazo-codec-opus-open-source
 wazo-confd
 wazo-confd-client
 wazo-confgend
