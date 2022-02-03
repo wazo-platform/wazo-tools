@@ -31,6 +31,7 @@ wazo-chatd
 wazo-chatd-client
 wazo-codec-opus-open-source
 wazo-confd
+wazo-confd-cli
 wazo-confd-client
 wazo-confgend
 wazo-confgend-client
