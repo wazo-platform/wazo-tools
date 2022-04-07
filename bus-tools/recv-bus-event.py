@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright 2015-2018 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2015-2022 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,12 +31,26 @@ logger = logging.getLogger(__name__)
 
 class C(ConsumerMixin):
 
-    def __init__(self, connection, routing_key):
+    def __init__(self, connection, routing_key, headers):
         self.connection = connection
         self.routing_key = routing_key
+        self.headers = headers
 
     def get_consumers(self, Consumer, channel):
-        return [Consumer(kombu.Queue(exchange=EXCHANGE, routing_key=self.routing_key, exclusive=True),
+        bindings = []
+        if self.routing_key:
+            logger.debug('using routing key %s', self.routing_key)
+            exchange = kombu.Exchange('xivo', type='topic')
+        elif self.headers:
+            logger.debug('using headers: %s', self.headers)
+            exchange = kombu.Exchange('wazo-headers', type='headers')
+            binding_arguments = {}
+            for header in self.headers:
+                key, value = header.split(': ')
+                binding_arguments[key] = value
+            bindings.append(kombu.binding(exchange=exchange, arguments=binding_arguments))
+
+        return [Consumer(kombu.Queue(exchange=exchange, routing_key=self.routing_key, bindings=bindings, exclusive=True),
                 callbacks=[self.on_message])]
 
     def on_message(self, body, message):
@@ -51,7 +65,16 @@ def main():
     parser.add_argument('-p', '--port', help='Port of RabbitMQ',
                         default='5672')
     parser.add_argument('-r', '--routing-key', help='Routing key to bind on bus',
-                        dest='routing_key', default='#')
+                        dest='routing_key', default=None)
+    parser.add_argument(
+        '-H',
+        '--header',
+        help='header to consume on "user_uuid: <uuid>"',
+        default=[],
+        dest='headers',
+        nargs='+',
+    )
+
 
     args = parser.parse_args()
 
@@ -59,7 +82,7 @@ def main():
 
     with kombu.Connection(url_amqp) as conn:
         try:
-            C(conn, args.routing_key).run()
+            C(conn, args.routing_key, args.headers).run()
         except KeyboardInterrupt:
             return
 
