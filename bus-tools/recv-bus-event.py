@@ -25,12 +25,14 @@ from pprint import pformat
 from kombu import binding as Binding
 
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(process)d] (%(levelname)s) (%(name)s): %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(process)d] (%(levelname)s) (%(name)s): %(message)s',
+)
 logger = logging.getLogger(__name__)
 
 
 class C(ConsumerMixin):
-
     def __init__(self, connection, routing_key, bindings, tenant):
         self.connection = connection
         self.routing_key = routing_key
@@ -49,13 +51,24 @@ class C(ConsumerMixin):
                 arguments = {'name': event}
                 if self.tenant is not None:
                     arguments.update(tenant_uuid=self.tenant)
-                bindings.append(kombu.binding(
+                bindings.append(
+                    kombu.binding(
+                        exchange=exchange,
+                        routing_key=None,
+                        arguments=arguments,
+                    )
+                )
+        return [
+            Consumer(
+                kombu.Queue(
                     exchange=exchange,
-                    routing_key=None,
-                    arguments=arguments,
-                ))
-        return [Consumer(kombu.Queue(exchange=exchange, routing_key=self.routing_key, bindings=bindings, exclusive=True),
-                callbacks=[self.on_message])]
+                    routing_key=self.routing_key,
+                    bindings=bindings,
+                    exclusive=True,
+                ),
+                callbacks=[self.on_message],
+            )
+        ]
 
     def on_message(self, body, message):
         logger.info('Received: %s', pformat(body))
@@ -64,16 +77,23 @@ class C(ConsumerMixin):
 
 def main():
     parser = argparse.ArgumentParser('read RabbitMQ xivo exchange')
-    parser.add_argument('-n', '--hostname', help='RabbitMQ server',
-                        default='localhost')
-    parser.add_argument('-p', '--port', help='Port of RabbitMQ',
-                        default='5672')
-    parser.add_argument('-r', '--routing-key', help='(optional) Routing key to bind on bus.',
-                        dest='routing_key')
-    parser.add_argument('-e', '--event-name', help='Event Name to bind on bus. Multiple events are separated by a comma ",".',
-                        dest='event_name')
-    parser.add_argument('-t', '--tenant', help='Tenant UUID to bind on bus',
-                        dest='tenant')
+    parser.add_argument('-n', '--hostname', help='RabbitMQ server', default='localhost')
+    parser.add_argument('-p', '--port', help='Port of RabbitMQ', default='5672')
+    parser.add_argument(
+        '-r',
+        '--routing-key',
+        help='(optional) Routing key to bind on bus.',
+        dest='routing_key',
+    )
+    parser.add_argument(
+        '-e',
+        '--event-name',
+        help='Event Name to bind on bus. Multiple events are separated by a comma ",".',
+        dest='event_name',
+    )
+    parser.add_argument(
+        '-t', '--tenant', help='Tenant UUID to bind on bus', dest='tenant'
+    )
 
     args = parser.parse_args()
 
