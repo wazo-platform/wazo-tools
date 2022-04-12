@@ -46,10 +46,13 @@ class C(ConsumerMixin):
             print('Use headers binding')
             exchange = kombu.Exchange('wazo-headers', type='headers')
             for event in self.bindings.split(','):
+                arguments = {'name': event}
+                if self.tenant is not None:
+                    arguments.update(tenant_uuid=self.tenant)
                 bindings.append(kombu.binding(
                     exchange=exchange,
                     routing_key=None,
-                    arguments={'name': event, 'tenant_uuid': self.tenant},
+                    arguments=arguments,
                 ))
         return [Consumer(kombu.Queue(exchange=exchange, routing_key=self.routing_key, bindings=bindings, exclusive=True),
                 callbacks=[self.on_message])]
