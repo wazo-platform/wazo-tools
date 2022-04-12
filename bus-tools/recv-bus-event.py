@@ -68,9 +68,9 @@ def main():
                         default='localhost')
     parser.add_argument('-p', '--port', help='Port of RabbitMQ',
                         default='5672')
-    parser.add_argument('-r', '--routing-key', help='Routing key to bind on bus',
+    parser.add_argument('-r', '--routing-key', help='(optional) Routing key to bind on bus.',
                         dest='routing_key')
-    parser.add_argument('-e', '--event-name', help='Event Name to bind on bus',
+    parser.add_argument('-e', '--event-name', help='Event Name to bind on bus. Multiple events are separated by a comma ",".',
                         dest='event_name')
     parser.add_argument('-t', '--tenant', help='Tenant UUID to bind on bus',
                         dest='tenant')
