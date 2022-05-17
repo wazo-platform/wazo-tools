@@ -12,6 +12,7 @@ def is_package(path):
     is_test_module = fnmatch.fnmatch(path, '*tests')
     return not (is_svn_dir or is_test_module)
 
+
 packages = [p for p, _, _ in os.walk('repo_check') if is_package(p)]
 
 
@@ -21,7 +22,7 @@ setup(
     description='XiVO Merge assistant',
     author='Avencall',
     author_email='dev@avencall.com',
-    url='https://github.com/wazo-platform/xivo-tools',
+    url='https://github.com/wazo-platform/wazo-tools',
     packages=packages,
     scripts=['bin/check_local_xivo_repositories',
              'bin/check_unmerged_branches'],
