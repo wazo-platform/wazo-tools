@@ -21,6 +21,7 @@ wazo-auth
 wazo-auth-cli
 wazo-auth-client
 wazo-auth-keys
+wazo-backup
 wazo-c4-router
 wazo-c4-sbc
 wazo-call-logd
@@ -81,7 +82,6 @@ wazo-webhookd
 wazo-webhookd-client
 wazo-websocketd
 wazo-websocketd-client
-xivo-backup
 xivo-build-tools
 xivo-bus
 xivo-certs
