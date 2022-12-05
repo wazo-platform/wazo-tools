@@ -17,9 +17,9 @@
   ```
 
 ## git hooks
-Git hook scripts are provided in the git-hooks subdirectory.
-They can be installed manually(see [git-hooks/README.md](git-hooks/README.md)).
-They are also made available for use through the [pre-commit framework](https://pre-commit.com/) thanks to the .pre-commit-hooks.yml manifest file.
+Git hook scripts are provided in the `git-hooks` subdirectory.
+They can be installed manually (see [`git-hooks/README.md`](git-hooks/README.md)).
+They are also made available for use through the [pre-commit framework](https://pre-commit.com/) thanks to the `.pre-commit-hooks.yml` manifest file.
 
 A sample pre-commit configuration to use those hooks:
 ```yaml
