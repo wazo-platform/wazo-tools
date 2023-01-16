@@ -17,8 +17,6 @@ wazo-auth-cli
 wazo-auth-client
 wazo-auth-keys
 wazo-backup
-wazo-c4-router
-wazo-c4-sbc
 wazo-call-logd
 wazo-call-logd-client
 wazo-calld
@@ -59,8 +57,6 @@ wazo-res-consul
 wazo-res-consul-discovery
 wazo-res-consul-stasis-app
 wazo-res-stasis-amqp
-wazo-router-confd
-wazo-rtpe-config
 wazo-service
 wazo-setupd
 wazo-setupd-client
