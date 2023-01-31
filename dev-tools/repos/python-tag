@@ -1,8 +1,5 @@
 asterisk
-dahdi-linux
-dahdi-tools
 libconsul-c
-libpri
 wazo-agentd
 wazo-agentd-cli
 wazo-agentd-client
