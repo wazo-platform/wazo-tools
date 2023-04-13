@@ -10,6 +10,7 @@
   entry: git-hooks/copyright-check
   pass_filenames: false
   stages: [commit, push, manual]
+  exclude_types: [binary]
 - id: wazo-changelog-check
   name: update debian changelog
   description: check that debian/changelog file has been updated along with commit
