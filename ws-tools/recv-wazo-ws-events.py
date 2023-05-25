@@ -10,7 +10,7 @@ from wazo_auth_client import Client
 host = sys.argv[1]
 username = sys.argv[2]
 events = sys.argv[3].split(',')
-password = getpass('Password for {0}: '.format(username))
+password = getpass(f'Password for {username}: ')
 
 auth = Client(
     host, 443, username=username, password=password, verify_certificate=False
@@ -37,7 +37,7 @@ def on_open(ws):
 
 
 ws = websocket.WebSocketApp(
-    "wss://{host}:443/api/websocketd/?token={token}".format(host=host, token=token),
+    f"wss://{host}:443/api/websocketd/?token={token}",
     on_message=on_message,
     on_error=on_error,
     on_close=on_close,

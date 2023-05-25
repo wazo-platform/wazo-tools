@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
 import sys
@@ -37,7 +37,6 @@ def _load_key_file(config):
                      'password': key_file['service_key']}}
 
 
-
 argument_parser = argparse.ArgumentParser(
     'Import an Asterisk pjsip configuration file',
 )
@@ -49,7 +48,7 @@ def prune(endpoint):
     to_remove = []
     for key, value in registration_section:
         if key == 'outbound_auth':
-            to_remove.append(([key, value]))
+            to_remove.append([key, value])
     for item in to_remove:
         registration_section.remove(item)
     return endpoint
@@ -68,7 +67,7 @@ def migrate_section(confd_client, block_name, options):
     to_add = []
     for key, value in options.items():
         if key == 'type':
-            section = '{}_section_options'.format(value)
+            section = f'{value}_section_options'
         elif key == 'endpoint':
             endpoint_name = value
         elif key in ignored_options:

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +16,7 @@
 import re
 
 
-class LogParser(object):
+class LogParser:
     _EXECUTE_REGEX = re.compile(r'Executing \[([^@]+)@([a-zA-Z0-9_\-]+):(\d+)\]')
 
     def parse(self, fobj):
@@ -37,7 +35,7 @@ class LogParser(object):
             return self.parse(fobj)
 
 
-class _LogParseResult(object):
+class _LogParseResult:
     def __init__(self):
         self._contexts = {}
 
@@ -53,6 +51,8 @@ class _LogParseResult(object):
         return False
 
     def list_executed_extensions(self, context, priority):
-        return [extension for extension, priorities
-                in self._contexts.get(context, {}).items()
-                if priority in priorities]
+        return [
+            extension for extension, priorities
+            in self._contexts.get(context, {}).items()
+            if priority in priorities
+        ]

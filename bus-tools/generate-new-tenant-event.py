@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020-2021 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import kombu
@@ -71,14 +71,14 @@ def _get_tenants_infos(tenants):
         try:
             tenant_infos[tenant] = auth_client.tenants.get(tenant)
         except requests.HTTPError as e:
-            print('Error while getting tenant {}: {}'.format(tenant, e))
+            print(f'Error while getting tenant {tenant}: {e}')
 
     return tenant_infos
 
 
 def main(tenants):
-    tenants_infos = _get_tenants_infos(tenants)
-    for uuid, tenant in tenants_infos.items():
+    tenants_info = _get_tenants_infos(tenants)
+    for uuid, tenant in tenants_info.items():
         event = _build_event(uuid, tenant)
         _send_event(event)
 

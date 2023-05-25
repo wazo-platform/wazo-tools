@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020-2021 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 """
 This script moves devices that are orphan to the master tenant. An orphan device is a
@@ -49,7 +49,7 @@ def _change_device_tenant_if_orphan(device_id, master_tenant_uuid, all_tenants):
     with open(device_path, 'r+') as file_:
         device = json.load(file_)
         if not device.get('tenant_uuid', None) in all_tenants:
-            print('Moving device {} to master tenant'.format(device_id))
+            print(f'Moving device {device_id} to master tenant')
             device['tenant_uuid'] = master_tenant_uuid
             file_.seek(0)
             json.dump(device, file_)

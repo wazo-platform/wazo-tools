@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 import requests
 
 def  _xivo_repositories():

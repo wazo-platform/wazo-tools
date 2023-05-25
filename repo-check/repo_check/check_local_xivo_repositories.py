@@ -1,15 +1,13 @@
-# -*- coding: UTF-8 -*-
-
 import argparse
 import os
-from repo_check.repositories import xivo_repositories
+from .repositories import xivo_repositories
 import sys
 
 
 class ReposNotFound(Exception):
     def __init__(self, repos):
         self.repos = repos
-        super(ReposNotFound, self).__init__('XiVO repository Not Found exception: missing %s' % repos)
+        super().__init__(f'XiVO repository Not Found exception: missing {repos}')
 
 
 def main():
@@ -24,18 +22,18 @@ def assert_no_missing_repos(directory):
             raise ReposNotFound(missing_repos)
 
     except OSError:
-        print ('Base directory does not exist : %s. Exiting!' % directory)
+        print(f'Base directory does not exist : {directory}. Exiting!')
         sys.exit(1)
     except ReposNotFound as e:
-        print('following xivo repositories could not be found in base directory %s : %s. Exiting!'
-              % (directory, e.repos))
+        print(f'following xivo repositories could not be found in base directory {directory} : {e.repos}. Exiting!')
         sys.exit(1)
 
 
 def _list_missing_repos(base_directory):
     dir_list = os.listdir(base_directory)
-    existing_repos = set(
-        directory for directory in dir_list if _is_dir(directory, base_directory))
+    existing_repos = {
+        directory for directory in dir_list if _is_dir(directory, base_directory)
+    }
     required_repos = set(xivo_repositories)
     return list(required_repos - existing_repos)
 

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import unittest
-from mock import Mock
+from unittest.mock import Mock
 from visualplan.analyzer import DialplanExecutionAnalyzer, \
     _is_extension_match_pattern
 

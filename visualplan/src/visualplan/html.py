@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 
-class HTMLVisualizer(object):
+class HTMLVisualizer:
     def __init__(self, output_filename):
         self._output_filename = output_filename
 
@@ -59,7 +57,7 @@ tr.coverNone {
         with open(self._output_filename, 'w') as fobj:
             fobj.write(self._HEADER)
             for analysis in analyses:
-                fobj.write('<p>{}</p>'.format(analysis.filename))
+                fobj.write(f'<p>{analysis.filename}</p>')
                 fobj.write('<table>')
                 for no_line, line_analysis in enumerate(analysis.line_analyses, 1):
                     if line_analysis.is_executable:
@@ -69,10 +67,10 @@ tr.coverNone {
                             fobj.write('<tr class="coverNone">')
                     else:
                         fobj.write('<tr class="noCover">')
-                    fobj.write('<td>{}</td><td>'.format(no_line))
+                    fobj.write(f'<td>{no_line}</td><td>')
                     fobj.write(line_analysis.content)
                     fobj.write('</td>')
                     fobj.write('</tr>\n')
                 fobj.write('</table>')
             fobj.write(self._FOOTER)
-        print('Wrote HTML output in {}'.format(self._output_filename))
+        print(f'Wrote HTML output in {self._output_filename}')

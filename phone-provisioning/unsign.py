@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python3
 
 """Extract gzip files from '.sgn' files.
 
@@ -41,7 +40,7 @@ if __name__ == '__main__':
     import os.path
     import sys
     if len(sys.argv) not in (2, 3):
-        print >>sys.stderr, '%s input_file [output_file]' % sys.argv[0]
+        print(f'{sys.argv[0]} input_file [output_file]', file=sys.stderr)
         raise SystemExit(1)
     else:
         path_in = sys.argv[1]
@@ -50,7 +49,7 @@ if __name__ == '__main__':
         else:
             path_out = path_in.split('.', 1)[0] + '.tgz'
             if path_in == path_out:
-                print >>sys.stderr, 'Could not determine an output filename. Specify an output file.'
+                print('Could not determine an output filename. Specify an output file.', file=sys.stderr)
                 raise SystemExit(2)
         unsign_from_filename(path_in, os.path.basename(path_out))
 

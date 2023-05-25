@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +17,7 @@ import os
 import shutil
 import tempfile
 import unittest
-from mock import Mock
+from unittest.mock import Mock
 from visualplan.html import HTMLVisualizer
 
 

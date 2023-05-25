@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 import argparse
 import os
 from repo_check.check_local_xivo_repositories import assert_no_missing_repos

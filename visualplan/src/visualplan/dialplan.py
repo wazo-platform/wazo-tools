@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +20,7 @@ class DialplanParsingError(Exception):
     pass
 
 
-class DialplanParser(object):
+class DialplanParser:
     def parse(self, fobj):
         parse_result = self._do_parse(fobj)
         parse_result.filename = '<fobj>'
@@ -50,7 +48,7 @@ class DialplanParser(object):
         return parse_result
 
 
-class _DialplanLineParser(object):
+class _DialplanLineParser:
     def __init__(self):
         self.context = None
         self.extension = None
@@ -117,7 +115,7 @@ class _DialplanLineParser(object):
             return True
 
 
-class _DialplanParseResult(object):
+class _DialplanParseResult:
     def __init__(self):
         self.lines = []
         self._contexts = {}
@@ -129,7 +127,7 @@ class _DialplanParseResult(object):
         return extension in self._contexts.get(context, ())
 
 
-class _DialplanLineParseResult(object):
+class _DialplanLineParseResult:
     def __init__(self, content, is_executable):
         self.content = content
         self.is_executable = is_executable

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import websocket
 import sys
@@ -14,7 +14,7 @@ ignored_events = [
 host = sys.argv[1]
 username = sys.argv[2]
 events = sys.argv[3].split(',')
-password = getpass('Password for {0}: '.format(username))
+password = getpass(f'Password for {username}: ')
 
 
 def main(argv):
@@ -32,7 +32,7 @@ def main(argv):
                     print(json.dumps(msg_json, sort_keys=True,
                           indent=2, separators=(',', ': ')))
             except ValueError:
-                print('received json: {}'.format(repr(msg_str)))
+                print(f'received json: {repr(msg_str)}')
             msg_str = ws.recv()
     except KeyboardInterrupt:
         print("*** Closing")

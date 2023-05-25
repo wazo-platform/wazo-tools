@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,10 +15,10 @@
 
 import argparse
 import sys
-from visualplan.analyzer import DialplanExecutionAnalyzer
-from visualplan.log import LogParser
-from visualplan.dialplan import DialplanParser
-from visualplan.html import HTMLVisualizer
+from .visualplan.analyzer import DialplanExecutionAnalyzer
+from .visualplan.log import LogParser
+from .visualplan.dialplan import DialplanParser
+from .visualplan.html import HTMLVisualizer
 
 
 def main():
