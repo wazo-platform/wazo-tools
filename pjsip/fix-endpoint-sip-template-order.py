@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
@@ -105,6 +105,7 @@ def main():
 
     with open(SENTINEL, 'w') as f:
         f.write('')
+
 
 if __name__ == '__main__':
     main()

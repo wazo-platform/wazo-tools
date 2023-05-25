@@ -132,7 +132,7 @@ def create_tables(postgresql_uri):
 
 
 def populate_db(postgresql_uri):
-    path = "{}/populate/populate.sql".format(config.get('repos', 'manage_db'))
+    path = f"{config.get('repos', 'manage_db')}/populate/populate.sql"
     run_script(path, postgresql_uri)
 
 
@@ -168,8 +168,8 @@ def run_psql_cmd(postgresql_uri, command):
 
 
 def build_alembic_config(postgresql_uri):
-    alembic_path = "{}/alembic".format(config.get('repos', 'manage_db'))
-    ini_file = "{}/alembic.ini".format(config.get('repos', 'manage_db'))
+    alembic_path = f"{config.get('repos', 'manage_db')}/alembic"
+    ini_file = f"{config.get('repos', 'manage_db')}/alembic.ini"
 
     alembic_cfg = AlembicConfig(ini_file)
     alembic_cfg.set_main_option('configure_logging', 'false')

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-# Copyright 2015-2022 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2015-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +21,6 @@ import logging
 
 from kombu.mixins import ConsumerMixin
 from pprint import pformat
-from kombu import binding as Binding
 
 
 logging.basicConfig(
@@ -97,7 +95,7 @@ def main():
 
     args = parser.parse_args()
 
-    url_amqp = 'amqp://guest:guest@%s:%s//' % (args.hostname, args.port)
+    url_amqp = f'amqp://guest:guest@{args.hostname}:{args.port}//'
 
     with kombu.Connection(url_amqp) as conn:
         try:

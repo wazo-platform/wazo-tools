@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
 import sys
@@ -75,7 +75,6 @@ def main(tenant_uuid):
         print('.', end='')
         fix_endpoint(confd_client, endpoint_uuid)
     print('done')
-
 
 
 if __name__ == '__main__':

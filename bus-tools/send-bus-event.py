@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2021 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2021-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
@@ -42,7 +42,7 @@ def main():
     with kombu.Connection(bus_url) as connection:
         exchange = kombu.Exchange(config['exchange_name'], type=config['exchange_type'])
         producer = kombu.Producer(connection, exchange=exchange)
-        with sys.stdin if args.input_event_file == '-' else open(args.input_event_file, 'r') as f:
+        with sys.stdin if args.input_event_file == '-' else open(args.input_event_file) as f:
             event_data = json.load(f)
         headers = {
             'name': event_data['name'],

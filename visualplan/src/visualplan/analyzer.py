@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Copyright (C) 2013-2014 Avencall
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +16,7 @@
 import re
 
 
-class DialplanExecutionAnalyzer(object):
+class DialplanExecutionAnalyzer:
     def analyze(self, dialplan_parse_result, log_parse_result):
         line_analyses = self._do_lines_analyses(dialplan_parse_result, log_parse_result)
         return _Analysis(dialplan_parse_result.filename, line_analyses)
@@ -47,48 +45,45 @@ class DialplanExecutionAnalyzer(object):
 
 def _is_extension_match_pattern(extension, pattern):
     regex_pattern = _convert_ast_pattern_to_regex_pattern(pattern)
-    if re.match(regex_pattern, extension):
-        return True
-    else:
-        return False
+    return bool(re.match(regex_pattern, extension))
 
 
 def _convert_ast_pattern_to_regex_pattern(ast_pattern):
-    regex_pattern_list = ['^']
+    regex_pattern_list = [r'^']
     index = 0
     length = len(ast_pattern)
     while index < length:
         cur_char = ast_pattern[index]
-        if cur_char == 'X':
-            regex_pattern_list.append('[0-9]')
-        elif cur_char == 'Z':
-            regex_pattern_list.append('[1-9]')
-        elif cur_char == 'N':
-            regex_pattern_list.append('[2-9]')
-        elif cur_char == '[':
-            close_index = ast_pattern.find(']', index)
-            regex_pattern_list.append('[{}]'.format(ast_pattern[index:close_index]))
+        if cur_char == r'X':
+            regex_pattern_list.append(r'[0-9]')
+        elif cur_char == r'Z':
+            regex_pattern_list.append(r'[1-9]')
+        elif cur_char == r'N':
+            regex_pattern_list.append(r'[2-9]')
+        elif cur_char == r'[':
+            close_index = ast_pattern.find(r']', index)
+            regex_pattern_list.append(fr'[{ast_pattern[index:close_index]}]')
             index += close_index
-        elif cur_char == '.':
-            regex_pattern_list.append('.+')
+        elif cur_char == r'.':
+            regex_pattern_list.append(r'.+')
             break
-        elif cur_char == '!':
-            regex_pattern_list.append('.*')
+        elif cur_char == r'!':
+            regex_pattern_list.append(r'.*')
             break
         else:
             regex_pattern_list.append(re.escape(cur_char))
         index += 1
-    regex_pattern_list.append('$')
-    return ''.join(regex_pattern_list)
+    regex_pattern_list.append(r'$')
+    return r''.join(regex_pattern_list)
 
 
-class _Analysis(object):
+class _Analysis:
     def __init__(self, filename, line_analyses):
         self.filename = filename
         self.line_analyses = line_analyses
 
 
-class _LineAnalysis(object):
+class _LineAnalysis:
     def __init__(self, content, is_executable, is_executed):
         self.content = content
         self.is_executable = is_executable

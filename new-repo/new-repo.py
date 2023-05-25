@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0+
 
 import argparse
@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 repo_name = args.repo_name
 user = args.user
-password = getpass('GitHub password for {0}: '.format(user))
+password = getpass(f'GitHub password for {user}: ')
 
 if not (user and password):
     print("Refusing to login without a username and password.")
@@ -28,5 +28,7 @@ repo = wazo_pbx.create_repository(repo_name)
 if repo:
     print(repo.ssh_url)
 
-repo.create_hook('web',
-                 config={'url': 'https://jenkins.wazo.community/github-webhook/'})
+repo.create_hook(
+    'web',
+    config={'url': 'https://jenkins.wazo.community/github-webhook/'}
+)

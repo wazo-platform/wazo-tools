@@ -1,10 +1,8 @@
-# -*- coding: UTF-8 -*-
-
 import argparse
 import os
-from repo_check.check_local_xivo_repositories import assert_no_missing_repos
-from repo_check.git import find_repo_unmerged_branches, display_branches, fetch_all_repositories
-from repo_check.repositories import xivo_repositories
+from .check_local_xivo_repositories import assert_no_missing_repos
+from .git import find_repo_unmerged_branches, display_branches, fetch_all_repositories
+from .repositories import xivo_repositories
 
 
 def main():

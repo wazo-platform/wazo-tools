@@ -1,15 +1,11 @@
-# -*- coding: UTF-8 -*-
-
-from itertools import imap
 from sh import git
 from concurrent.futures import ThreadPoolExecutor, wait
 
 
 def find_repo_unmerged_branches(repository_path):
     git_branches = git.bake('branch', '-a', '--no-color', '--no-merged', 'origin/master')
-    branches = imap(_clean_branch_name, git_branches(_cwd=repository_path, _iter=True))
-    for branch in branches:
-        yield branch
+    branches = map(_clean_branch_name, git_branches(_cwd=repository_path, _iter=True))
+    yield from branches
 
 
 def find_repo_merged_branches(repository_path):
@@ -31,10 +27,10 @@ def _fetch_repo(repository_path):
 
 def display_branches(leftover):
     for repo, branch in leftover:
-        print("{0} : {1}".format(repo, branch))
+        print(f"{repo} : {branch}")
 
 
 def fetch_all_repositories(repository_paths):
-    with ThreadPoolExecutor(max_workers=010) as executor:
+    with ThreadPoolExecutor(max_workers=0o10) as executor:
         futures = [executor.submit(_fetch_repo, repo) for repo in repository_paths]
         wait(futures)
