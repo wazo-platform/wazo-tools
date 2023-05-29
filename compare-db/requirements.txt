@@ -1,11 +1,11 @@
 git+https://github.com/wazo-platform/xivo-dao
 git+https://github.com/wazo-platform/xivo-lib-python  # from xivo-dao
-alembic==1.0.0
+alembic==1.4.3
 migra[pg]
 packaging  # missing from sqlbag -> from migra
-pytz==2019.1
+pyyaml==5.3.1
 pyyaml
 sh
-sqlalchemy-utils==0.32.21
-sqlalchemy==1.2.18
-unidecode==1.0.23  # from alembic scripts
+sqlalchemy==1.3.22
+sqlalchemy-utils==0.36.8
+unidecode==1.2.0  # from alembic scripts
