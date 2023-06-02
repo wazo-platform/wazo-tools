@@ -81,7 +81,7 @@ def generate_installed_database(postgresql_uri):
 
 
 def generate_migrated_database(postgresql_uri):
-    script = os.path.join(CWD_PATH, 'asterisk_migration.sql')
+    script = os.path.join(CWD_PATH, 'migration-base-schema.sql')
 
     reset_database(postgresql_uri)
     run_script(script, postgresql_uri)
