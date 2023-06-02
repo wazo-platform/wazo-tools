@@ -142,14 +142,6 @@ def run_alembic_migrations(postgresql_uri):
     os.environ['XIVO_UUID'] = '99999999-9999-9999-9999-999999999999'
     alembic_command.stamp(alembic_cfg, 'base')
     alembic_command.upgrade(alembic_cfg, 'head')
-    manually_migrate_call_logd_db(postgresql_uri)
-
-
-# TODO: buster-bullseye migration: ensure those tables are dropped by alembic
-# then remove this function
-def manually_migrate_call_logd_db(postgresql_uri):
-    run_psql_cmd(postgresql_uri, 'DROP TABLE call_log, call_log_participant;')
-    run_psql_cmd(postgresql_uri, 'DROP TYPE call_log_participant_role;')
 
 
 def run_psql_cmd(postgresql_uri, command):
