@@ -10451,19 +10451,19 @@ ALTER TABLE ONLY func_key_dest_conference
 
 
 --
--- Name: func_key_dest_conference_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+-- Name: func_key_dest_conference_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY func_key_dest_conference
-    ADD CONSTRAINT func_key_dest_conference_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_conference_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
 
 
 --
--- Name: func_key_dest_group_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+-- Name: func_key_dest_group_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY func_key_dest_group
-    ADD CONSTRAINT func_key_dest_group_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_group_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
 
 
 --
@@ -10475,11 +10475,11 @@ ALTER TABLE ONLY func_key_dest_group
 
 
 --
--- Name: func_key_dest_queue_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+-- Name: func_key_dest_queue_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY func_key_dest_queue
-    ADD CONSTRAINT func_key_dest_queue_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_queue_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
 
 
 --
@@ -10491,11 +10491,11 @@ ALTER TABLE ONLY func_key_dest_queue
 
 
 --
--- Name: func_key_dest_user_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+-- Name: func_key_dest_user_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY func_key_dest_user
-    ADD CONSTRAINT func_key_dest_user_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_user_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
 
 
 --
@@ -10515,11 +10515,11 @@ ALTER TABLE ONLY func_key
 
 
 --
--- Name: func_key_mapping_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+-- Name: func_key_mapping_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY func_key_mapping
-    ADD CONSTRAINT func_key_mapping_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_mapping_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES func_key(id, destination_type_id);
 
 
 --
