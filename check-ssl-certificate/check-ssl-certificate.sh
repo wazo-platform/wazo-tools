@@ -45,13 +45,13 @@ if [ $1 = 0 ]; then
             sleep 0.7
 
             echo -e "XXX\n50\nBackup and remove certificates... Wait...\nXXX"
-            cp /usr/share/xivo-certs/server.{key,crt} /var/backups
-            rm /usr/share/xivo-certs/server.{key,crt}
+            cp /usr/share/wazo-certs/server.{key,crt} /var/backups
+            rm /usr/share/wazo-certs/server.{key,crt}
             echo -e "XXX\n100\nBackup and remove certificates... Done.\nXXX"
             sleep 0.7
 
             echo -e "XXX\n50\nRegenerate self-signed certificate... Wait...\nXXX"
-            dpkg-reconfigure xivo-certs /dev/null 2>&1
+            dpkg-reconfigure wazo-certs /dev/null 2>&1
             echo -e "XXX\n100\nRegenerate self-signed certificate... Done.\nXXX"
             sleep 0.7
 
