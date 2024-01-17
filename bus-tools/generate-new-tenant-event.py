@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2020-2023 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2020-2024 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import kombu
@@ -9,7 +9,7 @@ import urllib3
 
 from argparse import ArgumentParser
 from wazo_auth_client import Client as AuthClient
-from xivo_bus.resources.auth.events import TenantCreatedEvent
+from wazo_bus.resources.auth.events import TenantCreatedEvent
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
