@@ -21,8 +21,9 @@ import logging
 import os
 import time
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from kombu.mixins import ConsumerMixin
+from zoneinfo import ZoneInfo
 
 
 logging.basicConfig(
@@ -78,7 +79,16 @@ def count_message(message):
     global count
     global total_delay
     count += 1
-    total_delay += datetime.now() - datetime.fromisoformat(message['data']['timestamp'].split('+')[0])
+    timestamp = message['data']['timestamp']
+    if len(timestamp) > 19 and timestamp[-5] in ('+', '-'):
+        timestamp = timestamp[:-2] + ':' + timestamp[-2:]
+    message_time = datetime.fromisoformat(timestamp)
+    if message_time.tzinfo is None:
+        message_time = message_time.replace(tzinfo=timezone.utc)
+    now = datetime.now(ZoneInfo('UTC'))
+    delay = now - message_time
+
+    total_delay += delay
 
 
 def print_stats():
