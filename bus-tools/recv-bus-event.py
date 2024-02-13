@@ -92,7 +92,10 @@ def main():
     parser.add_argument(
         '-e',
         '--event-name',
-        help='Event Name to bind on bus. Multiple events are separated by a comma ",".',
+        help=(
+            'Event Name to bind on bus. Multiple events are separated by a comma ",". '
+            'Use "*" to listen to all events (not available on remote connections).'
+        ),
         dest='event_name',
     )
     parser.add_argument(
