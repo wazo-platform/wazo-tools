@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2015-2023 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2015-2024 The Wazo Authors  (see the AUTHORS file)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 import argparse
 import kombu
 import logging
+import os
 
 from kombu.mixins import ConsumerMixin
 from pprint import pformat
@@ -40,15 +41,20 @@ class C(ConsumerMixin):
     def get_consumers(self, Consumer, channel):
         bindings = []
         if self.routing_key:
-            print('Use routing key binding')
+            print('Using routing key binding', self.routing_key)
             exchange = kombu.Exchange('xivo', type='topic')
         if self.bindings:
-            print('Use headers binding')
+            print('Use headers binding to events', self.bindings)
             exchange = kombu.Exchange('wazo-headers', type='headers')
             for event in self.bindings.split(','):
-                arguments = {'name': event}
+                if event == '*':
+                    arguments = {'origin_uuid': os.environ['XIVO_UUID']}
+                else:
+                    arguments = {'name': event}
+
                 if self.tenant is not None:
                     arguments.update(tenant_uuid=self.tenant)
+
                 bindings.append(
                     kombu.binding(
                         exchange=exchange,
