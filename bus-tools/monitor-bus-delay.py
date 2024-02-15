@@ -93,7 +93,11 @@ def print_stats():
     global last_count
     global last_delay
     if last_print_time + 1 < time.time():
-        logger.info('received %s messages, mean delay: %s', count - last_count, (total_delay - last_delay) / (count - last_count))
+        logger.info(
+            'received %s messages, mean delay: %s',
+            count - last_count,
+            (total_delay - last_delay) / (count - last_count),
+        )
         last_print_time = time.time()
         last_count = count
         last_delay = total_delay
@@ -108,7 +112,7 @@ def main():
         '--event-name',
         help='Event Name to bind on bus. Default: StasisStart',
         dest='event_name',
-        default='StasisStart'
+        default='StasisStart',
     )
     args = parser.parse_args()
 
