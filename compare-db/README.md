@@ -3,9 +3,7 @@
 ## Prerequisites
 
 ```sh
-apt-get install docker-ce
-curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-chmod +x ~/.docker/cli-plugins/docker-compose
+apt-get install docker-ce docker-compose-plugin
 pip install -r requirements.txt
 ```
 
@@ -14,14 +12,14 @@ pip install -r requirements.txt
 1. Start 2 PostgreSQL instances, e.g. with Docker
 
     ```sh
-    docker-compose up -d
+    docker compose up -d
     ```
 
 2. Get PostgreSQL ports from Docker
 
     ```sh
-    docker-compose port postgresql-migrated 5432
-    docker-compose port postgresql-installed 5432
+    docker compose port postgresql-migrated 5432
+    docker compose port postgresql-installed 5432
     ```
 
 3. Copy `defaults.ini` to `local.ini` and edit it to set the correct values. If you

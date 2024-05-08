@@ -16,7 +16,7 @@ source ${_venv}/bin/activate
 ${_venv}/bin/python -m pip install -r test-requirements.txt
 
 # other system dependencies assumed available for integration tests:
-# * docker-compose
+# * docker compose
 # * docker or equivalent
 
 # path to denv executable
@@ -35,7 +35,7 @@ function cleanup(){
     deactivate
 }
 
-# cleanup docker-compose environment on exit
+# cleanup docker compose environment on exit
 trap cleanup EXIT
 
 # execute command, defaulting to shell
