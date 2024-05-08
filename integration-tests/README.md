@@ -4,7 +4,7 @@ tooling for integration testing workflows
 ## shell.sh
 Wraps common tasks to work with integration tests by providing a prepared subshell
 * activates a virtual environment and ensure the test python dependencies are installed
-* source `denv` into the shell, and runs `denv enter $asset` to deploy the integration tests setup using docker-compose
+* source `denv` into the shell, and runs `denv enter $asset` to deploy the integration tests setup using docker compose
 * automatically cleanup before exit by running `denv exit $asset`
 
 Example usage:
