@@ -1,0 +1,27 @@
+[ldap]
+url =
+port =
+use_ssl =
+user =
+password =
+search_base =
+search_filter =
+# attributes
+given_name =
+last_name =
+email =
+identifier =
+extension =
+incall =
+
+[wazo]
+host =
+username =
+password =
+tenant =
+context_name =
+context_sda_name =
+endpoint_sip_template_uuid =
+endpoint_sip_template_uuid_webrtc =
+# 0 = voix, 1 = UC
+subscription_type = 0
