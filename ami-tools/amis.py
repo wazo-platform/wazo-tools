@@ -41,7 +41,7 @@ def connect(conn, username, password):
 
 def pretty_print(message):
     for line in message:
-        print("%s: %s" % line)
+        print(("%s: %s" % line))
     print()
 
 
