@@ -36,7 +36,7 @@ def connect(conn, username, password):
 
     data = format_message(message)
 
-    conn.send(data)
+    conn.send(data.encode("utf-8"))
 
 
 def pretty_print(message):
