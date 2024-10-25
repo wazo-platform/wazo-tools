@@ -46,7 +46,8 @@ def pretty_print(message):
 
 
 def filtered(message, accepted, excluded):
-    event_type = message[0][1]
+    assert message
+    event_type = next((value for key, value in message if key == 'Event'), None)
 
     if len(accepted) > 0:
         return event_type not in accepted
@@ -85,7 +86,10 @@ def main():
 
     print("connecting...")
     connect(conn, args.username, args.password)
-
+    lines = accumulate_lines(reader)
+    message = parse_message(lines)
+    pretty_print(message)
+    assert message[0][1] == 'Success'
     while True:
         lines = accumulate_lines(reader)
         message = parse_message(lines)
