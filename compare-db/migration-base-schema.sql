@@ -7277,11 +7277,11 @@ ALTER TABLE ONLY public.func_key_dest_agent
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
-    ADD CONSTRAINT func_key_dest_agent_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_agent_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7293,11 +7293,11 @@ ALTER TABLE ONLY public.func_key_dest_bsfilter
 
 
 --
--- Name: func_key_dest_bsfilter func_key_dest_bsfilter_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_bsfilter func_key_dest_bsfilter_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_bsfilter
-    ADD CONSTRAINT func_key_dest_bsfilter_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_bsfilter_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7309,19 +7309,19 @@ ALTER TABLE ONLY public.func_key_dest_conference
 
 
 --
--- Name: func_key_dest_conference func_key_dest_conference_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_conference func_key_dest_conference_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_conference
-    ADD CONSTRAINT func_key_dest_conference_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_conference_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
--- Name: func_key_dest_custom func_key_dest_custom_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_custom func_key_dest_custom_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_custom
-    ADD CONSTRAINT func_key_dest_custom_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_custom_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7333,11 +7333,11 @@ ALTER TABLE ONLY public.func_key_dest_features
 
 
 --
--- Name: func_key_dest_features func_key_dest_features_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_features func_key_dest_features_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_features
-    ADD CONSTRAINT func_key_dest_features_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_features_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7349,19 +7349,19 @@ ALTER TABLE ONLY public.func_key_dest_forward
 
 
 --
--- Name: func_key_dest_forward func_key_dest_forward_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_forward func_key_dest_forward_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_forward
-    ADD CONSTRAINT func_key_dest_forward_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_forward_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
--- Name: func_key_dest_group func_key_dest_group_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_group func_key_dest_group_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_group
-    ADD CONSTRAINT func_key_dest_group_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_group_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7381,11 +7381,11 @@ ALTER TABLE ONLY public.func_key_dest_groupmember
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
-    ADD CONSTRAINT func_key_dest_groupmember_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_groupmember_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7397,11 +7397,11 @@ ALTER TABLE ONLY public.func_key_dest_groupmember
 
 
 --
--- Name: func_key_dest_paging func_key_dest_paging_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_paging func_key_dest_paging_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_paging
-    ADD CONSTRAINT func_key_dest_paging_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_paging_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7413,19 +7413,19 @@ ALTER TABLE ONLY public.func_key_dest_paging
 
 
 --
--- Name: func_key_dest_park_position func_key_dest_park_position_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_park_position func_key_dest_park_position_func_key_id_destination_type_i_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_park_position
-    ADD CONSTRAINT func_key_dest_park_position_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_park_position_func_key_id_destination_type_i_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
--- Name: func_key_dest_queue func_key_dest_queue_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_queue func_key_dest_queue_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_queue
-    ADD CONSTRAINT func_key_dest_queue_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_queue_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7445,19 +7445,19 @@ ALTER TABLE ONLY public.func_key_dest_service
 
 
 --
--- Name: func_key_dest_service func_key_dest_service_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_service func_key_dest_service_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_service
-    ADD CONSTRAINT func_key_dest_service_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_service_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
--- Name: func_key_dest_user func_key_dest_user_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_user func_key_dest_user_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_dest_user
-    ADD CONSTRAINT func_key_dest_user_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_dest_user_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
@@ -7477,11 +7477,11 @@ ALTER TABLE ONLY public.func_key
 
 
 --
--- Name: func_key_mapping func_key_mapping_func_key_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_mapping func_key_mapping_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.func_key_mapping
-    ADD CONSTRAINT func_key_mapping_func_key_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+    ADD CONSTRAINT func_key_mapping_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
 
 
 --
