@@ -144,21 +144,6 @@ def run_alembic_migrations(postgresql_uri):
     alembic_command.upgrade(alembic_cfg, 'head')
 
 
-def run_psql_cmd(postgresql_uri, command):
-    error_buffer = io.StringIO()
-    sh.psql(
-        '-qX',
-        d=postgresql_uri,
-        c=command,
-        _err=error_buffer,
-        _env={'PGOPTIONS': '--client-min-messages=warning'},  # prevents NOTICE:
-    )
-    errors = error_buffer.getvalue()
-    if errors:
-        logger.warning("errors while executing %s: %s", command, errors)
-        sys.exit(2)
-
-
 def build_alembic_config(postgresql_uri):
     alembic_path = f"{config.get('repos', 'manage_db')}/alembic"
     ini_file = f"{config.get('repos', 'manage_db')}/alembic.ini"
