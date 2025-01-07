@@ -947,7 +947,7 @@ CREATE TABLE public.application_dest_node (
     type character varying(32) NOT NULL,
     music_on_hold character varying(128),
     answer boolean NOT NULL,
-    CONSTRAINT application_dest_node_type_check CHECK (((type)::text = ANY ((ARRAY['holding'::character varying, 'mixing'::character varying])::text[])))
+    CONSTRAINT application_dest_node_type_check CHECK (type IN ('holding', 'mixing'))
 );
 
 
@@ -2788,7 +2788,7 @@ CREATE TABLE public.queue (
     "announce-position" character varying(1024) DEFAULT 'yes'::character varying NOT NULL,
     "announce-position-limit" integer DEFAULT 5 NOT NULL,
     defaultrule character varying(1024),
-    CONSTRAINT queue_autopause_check CHECK (((autopause)::text = ANY ((ARRAY['no'::character varying, 'yes'::character varying, 'all'::character varying])::text[])))
+    CONSTRAINT queue_autopause_check CHECK (autopause IN ('no', 'yes', 'all'))
 );
 
 
@@ -3194,7 +3194,7 @@ CREATE TABLE public.rightcallmember (
     rightcallid integer DEFAULT 0 NOT NULL,
     type character varying(64) NOT NULL,
     typeval character varying(128) DEFAULT '0'::character varying NOT NULL,
-    CONSTRAINT rightcallmember_type_check CHECK (((type)::text = ANY ((ARRAY['group'::character varying, 'outcall'::character varying, 'user'::character varying])::text[])))
+    CONSTRAINT rightcallmember_type_check CHECK (type IN ('group', 'outcall', 'user'))
 );
 
 
