@@ -81,7 +81,7 @@ def generate_installed_database(postgresql_uri):
 
 
 def generate_migrated_database(postgresql_uri):
-    script = os.path.join(CWD_PATH, 'asterisk_migration.sql')
+    script = os.path.join(CWD_PATH, 'migration-base-schema.sql')
 
     reset_database(postgresql_uri)
     run_script(script, postgresql_uri)
@@ -142,29 +142,6 @@ def run_alembic_migrations(postgresql_uri):
     os.environ['XIVO_UUID'] = '99999999-9999-9999-9999-999999999999'
     alembic_command.stamp(alembic_cfg, 'base')
     alembic_command.upgrade(alembic_cfg, 'head')
-    manually_migrate_call_logd_db(postgresql_uri)
-
-
-# TODO: buster-bullseye migration: ensure those tables are dropped by alembic
-# then remove this function
-def manually_migrate_call_logd_db(postgresql_uri):
-    run_psql_cmd(postgresql_uri, 'DROP TABLE call_log, call_log_participant;')
-    run_psql_cmd(postgresql_uri, 'DROP TYPE call_log_participant_role;')
-
-
-def run_psql_cmd(postgresql_uri, command):
-    error_buffer = io.StringIO()
-    sh.psql(
-        '-qX',
-        d=postgresql_uri,
-        c=command,
-        _err=error_buffer,
-        _env={'PGOPTIONS': '--client-min-messages=warning'},  # prevents NOTICE:
-    )
-    errors = error_buffer.getvalue()
-    if errors:
-        logger.warning("errors while executing %s: %s", command, errors)
-        sys.exit(2)
 
 
 def build_alembic_config(postgresql_uri):
