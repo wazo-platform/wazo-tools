@@ -6161,62 +6161,6 @@ ALTER TABLE ONLY public.voicemail
 
 
 --
--- Name: agent_login_status__idx__agent_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX agent_login_status__idx__agent_id ON public.agent_login_status USING btree (agent_id);
-
-
---
--- Name: agent_membership_status__idx__agent_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX agent_membership_status__idx__agent_id ON public.agent_membership_status USING btree (agent_id);
-
-
---
--- Name: agent_membership_status__idx__queue_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX agent_membership_status__idx__queue_id ON public.agent_membership_status USING btree (queue_id);
-
-
---
--- Name: agentfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX agentfeatures__idx__tenant_uuid ON public.agentfeatures USING btree (tenant_uuid);
-
-
---
--- Name: application__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX application__idx__tenant_uuid ON public.application USING btree (tenant_uuid);
-
-
---
--- Name: asterisk_file_section__idx__asterisk_file_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX asterisk_file_section__idx__asterisk_file_id ON public.asterisk_file_section USING btree (asterisk_file_id);
-
-
---
--- Name: asterisk_file_variable__idx__asterisk_file_section_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX asterisk_file_variable__idx__asterisk_file_section_id ON public.asterisk_file_variable USING btree (asterisk_file_section_id);
-
-
---
--- Name: callfilter__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX callfilter__idx__tenant_uuid ON public.callfilter USING btree (tenant_uuid);
-
-
---
 -- Name: cel__idx__call_log_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6235,20 +6179,6 @@ CREATE INDEX cel__idx__eventtime ON public.cel USING btree (eventtime);
 --
 
 CREATE INDEX cel__idx__linkedid ON public.cel USING btree (linkedid);
-
-
---
--- Name: conference__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX conference__idx__tenant_uuid ON public.conference USING btree (tenant_uuid);
-
-
---
--- Name: context__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX context__idx__tenant_uuid ON public.context USING btree (tenant_uuid);
 
 
 --
@@ -6277,20 +6207,6 @@ CREATE INDEX dialaction__idx__action_actionarg1 ON public.dialaction USING btree
 --
 
 CREATE UNIQUE INDEX endpoint_sip_options_view__idx_root ON public.endpoint_sip_options_view USING btree (root);
-
-
---
--- Name: endpoint_sip_section__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX endpoint_sip_section__idx__endpoint_sip_uuid ON public.endpoint_sip_section USING btree (endpoint_sip_uuid);
-
-
---
--- Name: endpoint_sip_section_option__idx__endpoint_sip_section_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX endpoint_sip_section_option__idx__endpoint_sip_section_uuid ON public.endpoint_sip_section_option USING btree (endpoint_sip_section_uuid);
 
 
 --
@@ -6329,83 +6245,6 @@ CREATE INDEX features__idx__category ON public.features USING btree (category);
 
 
 --
--- Name: func_key__idx__type_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key__idx__type_id ON public.func_key USING btree (type_id);
-
-
---
--- Name: func_key_dest_agent__idx__agent_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_agent__idx__agent_id ON public.func_key_dest_agent USING btree (agent_id);
-
-
---
--- Name: func_key_dest_agent__idx__extension_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_agent__idx__extension_id ON public.func_key_dest_agent USING btree (extension_id);
-
-
---
--- Name: func_key_dest_bsfilter__idx__filtermember_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_bsfilter__idx__filtermember_id ON public.func_key_dest_bsfilter USING btree (filtermember_id);
-
-
---
--- Name: func_key_dest_features__idx__features_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_features__idx__features_id ON public.func_key_dest_features USING btree (features_id);
-
-
---
--- Name: func_key_dest_forward__idx__extension_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_forward__idx__extension_id ON public.func_key_dest_forward USING btree (extension_id);
-
-
---
--- Name: func_key_dest_groupmember__idx__extension_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_groupmember__idx__extension_id ON public.func_key_dest_groupmember USING btree (extension_id);
-
-
---
--- Name: func_key_dest_groupmember__idx__group_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_groupmember__idx__group_id ON public.func_key_dest_groupmember USING btree (group_id);
-
-
---
--- Name: func_key_dest_paging__idx__paging_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_paging__idx__paging_id ON public.func_key_dest_paging USING btree (paging_id);
-
-
---
--- Name: func_key_dest_service__idx__extension_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_dest_service__idx__extension_id ON public.func_key_dest_service USING btree (extension_id);
-
-
---
--- Name: func_key_template__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX func_key_template__idx__tenant_uuid ON public.func_key_template USING btree (tenant_uuid);
-
-
---
 -- Name: groupfeatures__idx__name; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6413,66 +6252,10 @@ CREATE INDEX groupfeatures__idx__name ON public.groupfeatures USING btree (name)
 
 
 --
--- Name: groupfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX groupfeatures__idx__tenant_uuid ON public.groupfeatures USING btree (tenant_uuid);
-
-
---
 -- Name: groupfeatures__idx__uuid; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX groupfeatures__idx__uuid ON public.groupfeatures USING btree (uuid);
-
-
---
--- Name: incall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX incall__idx__tenant_uuid ON public.incall USING btree (tenant_uuid);
-
-
---
--- Name: ingress_http__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX ingress_http__idx__tenant_uuid ON public.ingress_http USING btree (tenant_uuid);
-
-
---
--- Name: ivr__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX ivr__idx__tenant_uuid ON public.ivr USING btree (tenant_uuid);
-
-
---
--- Name: ivr_choice__idx__ivr_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX ivr_choice__idx__ivr_id ON public.ivr_choice USING btree (ivr_id);
-
-
---
--- Name: line_extension__idx__extension_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX line_extension__idx__extension_id ON public.line_extension USING btree (extension_id);
-
-
---
--- Name: line_extension__idx__line_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX line_extension__idx__line_id ON public.line_extension USING btree (line_id);
-
-
---
--- Name: linefeatures__idx__application_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX linefeatures__idx__application_uuid ON public.linefeatures USING btree (application_uuid);
 
 
 --
@@ -6490,27 +6273,6 @@ CREATE INDEX linefeatures__idx__device ON public.linefeatures USING btree (devic
 
 
 --
--- Name: linefeatures__idx__endpoint_custom_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX linefeatures__idx__endpoint_custom_id ON public.linefeatures USING btree (endpoint_custom_id);
-
-
---
--- Name: linefeatures__idx__endpoint_sccp_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX linefeatures__idx__endpoint_sccp_id ON public.linefeatures USING btree (endpoint_sccp_id);
-
-
---
--- Name: linefeatures__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX linefeatures__idx__endpoint_sip_uuid ON public.linefeatures USING btree (endpoint_sip_uuid);
-
-
---
 -- Name: linefeatures__idx__number; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6525,48 +6287,6 @@ CREATE INDEX linefeatures__idx__provisioningid ON public.linefeatures USING btre
 
 
 --
--- Name: meeting__idx__guest_endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX meeting__idx__guest_endpoint_sip_uuid ON public.meeting USING btree (guest_endpoint_sip_uuid);
-
-
---
--- Name: meeting__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX meeting__idx__tenant_uuid ON public.meeting USING btree (tenant_uuid);
-
-
---
--- Name: meeting_authorization__idx__guest_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX meeting_authorization__idx__guest_uuid ON public.meeting_authorization USING btree (guest_uuid);
-
-
---
--- Name: meeting_authorization__idx__meeting_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX meeting_authorization__idx__meeting_uuid ON public.meeting_authorization USING btree (meeting_uuid);
-
-
---
--- Name: moh__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX moh__idx__tenant_uuid ON public.moh USING btree (tenant_uuid);
-
-
---
--- Name: outcall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX outcall__idx__tenant_uuid ON public.outcall USING btree (tenant_uuid);
-
-
---
 -- Name: outcalltrunk__idx__priority; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6574,38 +6294,10 @@ CREATE INDEX outcalltrunk__idx__priority ON public.outcalltrunk USING btree (pri
 
 
 --
--- Name: paging__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX paging__idx__tenant_uuid ON public.paging USING btree (tenant_uuid);
-
-
---
 -- Name: paginguser__idx__pagingid; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX paginguser__idx__pagingid ON public.paginguser USING btree (pagingid);
-
-
---
--- Name: parking_lot__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX parking_lot__idx__tenant_uuid ON public.parking_lot USING btree (tenant_uuid);
-
-
---
--- Name: pickup__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX pickup__idx__tenant_uuid ON public.pickup USING btree (tenant_uuid);
-
-
---
--- Name: pjsip_transport_option__idx__pjsip_transport_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX pjsip_transport_option__idx__pjsip_transport_uuid ON public.pjsip_transport_option USING btree (pjsip_transport_uuid);
 
 
 --
@@ -6658,13 +6350,6 @@ CREATE INDEX queuefeatures__idx__number ON public.queuefeatures USING btree (num
 
 
 --
--- Name: queuefeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX queuefeatures__idx__tenant_uuid ON public.queuefeatures USING btree (tenant_uuid);
-
-
---
 -- Name: queuemember__idx__category; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6690,48 +6375,6 @@ CREATE INDEX queuemember__idx__userid ON public.queuemember USING btree (userid)
 --
 
 CREATE INDEX queuemember__idx__usertype ON public.queuemember USING btree (usertype);
-
-
---
--- Name: queueskill__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX queueskill__idx__tenant_uuid ON public.queueskill USING btree (tenant_uuid);
-
-
---
--- Name: queueskillrule__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX queueskillrule__idx__tenant_uuid ON public.queueskillrule USING btree (tenant_uuid);
-
-
---
--- Name: rightcall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX rightcall__idx__tenant_uuid ON public.rightcall USING btree (tenant_uuid);
-
-
---
--- Name: sccpline__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX sccpline__idx__tenant_uuid ON public.sccpline USING btree (tenant_uuid);
-
-
---
--- Name: schedule__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX schedule__idx__tenant_uuid ON public.schedule USING btree (tenant_uuid);
-
-
---
--- Name: schedule_path__idx__schedule_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX schedule_path__idx__schedule_id ON public.schedule_path USING btree (schedule_id);
 
 
 --
@@ -6791,20 +6434,6 @@ CREATE INDEX stat_agent_periodic__idx__time ON public.stat_agent_periodic USING 
 
 
 --
--- Name: stat_call_on_queue__idx__stat_agent_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX stat_call_on_queue__idx__stat_agent_id ON public.stat_call_on_queue USING btree (stat_agent_id);
-
-
---
--- Name: stat_call_on_queue__idx__stat_queue_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX stat_call_on_queue__idx__stat_queue_id ON public.stat_call_on_queue USING btree (stat_queue_id);
-
-
---
 -- Name: stat_call_on_queue__idx_callid; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6823,13 +6452,6 @@ CREATE INDEX stat_queue__idx_name ON public.stat_queue USING btree (name);
 --
 
 CREATE INDEX stat_queue__idx_tenant_uuid ON public.stat_queue USING btree (tenant_uuid);
-
-
---
--- Name: stat_queue_periodic__idx__stat_queue_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX stat_queue_periodic__idx__stat_queue_id ON public.stat_queue_periodic USING btree (stat_queue_id);
 
 
 --
@@ -6875,27 +6497,6 @@ CREATE INDEX stats_conf__idx__disable ON public.stats_conf USING btree (disable)
 
 
 --
--- Name: switchboard__idx__hold_moh_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX switchboard__idx__hold_moh_uuid ON public.switchboard USING btree (hold_moh_uuid);
-
-
---
--- Name: switchboard__idx__queue_moh_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX switchboard__idx__queue_moh_uuid ON public.switchboard USING btree (queue_moh_uuid);
-
-
---
--- Name: switchboard__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX switchboard__idx__tenant_uuid ON public.switchboard USING btree (tenant_uuid);
-
-
---
 -- Name: switchboard_member_user__idx__switchboard_uuid; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -6903,101 +6504,10 @@ CREATE INDEX switchboard_member_user__idx__switchboard_uuid ON public.switchboar
 
 
 --
--- Name: switchboard_member_user__idx__user_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX switchboard_member_user__idx__user_uuid ON public.switchboard_member_user USING btree (user_uuid);
-
-
---
--- Name: tenant__idx__global_sip_template_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX tenant__idx__global_sip_template_uuid ON public.tenant USING btree (global_sip_template_uuid);
-
-
---
--- Name: tenant__idx__meeting_guest_sip_template_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX tenant__idx__meeting_guest_sip_template_uuid ON public.tenant USING btree (meeting_guest_sip_template_uuid);
-
-
---
--- Name: tenant__idx__registration_trunk_sip_template_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX tenant__idx__registration_trunk_sip_template_uuid ON public.tenant USING btree (registration_trunk_sip_template_uuid);
-
-
---
--- Name: tenant__idx__twilio_trunk_sip_template_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX tenant__idx__twilio_trunk_sip_template_uuid ON public.tenant USING btree (twilio_trunk_sip_template_uuid);
-
-
---
--- Name: tenant__idx__webrtc_sip_template_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX tenant__idx__webrtc_sip_template_uuid ON public.tenant USING btree (webrtc_sip_template_uuid);
-
-
---
--- Name: trunkfeatures__idx__endpoint_custom_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX trunkfeatures__idx__endpoint_custom_id ON public.trunkfeatures USING btree (endpoint_custom_id);
-
-
---
--- Name: trunkfeatures__idx__endpoint_iax_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX trunkfeatures__idx__endpoint_iax_id ON public.trunkfeatures USING btree (endpoint_iax_id);
-
-
---
--- Name: trunkfeatures__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX trunkfeatures__idx__endpoint_sip_uuid ON public.trunkfeatures USING btree (endpoint_sip_uuid);
-
-
---
--- Name: trunkfeatures__idx__register_iax_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX trunkfeatures__idx__register_iax_id ON public.trunkfeatures USING btree (register_iax_id);
-
-
---
 -- Name: trunkfeatures__idx__registercommented; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX trunkfeatures__idx__registercommented ON public.trunkfeatures USING btree (registercommented);
-
-
---
--- Name: trunkfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX trunkfeatures__idx__tenant_uuid ON public.trunkfeatures USING btree (tenant_uuid);
-
-
---
--- Name: user_line__idx__line_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX user_line__idx__line_id ON public.user_line USING btree (line_id);
-
-
---
--- Name: user_line__idx__user_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX user_line__idx__user_id ON public.user_line USING btree (user_id);
 
 
 --
@@ -7022,13 +6532,6 @@ CREATE INDEX usercustom__idx__name ON public.usercustom USING btree (name);
 
 
 --
--- Name: usercustom__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX usercustom__idx__tenant_uuid ON public.usercustom USING btree (tenant_uuid);
-
-
---
 -- Name: userfeatures__idx__agentid; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -7040,20 +6543,6 @@ CREATE INDEX userfeatures__idx__agentid ON public.userfeatures USING btree (agen
 --
 
 CREATE INDEX userfeatures__idx__firstname ON public.userfeatures USING btree (firstname);
-
-
---
--- Name: userfeatures__idx__func_key_private_template_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX userfeatures__idx__func_key_private_template_id ON public.userfeatures USING btree (func_key_private_template_id);
-
-
---
--- Name: userfeatures__idx__func_key_template_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX userfeatures__idx__func_key_template_id ON public.userfeatures USING btree (func_key_template_id);
 
 
 --
@@ -7075,13 +6564,6 @@ CREATE INDEX userfeatures__idx__loginclient ON public.userfeatures USING btree (
 --
 
 CREATE INDEX userfeatures__idx__musiconhold ON public.userfeatures USING btree (musiconhold);
-
-
---
--- Name: userfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX userfeatures__idx__tenant_uuid ON public.userfeatures USING btree (tenant_uuid);
 
 
 --
@@ -7110,13 +6592,6 @@ CREATE INDEX useriax__idx__category ON public.useriax USING btree (category);
 --
 
 CREATE INDEX useriax__idx__mailbox ON public.useriax USING btree (mailbox);
-
-
---
--- Name: useriax__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX useriax__idx__tenant_uuid ON public.useriax USING btree (tenant_uuid);
 
 
 --
