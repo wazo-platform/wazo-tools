@@ -36,17 +36,18 @@ def connect(conn, username, password):
 
     data = format_message(message)
 
-    conn.send(data)
+    conn.send(data.encode("utf-8"))
 
 
 def pretty_print(message):
     for line in message:
-        print("%s: %s" % line)
+        print(("%s: %s" % line))
     print()
 
 
 def filtered(message, accepted, excluded):
-    event_type = message[0][1]
+    assert message
+    event_type = next((value for key, value in message if key == 'Event'), None)
 
     if len(accepted) > 0:
         return event_type not in accepted
@@ -85,7 +86,10 @@ def main():
 
     print("connecting...")
     connect(conn, args.username, args.password)
-
+    lines = accumulate_lines(reader)
+    message = parse_message(lines)
+    pretty_print(message)
+    assert message[0][1] == 'Success'
     while True:
         lines = accumulate_lines(reader)
         message = parse_message(lines)
