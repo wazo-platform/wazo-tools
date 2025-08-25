@@ -703,6 +703,7 @@ def main():
         git_ignore_squashdir(context)
         prepare_squashplan(context, target_tag)
         dump_schema_info(context, "unsquashed")
+        ensure_script_template_extra_imports(context)
         print_message(
             "Now run dump-baseline subcommand to get the baseline sql dump"
         )
