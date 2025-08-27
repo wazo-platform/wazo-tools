@@ -206,7 +206,11 @@ execute_pg_dump() {
         print_status "Generating schema dump to stdout"
         local output="/dev/stdout"
     fi
-    local pg_dump_flags="--schema-only --exclude-table=$ALEMBIC_VERSION_TABLE -U postgres -d $DATABASE"
+    local pg_dump_flags="--schema-only \
+    --exclude-table=$ALEMBIC_VERSION_TABLE \
+    --exclude-table=alembic_version \
+    --no-owner \
+    -U postgres -d $DATABASE"
     
     # extensions are managed by the init-db script
     # transactional statements are managed by alembic
