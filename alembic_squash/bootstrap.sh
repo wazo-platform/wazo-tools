@@ -1,23 +1,17 @@
 #!/usr/bin/env bash
 
 target_project_dir=$1
-
-
-VENV_PATH="$PWD/.$(basename $target_project_dir)_squash_venv"
-if [ ! -d $VENV_PATH ]; then
-    python3.9 -m venv $VENV_PATH
-    source $VENV_PATH/bin/activate
-    pip install -r $target_project_dir/requirements.txt -r ./requirements.txt
-else
-    source $VENV_PATH/bin/activate
+if [ -z "$target_project_dir" ]; then
+    echo "Usage: $0 <target_project_dir>"
+    exit 1
 fi
+
+export SQUASH_VENV_PATH="$PWD/.$(basename $target_project_dir)_squash_venv"
+if [ ! -d $SQUASH_VENV_PATH ]; then
+    echo "Setting up virtual environment in $SQUASH_VENV_PATH"
+    python3.9 -m venv $SQUASH_VENV_PATH
+fi
+source $SQUASH_VENV_PATH/bin/activate
 trap "deactivate" EXIT
 
-# expose alembic_squash.py in the path
-export PATH=$(realpath $(dirname $0)):$PATH
-export SQUASH_PROJECT_ROOT=$target_project_dir
-cd $target_project_dir
-echo "entering shell with virtual env $VENV_PATH"
-echo "in $target_project_dir"
-export PS1="$target_project_dir $PS1"
-bash --noprofile --norc
+pip install --require-virtualenv -r $target_project_dir/requirements.txt -r ./requirements.txt
