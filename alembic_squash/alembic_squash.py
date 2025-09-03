@@ -225,7 +225,7 @@ def squash(context: Context) -> None:
         splice=True,
         # script.py.mako template args
         # mind the formatting of the string, necessary for proper indentation
-        extra_imports='import os',
+        imports='import os',
         upgrades=f'''# Read and execute the SQL dump file
     versions_dir_path = os.path.dirname(__file__)
     sql_file_path = os.path.join(versions_dir_path, '{baseline_dump_path.name}')
@@ -438,17 +438,18 @@ def ensure_script_template_extra_imports(context: Context) -> None:
         print_error(f"Script template not found at {template_path}")
         sys.exit(1)
     template = template_path.read_text()
-    if "extra_imports" in template:
-        print_message("✓ Script template supports extra_imports")
+    if re.search(r"^\$\{\s*imports", template, flags=re.MULTILINE):
+        print_message("✓ Script template supports imports parameter")
         return
     
-    print_message(f"Script template does not support extra_imports")
+    print_message(f"Script template does not support imports parameter")
     print_message(f"A new commit will be created")
     
     patch_file = context.tool_dir / "script.py.mako.patch"
     # compute the path from project root to alembic script directory
     # to handle projects where alembic dir is not at the root of the project
-    directory_prefix = Path(context.script_dir.dir).parent.relative_to(context.project_root)
+    alembic_dir = Path(context.script_dir.dir).resolve()
+    directory_prefix = "" if alembic_dir.parent == context.project_root else alembic_dir.parent.relative_to(context.project_root)
     git.apply(
         "--directory", directory_prefix,
         patch_file,
@@ -456,12 +457,12 @@ def ensure_script_template_extra_imports(context: Context) -> None:
     )
     git.add(template_path)
     git.commit(
-        "-m", f"alembic: add extra_imports to script template",
+        "-m", f"alembic: add imports parameter to script template",
         "-m", "why: support automated migration squashing",
         _err=sys.stderr
     )
     git.show(f"HEAD", _fg=True)
-    print_message(f"✓ Script template patched with extra_imports in new commit")
+    print_message(f"✓ Script template patched with imports parameter in new commit")
 
 
 def lint_and_commit(context: Context, files: list[Path], commit_message: str) -> None:
