@@ -238,6 +238,13 @@ def squash(context: Context) -> None:
     # Execute the SQL content
     op.execute(sql_content)'''
     )
+    # remove unused import
+    sh.sed(
+        "-i",
+        f"/import sqlalchemy as sa/d",
+        new_script.path,
+        _err=sys.stderr
+    )
     print_message(f"✓ New revision generated: {new_script}")
     assert new_script.is_base
     git.rm("--",
