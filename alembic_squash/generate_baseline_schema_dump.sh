@@ -206,10 +206,10 @@ execute_pg_dump() {
         print_status "Generating schema dump to stdout"
         local output="/dev/stdout"
     fi
-    local pg_dump_flags="--schema-only \
-    --exclude-table=$ALEMBIC_VERSION_TABLE \
+    local pg_dump_flags="--exclude-table=$ALEMBIC_VERSION_TABLE \
     --exclude-table=alembic_version \
     --no-owner \
+    --inserts \
     -U postgres -d $DATABASE"
     
     # extensions are managed by the init-db script
@@ -218,6 +218,7 @@ execute_pg_dump() {
     docker exec "$CONTAINER_ID" \
     bash -c "pg_dump $pg_dump_flags" \
     | grep -vE '(^BEGIN|^COMMIT|EXTENSION|^--\s*$|search_path)' \
+    | python3 $SQUASH_TOOL_DIR/process_sql_dump.py \
     | cat -s >"$output"
 
     if [[ $? -ne 0 ]]; then

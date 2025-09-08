@@ -281,10 +281,13 @@ def dump_baseline(context: Context) -> None:
     release_version = squashplan.target_tag.replace("wazo-", "").replace(".", "")
     dump_path = context.squash_dir / f"baseline-{release_version}.sql"
     sh.bash(
-        "generate_baseline_schema_dump.sh",
+        context.tool_dir / "generate_baseline_schema_dump.sh",
         "-f", new_dockerfile_db,
         dump_path,
-        _err=sys.stderr
+        _err=sys.stderr,
+        _env={
+            "SQUASH_TOOL_DIR": str(context.tool_dir)
+        }
     )
     print_message(f"✓ Baseline SQL dump generated at {dump_path}")
 
