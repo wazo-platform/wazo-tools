@@ -13,6 +13,7 @@ import fileinput
 import os
 from pathlib import Path
 import re
+import shutil
 import sys
 from traceback import format_exc
 from alembic.config import Config
@@ -213,9 +214,10 @@ def squash(context: Context) -> None:
     # given a chance to read the plan and approve
     assert ask_confirm()
     
-    # move the baseline sql dump to the alembic versions directory
-    baseline_dump_path = baseline_dump_path.rename(alembic_versions_dir / baseline_dump_path.name)
-    print_message(f"✓ Baseline SQL dump moved to {baseline_dump_path.absolute()}")
+    # copy the baseline sql dump to the alembic versions directory
+    new_baseline_dump_path = shutil.copyfile(baseline_dump_path, alembic_versions_dir / baseline_dump_path.name)
+
+    print_message(f"✓ Baseline SQL dump moved to {new_baseline_dump_path.absolute()}")
     
     new_script = context.script_dir.generate_revision(
         revid=squashplan.squash_head.revision,
@@ -228,7 +230,7 @@ def squash(context: Context) -> None:
         imports='import os',
         upgrades=f'''# Read and execute the SQL dump file
     versions_dir_path = os.path.dirname(__file__)
-    sql_file_path = os.path.join(versions_dir_path, '{baseline_dump_path.name}')
+    sql_file_path = os.path.join(versions_dir_path, '{new_baseline_dump_path.name}')
 
     with open(sql_file_path) as f:
         sql_content = f.read()
