@@ -14,4 +14,4 @@ fi
 source $SQUASH_VENV_PATH/bin/activate
 trap "deactivate" EXIT
 
-pip install --require-virtualenv -r $target_project_dir/requirements.txt -r ./requirements.txt
+pip install --require-virtualenv -r $target_project_dir/requirements.txt -r ./requirements.txt $target_project_dir
