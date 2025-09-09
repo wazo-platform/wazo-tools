@@ -247,18 +247,12 @@ def squash(context: Context) -> None:
     )
     print_message(f"✓ New revision generated: {new_script}")
     assert new_script.is_base
+    
     git.rm("--",
         *(
             rev.path
             for rev in squashplan.squash_revisions
         )
-    )
-
-
-    lint_and_commit(
-        context,
-        [new_script.path, baseline_dump_path],
-        f"alembic: squashed baseline {release_version}"
     )
 
     # alembic ScriptDirectory state is out-of-date, need to recreate
@@ -267,6 +261,15 @@ def squash(context: Context) -> None:
     base_revision = context.script_dir.get_base()
     assert base_revision
     assert base_revision == squashplan.squash_head.revision, f"base revision {base_revision} != squash head {squashplan.squash_head.revision}"
+    git.add(
+        new_script.path,
+        new_baseline_dump_path,
+        _err=sys.stderr
+    )
+    print_warning("Please review the diff and commit before continuing")
+    git.diff("--staged", _fg=True)
+    print_message(f"example commit message:")
+    print_message(f"alembic: squashed baseline {release_version}")
 
 
 def dump_baseline(context: Context) -> None:
@@ -299,6 +302,11 @@ def dump_baseline(context: Context) -> None:
         }
     )
     print_message(f"✓ Baseline SQL dump generated at {dump_path}")
+    if (insert_lines := sh.grep("-n", "-e", "^INSERT", dump_path, _ok_code=[0, 1])):
+        print_warning("! Baseline SQL dump contains INSERT statements which probably need modifications, please review")
+        for line in insert_lines.strip().split("\n"):
+            if line.strip():
+                print_warning(f"\t {line}")
 
 
 def build_docker(dockerfile: Path, build_context_dir: Path, *flags) -> str:
@@ -467,44 +475,13 @@ def ensure_script_template_extra_imports(context: Context) -> None:
         patch_file,
         _err=sys.stderr
     )
+    print_message(f"✓ Script template patched with imports parameter")
     git.add(template_path)
-    git.commit(
-        "-m", f"alembic: add imports parameter to script template",
-        "-m", "why: support automated migration squashing",
-        _err=sys.stderr
-    )
-    git.show(f"HEAD", _fg=True)
-    print_message(f"✓ Script template patched with imports parameter in new commit")
 
-
-def lint_and_commit(context: Context, files: list[Path], commit_message: str) -> None:
-    git.add(
-        *files
-    )
-    try:
-        sh.tox("-e", "linters", _err=sys.stderr)
-    except sh.ErrorReturnCode:
-        try:
-            sh.tox(
-                "-e", "linters",
-                _err=sys.stderr
-            )
-        except sh.ErrorReturnCode:
-            print_error(f"Linters failed, aborting")
-            sys.exit(1)
-    
-    git.add(
-        *files
-    )
-    commit_lines = commit_message.split("\n")
-    args = []
-    for line in commit_lines:
-        if (clean_line := line.strip()):
-            args.append("-m")
-            args.append(clean_line)
-    git.commit(*args, _err=sys.stderr)
-    print_message(f"✓ Changes committed")
-    git.show(f"HEAD", _fg=True)
+    print_warning("Please review the diff and commit before continuing")
+    git.diff("--staged", _fg=True)
+    print_message(f"example commit message:")
+    print_message(f"alembic: add 'imports' parameter to script template")
 
 
 def update_packaging(context: Context) -> None:
@@ -541,19 +518,16 @@ def update_packaging(context: Context) -> None:
                 print(line, end="")
         
         if not updated:
-            print_warning("Failed to update setup.py package_data entry, please do it manually")
+            print_warning("! Failed to update setup.py package_data entry, please do it manually")
             ask_confirm()
             sh.edit("--debug", setup_py, _fg=True)
         
         print_message(f"✓ setup.py updated with package_data entry for sql baseline files in {alembic_package} package")
-        lint_and_commit(
-            context, 
-            [setup_py], 
-            "packaging: add alembic sql files to package data"
-        )
-        print_message(
-            "✓ Packaging of sql files updated successfully"
-        )
+        git.add(setup_py)
+        print_warning("! Please review the diff and commit before continuing")
+        git.diff("--staged", _fg=True)
+        print_message(f"example commit message:")
+        print_message(f"packaging: add alembic sql files to package data")
     else:
         print_message("alembic not part of python packaging")
         # alembic not part of python packaging, let's check debian config
@@ -573,7 +547,7 @@ def update_packaging(context: Context) -> None:
         if "alembic" in install_file.read_text():
             print_message("✓ alembic directory is managed explicitly by debian .install config")
         else:
-            print_warning("alembic directory is not managed explicitly by debian .install config")
+            print_warning("! alembic directory is not managed explicitly by debian .install config")
             print_warning("Make sure the debian packaging properly handles sql files in alembic directory")
 
 
@@ -727,23 +701,24 @@ def main():
     elif args.command == COMMANDS.DUMP_BASELINE:
         dump_baseline(context)
         print_message(
-            "Now you can run the squash subcommand to generate the squashed baseline revision"
+            "When ready run the `squash` subcommand to generate the squashed baseline alembic revision"
         )
         sys.exit(0)
     elif args.command == COMMANDS.SQUASH:
         squash(context)
         update_packaging(context)
+        print_message(
+            "Now you can run the verify subcommand to compare the pre-squashing and post-squashing schemas\n"
+            "and the update-packaging subcommand to ensure the sql files are properly packaged"
+        )
+        sys.exit(0)
+    elif args.command == COMMANDS.VERIFY:
         try:
             dump_schema_info(context, "squashed")
         except Exception:
             print_error("Failed to dump schema info with squashed migrations")
             print_error("You can run 'dump-schema-info squashed' subcommand manually after resolving the error")
             raise
-        print_message(
-            "Now you can run the verify subcommand to compare the pre-squashing and post-squashing schemas"
-        )
-        sys.exit(0)
-    elif args.command == COMMANDS.VERIFY:
         verify(context)
         sys.exit(0)
     elif args.command == COMMANDS.UPDATE_PACKAGING:
