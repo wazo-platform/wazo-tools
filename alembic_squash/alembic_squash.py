@@ -27,15 +27,15 @@ from sh.contrib import git
 from setuptools import find_packages
 
 def print_error(message: str):
-    print(f"\033[91m{message}\033[0m", file=sys.stderr)
+    print(f"ERROR: {message}", file=sys.stderr)
 
 
 def print_message(message: str):
-    print(f"\033[90m{message}\033[0m", file=sys.stdout)
+    print(f"MESSAGE: {message}", file=sys.stderr)
 
 
 def print_warning(message: str):
-    print(f"\033[93m{message}\033[0m", file=sys.stdout)
+    print(f"WARNING: {message}", file=sys.stderr)
 
 
 def safety_net():
