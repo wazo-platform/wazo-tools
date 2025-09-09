@@ -14,13 +14,8 @@ limit the maintenance burden of the python scripts.
 - **Python 3.9** (for compatibility with bullseye releases)
   - with python venv module (e.g. `python3-venv` on debian distros)
 - **Docker** (for building and running database containers)
-- **Git** (for repository operations)
-- **Bash shell** (for shell scripts and operating the tools)
 
 ### Python Dependencies
-
-The python dependencies are managed automatically by the
-[bootstrap.sh](./bootstrap.sh) script.
 
 The tools require the following Python packages(see
 [`requirements.txt`](./requirements.txt)):
@@ -31,86 +26,52 @@ The tools require the following Python packages(see
 
 Additionally, the target project's python dependencies are also required.
 
-## Installation and Setup
-
-1. Clone this repository locally and obtain all pre-requisite dependencies (see
-   [System Requirements](#system-requirements))
-
-   - ensure docker is available and usable for the current user (docker daemon
-     is running, etc)
-
-2. Ensure the projects on which to apply the squash procedure are available
-   locally and are in a clean, safe state(no uncommitted pending changes, etc)
-
 ## Usage Workflow
 
-Assuming a project "wazo-example" available at "~/wazo/wazo-example".
+Assuming a project "wazo-chatd" available at "$LOCAL_GIT_REPOS/wazo-chatd".
 
-### Step 0: Setup a python virtual environment
-
-The [bootstrap.sh](./bootstrap.sh) script can be used to setup a python virtual
-environment appropriate to perform the procedure.
-This will create a virtual environment directory in the current working
-directory, named after the project, and will install both the alembic squash
-tools dependencies and the target project's python dependencies.
-
-Alternatively, [shell.sh](./shell.sh) can be used to both bootstrap the virtual
-environment and start a bash shell in the target project's directory, with the
-virtual environment activated and the alembic squash tools available in the
-path.
-
-### Step 1: Prepare the Squash Plan
+### Step 0: Prepare the Squash Plan
 
 Assuming the virtual environment is bootstrapped and a shell with the
 environment activated.
 
 ```bash
 # Navigate to your target project directory
-cd ~/wazo/wazo-project
-
-# Run the plan command to create a squash plan
-python ~/wazo/wazo-tools/alembic_squash/alembic_squash.py plan <target_tag>
-# or
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py plan <target_tag>
-# or if using shell.sh and the ~/wazo-tools/alembic_squash directory is in the path
-alembic_squash.py plan <target_tag>
+cd $LOCAL_GIT_REPOS/wazo-chatd
+export SQUASH_PROJECT_ROOT=$LOCAL_GIT_REPOS/wazo-chatd
 ```
 
 **Example:**
 
 ```bash
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py plan wazo-23.05
+$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py plan wazo-23.05
 ```
 
 The command will explain its actions and ask for confirmations.
 On success, expect a `.alembic_squash` directory containing a `squashplan`
 file.
 
-### Step 2: Generate Baseline Schema Dump
+### Step 1: Generate Baseline Schema Dump
 
 ```bash
-# Generate the baseline SQL dump
 ~/wazo/wazo-tools/alembic_squash/alembic_squash.py dump-baseline
 ```
 
 On success, expect a sql dump file to be created in the `.alembic_squash/`
 directory.
 
-### Step 3: Execute the Squash
+### Step 2: Execute the Squash
 
 ```bash
-# Perform the actual squashing operation
 ~/wazo/wazo-tools/alembic_squash/alembic_squash.py squash
 ```
 
 Confirmation will be asked on some steps.
-On success, new commits will be created in the repository.
 The squashed alembic migration will replace the existing revisions.
 
-### Step 4: Verify the Results
+### Step 3: Verify the Results
 
 ```bash
-# Compare pre and post-squashing schemas
 ~/wazo/wazo-tools/alembic_squash/alembic_squash.py verify
 ```
 
@@ -132,55 +93,6 @@ out to other tools and scripts.
 It is the only script that needs to be used to perform the squash procedure.
 
 See `alembic_squash.py --help` for help on all available commands and options.
-
-### [shell.sh](./shell.sh)
-
-A bash script serving as a single-point-of-entry to bootstrap the working
-environment and start a shell in the target project's directory, with the
-environment setup with all required tools and dependencies.
-
-The script will setup environment variables available in the resulting shell:
-
-- `SQUASH_PROJECT_ROOT` - the path to the target project, can be read by
-  [alembic_squash.py](./alembic_squash.py)
-- `SQUASH_VENV_PATH` - the path to the virtual environment
-
-Example usage:
-
-```bash
-# Start an interactive shell with the tools available
-$ ~/wazo-tools/alembic_squash/shell.sh ~/wazo/wazo-example
-
-# now in the ~/wazo/wazo-example directory with the virtual environment activated
-# and the alembic squash tools available in the path
-
-(.wazo-example_squash_venv) ~/wazo/wazo-example$ alembic_squash.py plan wazo-23.05
-(.wazo-example_squash_venv) ~/wazo/wazo-example$ alembic_squash.py dump-baseline
-(.wazo-example_squash_venv) ~/wazo/wazo-example$ alembic_squash.py squash
-(.wazo-example_squash_venv) ~/wazo/wazo-example$ alembic_squash.py verify
-```
-
-### Using the Bootstrap Script
-
-The [bootstrap.sh](./bootstrap.sh) script is used by [shell.sh](./shell.sh) and
-can be used independently to bootstrap a work environment for a target project,
-creating the virtual environment with the required python dependencies.
-
-The script will export the following environment variables if sourced:
-
-- `SQUASH_VENV_PATH` - the path to the virtual environment
-
-```bash
-~/wazo/wazo-tools/alembic_squash/bootstrap.sh ~/wazo/wazo-example
-# Activate the virtual environment
-source .wazo-project_squash_venv/bin/activate
-
-# or
-source ~/wazo/wazo-tools/alembic_squash/bootstrap.sh ~/wazo/wazo-example
-
-# Run the tools
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py plan wazo-23.05
-```
 
 ### [generate_baseline_schema_dump.sh](./generate_baseline_schema_dump.sh)
 
