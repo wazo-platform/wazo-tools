@@ -10,7 +10,7 @@ def process_sql_dump(sql_text: str) -> str:
     for line in sql_text.split('\n'):
         match = CHECK_CONSTRAINT.search(line)
 
-        if match: 
+        if match:
             # yield (line)
             # check_expr = match.group(1)
             def replace_member_check(match):
@@ -23,10 +23,10 @@ def process_sql_dump(sql_text: str) -> str:
                 return f"{column} IN ({', '.join(values)})"
             new_line = re.sub(MEMBERCHECK, replace_member_check, line)
             yield new_line
-            
+
         else:
             yield line
-        
+
 
 def main():
     sql_text = sys.stdin.read()
@@ -34,7 +34,7 @@ def main():
 
     for i, line in enumerate(process_sql_dump(sql_text)):
         print(line)
-    
+
     assert i == line_count - 1, f"{i} != {line_count -1}"
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-script and utilities to automate and support 
+script and utilities to automate and support
 the squashing of old alembic migrations in wazo projects.
 """
 from __future__ import annotations
@@ -100,7 +100,7 @@ def read_squashplan(script_dir: ScriptDirectory) -> SquashPlan:
     )
     assert squash_head and squash_head == squash_revisions[0].revision
     return SquashPlan(
-        target_tag=target_tag, 
+        target_tag=target_tag,
         squash_revisions=squash_revisions
     )
 
@@ -133,7 +133,7 @@ def find_revisions_to_squash(target_tag: str, script_dir: ScriptDirectory) -> li
         if not original_commit:
             # no commit responsible for this revision reachable from target_tag, skip it
             continue
-        
+
         commit_id, commit_message = original_commit.split(" - ", 1)
         release_tag = git.describe("--contains", commit_id).strip()
         assert "\n" not in release_tag
@@ -142,13 +142,13 @@ def find_revisions_to_squash(target_tag: str, script_dir: ScriptDirectory) -> li
     if not squash_list:
         print_error(f"No revisions to squash found for target tag {target_tag} from current git checkout, aborting")
         sys.exit(1)
-    
+
     revset = set(rev.revision for rev, _ in squash_list)
 
     # check that all down revisions from the squash head are marked for squashing
     for rev in script_dir.walk_revisions(head=squash_list[0][0].revision):
         assert rev.revision in revset, f"revision {rev.revision} ({rev.path}) not in squash_list"
-    
+
     return squash_list
 
 
@@ -165,7 +165,7 @@ def prepare_squashplan(context: Context, target_tag: str) -> None:
             print_message(rev)
             print_message(f"\toriginal_commit: {commit_id} {commit_message} {release_tag}")
             f.write(f"rev:{rev.revision}\n")
-    
+
     squash_head = squash_list[0][0]
     print_message(f"squash head revision: {squash_head}")
     with open(context.squash_dir / "squashplan", "a") as f:
@@ -197,7 +197,7 @@ def squash(context: Context) -> None:
         sys.exit(1)
 
     alembic_versions_dir = Path(context.script_dir.dir) / "versions"
-    
+
     print_message(f"✓ Baseline SQL dump found at {baseline_dump_path.absolute()}")
     squashlist = "\n    ".join(str(rev) for rev in squashplan.squash_revisions)
     print_message(f'''
@@ -213,12 +213,12 @@ def squash(context: Context) -> None:
     ''')
     # given a chance to read the plan and approve
     assert ask_confirm()
-    
+
     # copy the baseline sql dump to the alembic versions directory
     new_baseline_dump_path = shutil.copyfile(baseline_dump_path, alembic_versions_dir / baseline_dump_path.name)
 
     print_message(f"✓ Baseline SQL dump moved to {new_baseline_dump_path.absolute()}")
-    
+
     new_script = context.script_dir.generate_revision(
         revid=squashplan.squash_head.revision,
         message=f"squashed baseline {squashplan.target_tag}",
@@ -329,7 +329,7 @@ def spawn_container(image_id_or_tag: str, *flags) -> None:
         _err=sys.stderr,
     )
     print_message(f"Running container: {command}")
-    try: 
+    try:
         container_id = command().strip()
         yield container_id
     except sh.ErrorReturnCode:
@@ -370,11 +370,11 @@ def verify(context: Context) -> None:
     squashed_schema_info = context.squash_dir / "squashed_schema_info.txt"
     assert unsquashed_schema_info.exists(), "missing unsquashed schema info at {unsquashed_schema_info}"
     assert squashed_schema_info.exists(), "missing squashed schema info at {squashed_schema_info}"
-    
+
     diff_path = context.squash_dir / "schema_info.diff"
     sh.diff(
-        unsquashed_schema_info, 
-        squashed_schema_info, 
+        unsquashed_schema_info,
+        squashed_schema_info,
         _out=diff_path,
         _ok_code=[0, 1]
     )
@@ -383,13 +383,13 @@ def verify(context: Context) -> None:
         print_warning(f"! {len(difflines)} lines of difference in schema info dumps, please check")
     else:
         print_message("✓ No schema info diff found")
-    
+
     # now compare schema of live databases using migra
     unsquashed_image_id = (context.squash_dir / "unsquashed_db_image_id").read_text()
     assert unsquashed_image_id
     squashed_image_id = (context.squash_dir / "squashed_db_image_id").read_text()
     assert squashed_image_id
-    
+
     database_name = context.database_name
     # spawn both databases
     with spawn_container(unsquashed_image_id, "-p", "5432") as unsquashed_container_id:
@@ -426,7 +426,7 @@ def verify(context: Context) -> None:
             except sh.ErrorReturnCode:
                 print_error(f"Database {squashed_uri} failed to start after 10 seconds")
                 sys.exit(1)
-            
+
             sh.migra("--unsafe", unsquashed_uri, squashed_uri, _out=context.squash_dir / "migra.txt", _ok_code=[0, 2])
             print_message(f"✓ Migra diff stored at {context.squash_dir / 'migra.txt'}")
             if (difflines := (context.squash_dir / "migra.txt").read_text().splitlines()):
@@ -461,10 +461,10 @@ def ensure_script_template_extra_imports(context: Context) -> None:
     if re.search(r"^\$\{\s*imports", template, flags=re.MULTILINE):
         print_message("✓ Script template supports imports parameter")
         return
-    
+
     print_message(f"Script template does not support imports parameter")
     print_message(f"A new commit will be created")
-    
+
     patch_file = context.tool_dir / "script.py.mako.patch"
     # compute the path from project root to alembic script directory
     # to handle projects where alembic dir is not at the root of the project
@@ -501,7 +501,7 @@ def update_packaging(context: Context) -> None:
         if not setup_py.exists():
             print_error(f"setup.py not found at {setup_py}")
             sys.exit(1)
-        
+
         package_data_entry = f'"{alembic_package}": ["versions/*.sql"]'
         updated = False
         with fileinput.input(files=(setup_py,), inplace=True) as setup_content:
@@ -516,12 +516,12 @@ def update_packaging(context: Context) -> None:
                         updated = True
                         line = new_line
                 print(line, end="")
-        
+
         if not updated:
             print_warning("! Failed to update setup.py package_data entry, please do it manually")
             ask_confirm()
             sh.edit("--debug", setup_py, _fg=True)
-        
+
         print_message(f"✓ setup.py updated with package_data entry for sql baseline files in {alembic_package} package")
         git.add(setup_py)
         print_warning("! Please review the diff and commit before continuing")
@@ -543,7 +543,7 @@ def update_packaging(context: Context) -> None:
         if not install_file.exists():
             print_message("✓ Install file not found, skipping packaging update")
             return
-        
+
         if "alembic" in install_file.read_text():
             print_message("✓ alembic directory is managed explicitly by debian .install config")
         else:
@@ -556,19 +556,19 @@ def git_ignore_squashdir(context: Context) -> None:
     if not gitdir.exists():
         print_error(f"Git directory not found at {gitdir}")
         sys.exit(1)
-    
+
     exclude_file = gitdir / "info" / "exclude"
     if not exclude_file.exists():
         print_error(f"Git exclude file not found at {exclude_file}")
         sys.exit(1)
-    
+
     if ".alembic_squash" in exclude_file.read_text():
         print_message("✓ .alembic_squash is already excluded from git")
         return
-    
+
     with open(exclude_file, "a") as f:
         f.write(".alembic_squash\n")
-    
+
     print_message("✓ .alembic_squash added to git exclude")
 
 
@@ -605,7 +605,7 @@ def parse_args():
 
     prepare_squashplan_parser = subparsers.add_parser(COMMANDS.PLAN, help="Prepare the squash plan for the target tag and perform any preparatory tasks")
     prepare_squashplan_parser.add_argument("target_tag", action="store", type=str, help="Target tag for squashing")
-    
+
     _ = subparsers.add_parser(COMMANDS.SQUASH, help="Perform squashing of alembic revisions")
 
     _ = subparsers.add_parser(COMMANDS.DUMP_BASELINE, help="Generate the baseline schema dump for the target tag for use in squashed alembic migration")
@@ -613,7 +613,7 @@ def parse_args():
     _ = subparsers.add_parser(COMMANDS.VERIFY, help="Verify that the squashed database schema is compatible with the unsquashed database schema")
 
     _ = subparsers.add_parser(COMMANDS.UPDATE_PACKAGING, help="ensure project packaging properly handles sql baseline files")
-    
+
     dump_schema_info_parser = subparsers.add_parser(
         COMMANDS.DUMP_SCHEMA_INFO,
         help="Dump schema info from a build of the current database schema"
@@ -625,15 +625,15 @@ def parse_args():
 
 @safety_net()
 def main():
-    """Main function to demonstrate ScriptDirectory usage."""    
-    
+    """Main function to demonstrate ScriptDirectory usage."""
+
     # check args
     args = parse_args()
     print_message(f"Project root: {args.project_root}")
     if os.getcwd() != args.project_root:
         os.chdir(args.project_root)
         print_message(f"✓ Changed working directory to {args.project_root}")
-    
+
     # Get alembic config
     config = get_alembic_config(
         project_root=args.project_root,
@@ -642,7 +642,7 @@ def main():
     print_message(f"✓ Loaded Alembic configuration from {config.config_file_name}")
 
     assert args.project_root == Path.cwd()
-    
+
     # Get script directory
     script_dir = ScriptDirectory.from_config(config)
     print_message(f"Script directory: {script_dir.dir}")
@@ -651,20 +651,20 @@ def main():
     contrib_docker_dir = args.project_root / "contribs" / "docker"
     dockerfile_db = None
     for path in (
-        contrib_docker_dir / "Dockerfile-db", 
+        contrib_docker_dir / "Dockerfile-db",
         contrib_docker_dir / f"{args.project_root.name}-db.Dockerfile"
         ):
         if path.exists():
             print_message(f"✓ Found db dockerfile at {path}")
             dockerfile_db = path
             break
-    
+
     if not dockerfile_db:
         print_error(f"No Dockerfile-db found in {contrib_docker_dir}")
         sys.exit(1)
 
     context = Context(
-        script_dir=script_dir, 
+        script_dir=script_dir,
         squash_dir=args.project_root / ".alembic_squash",
         project_root=args.project_root,
         project_name=args.project_root.name,
@@ -675,7 +675,7 @@ def main():
         tool_dir=Path(__file__).parent,
         dockerfile_db=dockerfile_db,
     )
-    
+
     # ensure directory .alembic_squash exists
     if not context.squash_dir.exists():
         context.squash_dir.mkdir()
@@ -727,7 +727,7 @@ def main():
     else:
         print_error(f"Unknown subcommand: {args.command}")
         sys.exit(1)
-    
+
 
 if __name__ == '__main__':
     main()

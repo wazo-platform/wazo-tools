@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script is used to generate a SQL schema dump 
+# This script is used to generate a SQL schema dump
 # from a build of the Dockerfile-db of a project
 
 set -euo pipefail
@@ -68,7 +68,7 @@ parse_arguments() {
     local username="$project_name"
     local database="$project_name"
     local alembic_version_table="$(get_alembic_version_table)"
-    
+
     while [[ $# -gt 0 ]]; do
         case $1 in
             -h|--help)
@@ -146,21 +146,21 @@ parse_arguments() {
 # Function to build the Docker image
 build_image() {
     print_status "Building Docker image..."
-    
+
     if [[ ! -f "$DOCKERFILE_PATH" ]]; then
         print_error "Dockerfile not found: $DOCKERFILE_PATH"
         print_error "Make sure the path of the dockerfile is correct relative to the working directory"
         exit 1
     fi
-    
+
     # Build with -q flag to get image ID, redirect build output to stderr
     IMAGE_ID=$(docker build -q -f "$DOCKERFILE_PATH" $PROJECT_ROOT)
-    
+
     if [[ $? -ne 0 ]] || [[ -z "$IMAGE_ID" ]]; then
         print_error "Docker build failed"
         exit 1
     fi
-    
+
     print_success "Docker image built successfully: $IMAGE_ID"
 }
 
@@ -211,7 +211,7 @@ execute_pg_dump() {
     --no-owner \
     --inserts \
     -U postgres -d $DATABASE"
-    
+
     # extensions are managed by the init-db script
     # transactional statements are managed by alembic
     # search_path manipulations breaks alembic context
@@ -246,18 +246,18 @@ cleanup() {
 main() {
     # Parse command line arguments
     parse_arguments "$@"
-    
+
     # Check output permissions
     check_output_permissions
-    
+
     # Build the Docker image
     build_image
-    
+
     # Run the container and wait for it to be ready
     run_container
 
     print_status "Starting schema dump generation..."
-    
+
     # Execute pg_dump
     execute_pg_dump
 

@@ -144,7 +144,7 @@ The script will export the following environment variables if sourced:
 # Activate the virtual environment
 source .wazo-project_squash_venv/bin/activate
 
-# or 
+# or
 source ~/wazo/wazo-tools/alembic_squash/bootstrap.sh ~/wazo/wazo-example
 
 # Run the tools
