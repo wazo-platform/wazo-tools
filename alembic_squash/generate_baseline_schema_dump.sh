@@ -6,9 +6,6 @@ set -euo pipefail
 CONTAINER_ID=""
 IMAGE_ID=""
 
-# Default values
-
-# Function to print output to stderr
 print_status() {
     echo "[INFO] $1" >&2
 }
@@ -21,7 +18,6 @@ print_error() {
     echo "[ERROR] $1" >&2
 }
 
-# Function to show usage
 show_usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [OUTPUT_FILE]
@@ -41,9 +37,9 @@ OUTPUT_FILE:
     Output file path for the schema dump (default: stdout)
 
 EXAMPLES:
-    $0                                    # Generate dump to stdout
-    $0 my_schema.sql                     # Generate dump to specific file
-    $0 -t 60 my_schema.sql               # Wait 60 seconds for database to be ready
+    $0                      # Generate dump to stdout
+    $0 my_schema.sql        # Generate dump to specific file
+    $0 -t 60 my_schema.sql  # Wait 60 seconds for database to be ready
 
 EOF
 }
@@ -59,7 +55,6 @@ function get_alembic_version_table() {
 }
 
 
-# Function to parse command line arguments
 parse_arguments() {
     local project_name="$(basename $PWD)"
     local timeout=30
@@ -116,7 +111,6 @@ parse_arguments() {
     done
 
 
-    # Return values via global variables
     TIMEOUT="$timeout"
     OUTPUT_FILE="$output_file"
     USERNAME="$username"
@@ -143,7 +137,6 @@ parse_arguments() {
     print_status "Using alembic version table: $ALEMBIC_VERSION_TABLE"
 }
 
-# Function to build the Docker image
 build_image() {
     print_status "Building Docker image..."
 
@@ -164,7 +157,6 @@ build_image() {
     print_success "Docker image built successfully: $IMAGE_ID"
 }
 
-# Function to check output directory and file permissions
 check_output_permissions() {
     if [[ -n "$OUTPUT_FILE" ]]; then
         local output_dir=$(dirname "$OUTPUT_FILE")
@@ -181,7 +173,6 @@ check_output_permissions() {
 }
 
 
-# Function to run the container and wait for it to be ready
 run_container() {
     print_status "Starting container..."
     CONTAINER_ID=$(docker run --rm -d -p 5432 "$IMAGE_ID")
@@ -195,14 +186,11 @@ run_container() {
     print_success "Database is ready"
 }
 
-# Function to execute pg_dump and handle output
 execute_pg_dump() {
     if [[ -n "$OUTPUT_FILE" ]]; then
-        # Output to file
         print_status "Generating schema dump to $OUTPUT_FILE"
         local output="$OUTPUT_FILE"
     else
-        # Output to stdout
         print_status "Generating schema dump to stdout"
         local output="/dev/stdout"
     fi
@@ -232,9 +220,7 @@ execute_pg_dump() {
     fi
 }
 
-# Function to cleanup on exit
 cleanup() {
-    # Stop and remove container if it exists
     if [[ -n "$CONTAINER_ID" ]]; then
         docker stop "${CONTAINER_ID}" >/dev/null 2>&1 || true
         docker rm "${CONTAINER_ID}" >/dev/null 2>&1 || true
@@ -244,29 +230,16 @@ cleanup() {
 
 # Main execution
 main() {
-    # Parse command line arguments
     parse_arguments "$@"
-
-    # Check output permissions
     check_output_permissions
-
-    # Build the Docker image
     build_image
-
-    # Run the container and wait for it to be ready
     run_container
-
     print_status "Starting schema dump generation..."
-
-    # Execute pg_dump
     execute_pg_dump
-
     exit 0
 }
 
 
-# Set trap to cleanup on script exit
 trap cleanup EXIT
 
-# Run main function with all arguments
 main "$@"
