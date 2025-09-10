@@ -446,37 +446,6 @@ def check_repo_state() -> None:
     assert ask_confirm()
 
 
-def ensure_script_template_extra_imports(context: Context) -> None:
-    template_path = Path(context.script_dir.dir) / "script.py.mako"
-    if not template_path.exists():
-        print_error(f"Script template not found at {template_path}")
-        sys.exit(1)
-    template = template_path.read_text()
-    if re.search(r"^\$\{\s*imports", template, flags=re.MULTILINE):
-        print_message("✓ Script template supports imports parameter")
-        return
-
-    print_message("Script template does not support imports parameter")
-
-    patch_file = context.tool_dir / "script.py.mako.patch"
-    # compute the path from project root to alembic script directory
-    # to handle projects where alembic dir is not at the root of the project
-    alembic_dir = Path(context.script_dir.dir).resolve()
-    directory_prefix = (
-        ""
-        if alembic_dir.parent == context.project_root
-        else alembic_dir.parent.relative_to(context.project_root)
-    )
-    git.apply("--directory", directory_prefix, patch_file, _err=sys.stderr)
-    print_message("✓ Script template patched with imports parameter")
-    git.add(template_path)
-
-    print_warning("Please review the diff and commit before continuing")
-    git.diff("--staged", _fg=True)
-    print_message("example commit message:")
-    print_message("alembic: add 'imports' parameter to script template")
-
-
 def update_packaging(context: Context) -> None:
     # might need to update packaging to include sql baseline in alembic files
 
@@ -699,7 +668,6 @@ def main():
         git_ignore_squashdir(context)
         prepare_squashplan(context, target_tag)
         dump_schema_info(context, "unsquashed")
-        ensure_script_template_extra_imports(context)
         print_message("Now run dump-baseline subcommand to get the baseline sql dump")
         sys.exit(0)
     elif args.command == COMMANDS.DUMP_SCHEMA_INFO:
