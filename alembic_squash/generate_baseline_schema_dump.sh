@@ -229,7 +229,6 @@ cleanup() {
 }
 
 
-# Main execution
 main() {
     parse_arguments "$@"
     check_output_permissions

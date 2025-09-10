@@ -11,7 +11,7 @@ import os
 import re
 import shutil
 import sys
-
+import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
@@ -38,21 +38,7 @@ def print_warning(message: str):
     print(f"WARNING: {message}", file=sys.stderr)
 
 
-def safety_net():
-    # decorator to catch and log exceptions
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                print_error(f"Error: {e}")
-                print_error(format_exc())
-                sys.exit(1)
-        return wrapper
-    return decorator
-
-
-def get_alembic_config(project_root: Path, alembic_ini_path: Path | None=None):
+def get_alembic_config(project_root: Path, alembic_ini_path: Path | None = None):
     if alembic_ini_path is None:
         alembic_ini_path = next(project_root.rglob('alembic.ini'), None)
         assert alembic_ini_path and alembic_ini_path.is_file(), f"{alembic_ini_path} is not a file"
@@ -128,7 +114,6 @@ class Context:
 def find_revisions_to_squash(target_tag: str, script_dir: ScriptDirectory) -> list[tuple[Revision, tuple[str, str, str]]]:
     squash_list = []
 
-    # List all revisions using ScriptDirectory
     revisions = script_dir.walk_revisions()
     for rev in revisions:
         original_commit: str = git.log(f"--pretty=format:%H - %s", "--diff-filter=A", target_tag, "--", rev.path).strip()
@@ -155,7 +140,6 @@ def find_revisions_to_squash(target_tag: str, script_dir: ScriptDirectory) -> li
     return squash_list
 
 
-# a cli subcommand
 def prepare_squashplan(context: Context, target_tag: str) -> None:
     git.show("--oneline", target_tag, _out=sys.stderr)
     with open(context.squash_dir / "squashplan", "w") as f:
@@ -190,9 +174,8 @@ def ask_confirm() -> bool:
 
 
 def squash(context: Context) -> None:
-    # need squashplan
     squashplan = read_squashplan(context.script_dir)
-    # need baseline sql dump
+
     release_version = squashplan.target_tag.replace("wazo-", "").replace(".", "")
     baseline_dump_path = Path(context.squash_dir) / f"baseline-{release_version}.sql"
     if not baseline_dump_path.exists():
@@ -240,7 +223,7 @@ def squash(context: Context) -> None:
     # Execute the SQL content
     op.execute(sql_content)'''
     )
-    # remove unused import
+    # remove unused import, avoid tripping linters
     sh.sed(
         "-i",
         f"/import sqlalchemy as sa/d",
@@ -355,7 +338,6 @@ def dump_schema_info(context: Context, schema_tag: str) -> None:
     print_message(f"✓ Database image id: {db_image_id}")
 
     with spawn_container(db_image_id) as container_id:
-        import time
         time.sleep(2)
         sh.docker.exec(
             container_id,
@@ -395,7 +377,6 @@ def verify(context: Context) -> None:
     assert squashed_image_id
 
     database_name = context.database_name
-    # spawn both databases
     with spawn_container(unsquashed_image_id, "-p", "5432") as unsquashed_container_id:
         unsquashed_port = sh.docker.port(unsquashed_container_id, "5432").strip().split(":")[-1]
         unsquashed_uri = f"postgresql://{context.db_username}:{context.db_password}@localhost:{unsquashed_port}/{database_name}"
@@ -440,12 +421,11 @@ def verify(context: Context) -> None:
 
 
 def check_repo_state() -> None:
-    # check that the repo is clean
     if git.status("--porcelain", "-u", "no").strip():
         print_error("! Repo is not clean, please commit or stash changes")
         sys.exit(1)
     print_message("✓ Repo is clean")
-    # check git head
+
     head_info = git("rev-parse", "--abbrev-ref", "HEAD").strip()
     print_message(f"Git head: {head_info}")
     if head_info in ("master", "main"):
@@ -627,18 +607,13 @@ def parse_args():
     return parser.parse_args()
 
 
-@safety_net()
 def main():
-    """Main function to demonstrate ScriptDirectory usage."""
-
-    # check args
     args = parse_args()
     print_message(f"Project root: {args.project_root}")
     if os.getcwd() != args.project_root:
         os.chdir(args.project_root)
         print_message(f"✓ Changed working directory to {args.project_root}")
 
-    # Get alembic config
     config = get_alembic_config(
         project_root=args.project_root,
         alembic_ini_path=args.alembic_ini_path
@@ -647,11 +622,9 @@ def main():
 
     assert args.project_root == Path.cwd()
 
-    # Get script directory
     script_dir = ScriptDirectory.from_config(config)
     print_message(f"Script directory: {script_dir.dir}")
 
-    # identify db dockerfile
     contrib_docker_dir = args.project_root / "contribs" / "docker"
     dockerfile_db = None
     for path in (
@@ -680,11 +653,9 @@ def main():
         dockerfile_db=dockerfile_db,
     )
 
-    # ensure directory .alembic_squash exists
     if not context.squash_dir.exists():
         context.squash_dir.mkdir()
         print_message(f"✓ Created utility directory at {context.squash_dir}")
-
 
     if args.command == COMMANDS.PLAN:
         target_tag = args.target_tag
