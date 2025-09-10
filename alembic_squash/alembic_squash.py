@@ -355,6 +355,8 @@ def dump_schema_info(context: Context, schema_tag: str) -> None:
     print_message(f"✓ Database image id: {db_image_id}")
 
     with spawn_container(db_image_id) as container_id:
+        import time
+        time.sleep(2)
         sh.docker.exec(
             container_id,
             "psql",

@@ -179,6 +179,7 @@ run_container() {
     print_success "Container started: $CONTAINER_ID"
 
     print_status "Waiting for database to be ready..."
+    sleep 2
     if ! docker exec "$CONTAINER_ID" pg_isready -U $USERNAME -d $DATABASE -t "$TIMEOUT" >/dev/null 2>&1; then
         print_error "Database did not become ready within ${TIMEOUT}s"
         exit 1
