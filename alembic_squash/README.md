@@ -54,7 +54,7 @@ file.
 ### Step 1: Generate Baseline Schema Dump
 
 ```bash
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py dump-baseline
+$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py dump-baseline
 ```
 
 On success, expect a sql dump file to be created in the `.alembic_squash/`
@@ -63,7 +63,7 @@ directory.
 ### Step 2: Execute the Squash
 
 ```bash
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py squash
+$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py squash
 ```
 
 Confirmation will be asked on some steps.
@@ -72,7 +72,7 @@ The squashed alembic migration will replace the existing revisions.
 ### Step 3: Verify the Results
 
 ```bash
-~/wazo/wazo-tools/alembic_squash/alembic_squash.py verify
+$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py verify
 ```
 
 On success, the output will inform of any discrepancies found between the pre

@@ -6,20 +6,23 @@ the squashing of old alembic migrations in wazo projects.
 from __future__ import annotations
 
 import argparse
-from contextlib import contextmanager
-from dataclasses import dataclass
-from enum import Enum
 import fileinput
 import os
-from pathlib import Path
 import re
 import shutil
 import sys
+
+from contextlib import contextmanager
+from dataclasses import dataclass
+from enum import Enum
+from pathlib import Path
 from traceback import format_exc
+
+import sh
+
 from alembic.config import Config
 from alembic.script import ScriptDirectory
 from alembic.script.revision import Revision
-import sh
 from sh.contrib import git
 from setuptools import find_packages
 
@@ -187,7 +190,7 @@ def ask_confirm() -> bool:
 
 
 def squash(context: Context) -> None:
-    # need squashplan 
+    # need squashplan
     squashplan = read_squashplan(context.script_dir)
     # need baseline sql dump
     release_version = squashplan.target_tag.replace("wazo-", "").replace(".", "")
@@ -209,7 +212,6 @@ def squash(context: Context) -> None:
     - revision {squashplan.squash_head.revision} will become the new base revision
     - new base revision {squashplan.squash_head.revision} will use sql dump {alembic_versions_dir / baseline_dump_path.name}
     - squashed revisions files will be removed
-    - the changes will be committed
     ''')
     # given a chance to read the plan and approve
     assert ask_confirm()
@@ -247,7 +249,7 @@ def squash(context: Context) -> None:
     )
     print_message(f"✓ New revision generated: {new_script}")
     assert new_script.is_base
-    
+
     git.rm("--",
         *(
             rev.path
@@ -435,7 +437,7 @@ def verify(context: Context) -> None:
                 print_message("✓ No migra diff")
 
 
-def check_repo_state(context: Context) -> None:
+def check_repo_state() -> None:
     # check that the repo is clean
     if git.status("--porcelain", "-u", "no").strip():
         print_error("! Repo is not clean, please commit or stash changes")
@@ -587,12 +589,12 @@ class COMMANDS(str, Enum):
 def parse_args():
     parser = argparse.ArgumentParser(description="Alembic squashing tool")
     parser.add_argument(
-        "--project-root", type=lambda x: Path(x).expanduser(), 
+        "--project-root", type=lambda x: Path(x).expanduser(),
         default=os.getenv("SQUASH_PROJECT_ROOT", Path.cwd()),
         help="Path to project root, defaults to current working directory"
     )
     parser.add_argument(
-        "--alembic-ini-path", type=Path, 
+        "--alembic-ini-path", type=Path,
         default=os.getenv("SQUASH_ALEMBIC_INI_PATH", None),
         help="Path to alembic.ini file, defaults to autodiscovery"
     )
@@ -683,10 +685,9 @@ def main():
 
 
     if args.command == COMMANDS.PLAN:
-        # require target_tag argument
         target_tag = args.target_tag
         print_message(f"Target tag: {target_tag}")
-        check_repo_state(context)
+        check_repo_state()
         git_ignore_squashdir(context)
         prepare_squashplan(context, target_tag)
         dump_schema_info(context, "unsquashed")
