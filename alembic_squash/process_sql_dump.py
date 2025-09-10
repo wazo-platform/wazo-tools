@@ -4,9 +4,7 @@ import sys
 from collections.abc import Iterator
 
 CHECK_CONSTRAINT = re.compile(r'CONSTRAINT \w+ CHECK \((.*?)\)$')
-MEMBERCHECK = re.compile(
-    r"\(\((?P<column>\w+)\).*? = ANY \(\(ARRAY\[(?P<values>.*)\]\).*?\)"
-)
+MEMBERCHECK = re.compile(r"\(\((?P<column>\w+)\).*? = ANY \(\(ARRAY\[(?P<values>.*)\]\).*?\)")
 
 
 def process_sql_dump(sql_text: str) -> Iterator[str]:
