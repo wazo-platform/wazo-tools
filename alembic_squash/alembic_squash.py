@@ -345,8 +345,34 @@ def dump_schema_info(context: Context, schema_tag: str) -> None:
     )
 
 
-def verify(context: Context) -> None:
-    # first check the schema info dumps
+def dump_data(context: Context, image_id: str, dump_tag: str) -> Path:
+    # import env.py file
+    env_py = Path(context.script_dir.dir) / "env.py"
+    alembic_version_table = env_py.read_text().split("VERSION_TABLE = ")[1].split("'")[1]
+    print_message(f"✓ Alembic version table: {alembic_version_table}")
+
+    pg_dump_flags = [
+        "-d",
+        context.database_name,
+        "-a",
+        f"--exclude-table={alembic_version_table}",
+        "--no-owner",
+        "--inserts",
+    ]
+    dump_path = context.squash_dir / f"{dump_tag}_data.txt"
+    with spawn_container(image_id) as container_id:
+        time.sleep(2)
+        sh.docker.exec(
+            container_id,
+            "pg_dump",
+            *pg_dump_flags,
+            _out=dump_path,
+        )
+    print_message(f"✓ Data dumped to {dump_path}")
+    return dump_path
+
+
+def verify_schema_info(context: Context) -> None:
     unsquashed_schema_info = context.squash_dir / "unsquashed_schema_info.txt"
     squashed_schema_info = context.squash_dir / "squashed_schema_info.txt"
     assert (
@@ -362,7 +388,8 @@ def verify(context: Context) -> None:
     else:
         print_message("✓ No schema info diff found")
 
-    # now compare schema of live databases using migra
+
+def verify_live_schemas(context: Context) -> None:
     unsquashed_image_id = (context.squash_dir / "unsquashed_db_image_id").read_text()
     assert unsquashed_image_id
     squashed_image_id = (context.squash_dir / "squashed_db_image_id").read_text()
@@ -381,36 +408,7 @@ def verify(context: Context) -> None:
                 f"postgresql://{context.db_username}:{context.db_password}"
                 f"@localhost:{squashed_port}/{database_name}"
             )
-            try:
-                sh.docker.exec(
-                    unsquashed_container_id,
-                    "pg_isready",
-                    "-U",
-                    "postgres",
-                    "-d",
-                    database_name,
-                    "-t",
-                    "10",
-                    _fg=True,
-                )
-            except sh.ErrorReturnCode:
-                print_error(f"Database {unsquashed_uri} failed to start after 10 seconds")
-                sys.exit(1)
-            try:
-                sh.docker.exec(
-                    squashed_container_id,
-                    "pg_isready",
-                    "-U",
-                    "postgres",
-                    "-d",
-                    database_name,
-                    "-t",
-                    "10",
-                    _fg=True,
-                )
-            except sh.ErrorReturnCode:
-                print_error(f"Database {squashed_uri} failed to start after 10 seconds")
-                sys.exit(1)
+            time.sleep(2)  # wait for database to be ready
 
             sh.migra(
                 "--unsafe",
@@ -426,6 +424,40 @@ def verify(context: Context) -> None:
                 )
             else:
                 print_message("✓ No migra diff")
+
+
+def verify_data(context: Context) -> None:
+    unsquashed_image_id = (context.squash_dir / "unsquashed_db_image_id").read_text()
+    squashed_image_id = (context.squash_dir / "squashed_db_image_id").read_text()
+    unsquashed_data_path = dump_data(context, unsquashed_image_id, "unsquashed")
+    squashed_data_path = dump_data(context, squashed_image_id, "squashed")
+
+    diff_path = context.squash_dir / "data.diff"
+
+    diff_cmd = sh.diff(
+        unsquashed_data_path,
+        squashed_data_path,
+        _out=diff_path,
+        _ok_code=[0, 1],
+        _return_cmd=True,
+    )
+    print_message(f"✓ Data diff stored at {diff_path}")
+    if diff_cmd.exit_code == 0:
+        print_message("✓ No data diff found")
+    else:
+        diff_length = len([line for line in diff_path.read_text().splitlines() if line.strip()])
+        print_warning(f"! {diff_length} lines of data diff found, please review")
+
+
+def verify(context: Context) -> None:
+    # first check the schema info dumps
+    verify_schema_info(context)
+
+    # now compare data of live databases using migra
+    verify_live_schemas(context)
+
+    # now verify data
+    verify_data(context)
 
 
 def check_repo_state() -> None:
