@@ -682,7 +682,6 @@ def main():
         sys.exit(0)
     elif args.command == COMMANDS.SQUASH:
         squash(context)
-        update_packaging(context)
         print_message(
             "Now you can run the verify subcommand to compare the pre-squashing "
             "and post-squashing schemas "
