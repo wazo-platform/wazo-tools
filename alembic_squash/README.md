@@ -3,9 +3,9 @@
 ## Overview
 
 The alembic squash tools automate the process of squashing old Alembic database
-migrations in Wazo projects. This is useful for reducing the number of
-migration files that are used to setup the database in new deployments, and
-limit the maintenance burden of the python scripts.
+migrations in Wazo projects. This is useful for reducing the number of migration
+files that are used to setup the database in new deployments, and limit the
+maintenance burden of the python scripts.
 
 ## Prerequisites and Dependencies
 
@@ -16,7 +16,6 @@ limit the maintenance burden of the python scripts.
 - **Docker** (for building and running database containers)
 - **Git** (for repository operations)
 - **Bash** (for shell scripts and operating the tools)
-
 
 ### Python Dependencies
 
@@ -32,7 +31,8 @@ Additionally, the target project's python dependencies are also required.
 ## Usage Workflow
 
 Assuming a project "wazo-chatd" available at "$LOCAL_GIT_REPOS/wazo-chatd".
-Assuming a virtual environment with the project's python package, its dependencies and the squash tools dependencies installed.
+Assuming a virtual environment with the project's python package, its
+dependencies and the squash tools dependencies installed.
 
 ### Step 0: Prepare the Squash Plan
 
@@ -51,9 +51,8 @@ export SQUASH_PROJECT_ROOT=$LOCAL_GIT_REPOS/wazo-chatd
 $LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py plan wazo-23.05
 ```
 
-The command will explain its actions and ask for confirmations.
-On success, expect a `.alembic_squash` directory containing a `squashplan`
-file.
+The command will explain its actions and ask for confirmations. On success,
+expect a `.alembic_squash` directory containing a `squashplan` file.
 
 ### Step 1: Generate Baseline Schema Dump
 
@@ -70,8 +69,8 @@ directory.
 $LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py squash
 ```
 
-Confirmation will be asked on some steps.
-The squashed alembic migration will replace the existing revisions.
+Confirmation will be asked on some steps. The squashed alembic migration will
+replace the existing revisions.
 
 ### Step 3: Verify the Results
 
@@ -80,10 +79,9 @@ $LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py verify
 ```
 
 On success, the output will inform of any discrepancies found between the pre
-and post-squashing schemas.
-Expect some insignificant differences in the way that some datatypes are
-represented(migra will suggest recreating affected constraints).
-Make sure no significant differences are found.
+and post-squashing schemas. Expect some insignificant differences in the way
+that some datatypes are represented(migra will suggest recreating affected
+constraints). Make sure no significant differences are found.
 
 Run integration tests(or let the CI do it) to make sure the database is still
 working as expected.
@@ -93,41 +91,49 @@ working as expected.
 ### [alembic_squash.py](./alembic_squash.py)
 
 This is a python script orchestrating and performing most of the tasks, calling
-out to other tools and scripts.
-It is the only script that needs to be used to perform the squash procedure.
+out to other tools and scripts. It is the only script that needs to be used
+directly to perform the squash procedure.
 
 See `alembic_squash.py --help` for help on all available commands and options.
 
 ### [generate_baseline_schema_dump.sh](./generate_baseline_schema_dump.sh)
 
 This is a bash script taking care of generating a .sql schema dump appropriate
-for use in alembic migrations.
-It uses a database container built from a database
-image specified by a dockerfile.
+for use in alembic migrations. It uses a database container built from a
+database image specified by a dockerfile.
 
 - extensions statements are not included
 - ownership statements are not included
 - the postgres schema `search_path` is left untouched
-- `col = ANY ARRAY[...]` check constraints are rewritten as `col IN (...)` to avoid schema mismatches
+- `col = ANY ARRAY[...]` check constraints are rewritten as `col IN (...)` to
+  avoid schema mismatches
 
-The script is called by [alembic_squash.py](./alembic_squash.py) to generate
-the baseline schema dump when using the `dump-baseline` command(using a
-specially-crafted dockerfile running only the alembic migrations to be
-squashed)
+The script is called by [alembic_squash.py](./alembic_squash.py) to generate the
+baseline schema dump when using the `dump-baseline` command(using a
+specially-crafted dockerfile running only the alembic migrations to be squashed)
 
 ```bash
 # Generate a schema dump manually
 $LOCAL_GIT_REPOS/wazo-tools/alembic_squash/generate_baseline_schema_dump.sh -f ~/wazo/wazo-example/contribs/docker/Dockerfile-db
 ```
 
+### [process_sql_dump.py](./process_sql_dump.py)
+
+A python script helper for
+[generate_baseline_schema_dump.sh](./generate_baseline_schema_dump.sh) to apply
+some rewrites on the `pg_dump` output.
+
 ## Troubleshooting
 
 ### Debugging
 
-- Check the `.alembic_squash/` directory for generated files
-- Review diff files generated during verification in
+- Check the `.alembic_squash/` directory for temporary generated files
+- Review diff files generated during verification in `.alembic_squash/`
+  directory
 - Review sql dump generated by `dump-baseline` command
 
 ### Known issues
 
-- schema info dump(psql `\dS+`) resulting from unsquashed migrations may refer to old column names of renamed columns, while schema from squashed migrations won't
+- schema info dump(psql `\dS+`) of databases resulting from unsquashed
+  migrations may refer to old column names of renamed columns, while schema info
+  dump from squashed migrations won't; this should have no functional impact
