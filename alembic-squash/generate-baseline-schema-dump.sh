@@ -207,7 +207,7 @@ execute_pg_dump() {
     docker exec "$CONTAINER_ID" \
     bash -c "pg_dump $pg_dump_flags" \
     | grep -vE '(^BEGIN|^COMMIT|EXTENSION|^--\s*$|search_path)' \
-    | python3 $SQUASH_TOOL_DIR/process_sql_dump.py \
+    | python3 $SQUASH_TOOL_DIR/process-sql-dump.py \
     | cat -s >"$output"
 
     if [[ $? -ne 0 ]]; then

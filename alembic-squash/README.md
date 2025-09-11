@@ -48,7 +48,7 @@ export SQUASH_PROJECT_ROOT=$LOCAL_GIT_REPOS/wazo-chatd
 **Example:**
 
 ```bash
-$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py plan wazo-23.05
+$LOCAL_GIT_REPOS/wazo-tools/alembic-squash/alembic-squash.py plan wazo-23.05
 ```
 
 The command will explain its actions and ask for confirmations. On success,
@@ -57,7 +57,7 @@ expect a `.alembic_squash` directory containing a `squashplan` file.
 ### Step 1: Generate Baseline Schema Dump
 
 ```bash
-$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py dump-baseline
+$LOCAL_GIT_REPOS/wazo-tools/alembic-squash/alembic-squash.py dump-baseline
 ```
 
 On success, expect a sql dump file to be created in the `.alembic_squash/`
@@ -66,7 +66,7 @@ directory.
 ### Step 2: Execute the Squash
 
 ```bash
-$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py squash
+$LOCAL_GIT_REPOS/wazo-tools/alembic-squash/alembic-squash.py squash
 ```
 
 Confirmation will be asked on some steps. The squashed alembic migration will
@@ -75,7 +75,7 @@ replace the existing revisions.
 ### Step 3: Verify the Results
 
 ```bash
-$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/alembic_squash.py verify
+$LOCAL_GIT_REPOS/wazo-tools/alembic-squash/alembic-squash.py verify
 ```
 
 On success, the output will inform of any discrepancies found between the pre
@@ -88,15 +88,15 @@ working as expected.
 
 ## Scripts
 
-### [alembic_squash.py](./alembic_squash.py)
+### [alembic-squash.py](./alembic-squash.py)
 
 This is a python script orchestrating and performing most of the tasks, calling
 out to other tools and scripts. It is the only script that needs to be used
 directly to perform the squash procedure.
 
-See `alembic_squash.py --help` for help on all available commands and options.
+See `alembic-squash.py --help` for help on all available commands and options.
 
-### [generate_baseline_schema_dump.sh](./generate_baseline_schema_dump.sh)
+### [generate-baseline-schema-dump.sh](./generate-baseline-schema-dump.sh)
 
 This is a bash script taking care of generating a .sql schema dump appropriate
 for use in alembic migrations. It uses a database container built from a
@@ -108,19 +108,19 @@ database image specified by a dockerfile.
 - `col = ANY ARRAY[...]` check constraints are rewritten as `col IN (...)` to
   avoid schema mismatches
 
-The script is called by [alembic_squash.py](./alembic_squash.py) to generate the
+The script is called by [alembic-squash.py](./alembic-squash.py) to generate the
 baseline schema dump when using the `dump-baseline` command(using a
 specially-crafted dockerfile running only the alembic migrations to be squashed)
 
 ```bash
 # Generate a schema dump manually
-$LOCAL_GIT_REPOS/wazo-tools/alembic_squash/generate_baseline_schema_dump.sh -f ~/wazo/wazo-example/contribs/docker/Dockerfile-db
+$LOCAL_GIT_REPOS/wazo-tools/alembic-squash/generate-baseline-schema-dump.sh -f ~/wazo/wazo-example/contribs/docker/Dockerfile-db
 ```
 
-### [process_sql_dump.py](./process_sql_dump.py)
+### [process-sql-dump.py](./process-sql-dump.py)
 
 A python script helper for
-[generate_baseline_schema_dump.sh](./generate_baseline_schema_dump.sh) to apply
+[generate-baseline-schema-dump.sh](./generate-baseline-schema-dump.sh) to apply
 some rewrites on the `pg_dump` output.
 
 ## Troubleshooting
