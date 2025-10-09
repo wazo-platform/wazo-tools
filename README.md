@@ -1,5 +1,9 @@
 # wazo-tools
 
+Tools and scripts developed by the Wazo Team that may be useful to the community.
+To avoid maintenance issues, no external scripts will be accepted.
+However, improvements to existing ones are always welcome! =)
+
 ## Guidelines
 
 * Each project should have its own directory (i.e. no global directory `scripts`/`dev-tools`)
