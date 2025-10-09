@@ -23,10 +23,3 @@ However, improvements to existing ones are always welcome! =)
 ## git hooks
 
 Git hooks have been moved to their own repository: [wazo-platform/wazo-git-hooks](https://github.com/wazo-platform/wazo-git-hooks)
-
-# TODO
-
-* move `./dev-tools/repos` to release repository
-    * warning: automated process use directly GitHub
-* move `./scripts/import-pjsip-config.py` to its own directory
-    * warning: people use directly GitHub
