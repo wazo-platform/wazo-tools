@@ -1,6 +1,6 @@
 services:
   postgresql-installed:
-    image: postgres:13
+    image: postgres:15
     environment:
       POSTGRES_PASSWORD: secret
       POSTGRES_DATABASE: asterisk
@@ -10,7 +10,7 @@ services:
       - type: tmpfs
         target: /var/lib/postgresql/data
   postgresql-migrated:
-    image: postgres:13
+    image: postgres:15
     environment:
       POSTGRES_PASSWORD: secret
       POSTGRES_DATABASE: asterisk
