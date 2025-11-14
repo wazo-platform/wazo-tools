@@ -660,7 +660,7 @@ CREATE TABLE public.agent_login_status (
     state_interface character varying(128) NOT NULL,
     paused boolean DEFAULT false NOT NULL,
     paused_reason character varying(80),
-    login_at timestamp without time zone DEFAULT timezone('utc'::text, CURRENT_TIMESTAMP) NOT NULL
+    login_at timestamp without time zone DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'utc'::text) NOT NULL
 );
 
 
@@ -2249,7 +2249,7 @@ CREATE TABLE public.meeting (
     name text,
     guest_endpoint_sip_uuid uuid,
     tenant_uuid character varying(36) NOT NULL,
-    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
+    created_at timestamp with time zone DEFAULT (now() AT TIME ZONE 'utc'::text),
     persistent boolean DEFAULT false NOT NULL,
     number text NOT NULL,
     require_authorization boolean DEFAULT false NOT NULL
@@ -2268,7 +2268,7 @@ CREATE TABLE public.meeting_authorization (
     meeting_uuid uuid NOT NULL,
     guest_name text,
     status text,
-    created_at timestamp with time zone DEFAULT timezone('utc'::text, now())
+    created_at timestamp with time zone DEFAULT (now() AT TIME ZONE 'utc'::text)
 );
 
 
@@ -3942,7 +3942,7 @@ CREATE TABLE public.userfeatures (
     func_key_template_id integer,
     func_key_private_template_id integer NOT NULL,
     subscription_type integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone DEFAULT timezone('utc'::text, now()),
+    created_at timestamp without time zone DEFAULT (now() AT TIME ZONE 'utc'::text),
     lastname character varying(128) DEFAULT ''::character varying NOT NULL,
     userfield character varying(128) DEFAULT ''::character varying NOT NULL,
     description text NOT NULL
