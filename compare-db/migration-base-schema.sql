@@ -2,45 +2,25 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.16 (Debian 11.16-1.pgdg90+1)
--- Dumped by pg_dump version 11.16 (Debian 11.16-1.pgdg90+1)
+\restrict EVYg4DbBQIMo0myHsCC0PF4gNtTLEdmLNbwgOlu9MSdyNIFw6poV3SGm7K5BwKB
+
+-- Dumped from database version 13.22 (Debian 13.22-0+deb11u1)
+-- Dumped by pg_dump version 13.22 (Debian 13.22-0+deb11u1)
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
-
---
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+SET row_security = off;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
-
-
---
--- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
-
-
---
--- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
-
-
---
--- Name: call_exit_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: call_exit_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.call_exit_type AS ENUM (
@@ -56,10 +36,10 @@ CREATE TYPE public.call_exit_type AS ENUM (
 );
 
 
-ALTER TYPE public.call_exit_type OWNER TO postgres;
+ALTER TYPE public.call_exit_type OWNER TO asterisk;
 
 --
--- Name: callerid_mode; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callerid_mode; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callerid_mode AS ENUM (
@@ -69,10 +49,10 @@ CREATE TYPE public.callerid_mode AS ENUM (
 );
 
 
-ALTER TYPE public.callerid_mode OWNER TO postgres;
+ALTER TYPE public.callerid_mode OWNER TO asterisk;
 
 --
--- Name: callerid_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callerid_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callerid_type AS ENUM (
@@ -83,10 +63,10 @@ CREATE TYPE public.callerid_type AS ENUM (
 );
 
 
-ALTER TYPE public.callerid_type OWNER TO postgres;
+ALTER TYPE public.callerid_type OWNER TO asterisk;
 
 --
--- Name: callfilter_bosssecretary; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callfilter_bosssecretary; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callfilter_bosssecretary AS ENUM (
@@ -98,10 +78,10 @@ CREATE TYPE public.callfilter_bosssecretary AS ENUM (
 );
 
 
-ALTER TYPE public.callfilter_bosssecretary OWNER TO postgres;
+ALTER TYPE public.callfilter_bosssecretary OWNER TO asterisk;
 
 --
--- Name: callfilter_callfrom; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callfilter_callfrom; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callfilter_callfrom AS ENUM (
@@ -111,10 +91,10 @@ CREATE TYPE public.callfilter_callfrom AS ENUM (
 );
 
 
-ALTER TYPE public.callfilter_callfrom OWNER TO postgres;
+ALTER TYPE public.callfilter_callfrom OWNER TO asterisk;
 
 --
--- Name: callfilter_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callfilter_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callfilter_type AS ENUM (
@@ -122,10 +102,10 @@ CREATE TYPE public.callfilter_type AS ENUM (
 );
 
 
-ALTER TYPE public.callfilter_type OWNER TO postgres;
+ALTER TYPE public.callfilter_type OWNER TO asterisk;
 
 --
--- Name: callfiltermember_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: callfiltermember_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.callfiltermember_type AS ENUM (
@@ -133,10 +113,10 @@ CREATE TYPE public.callfiltermember_type AS ENUM (
 );
 
 
-ALTER TYPE public.callfiltermember_type OWNER TO postgres;
+ALTER TYPE public.callfiltermember_type OWNER TO asterisk;
 
 --
--- Name: contextnumbers_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: contextnumbers_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.contextnumbers_type AS ENUM (
@@ -148,10 +128,10 @@ CREATE TYPE public.contextnumbers_type AS ENUM (
 );
 
 
-ALTER TYPE public.contextnumbers_type OWNER TO postgres;
+ALTER TYPE public.contextnumbers_type OWNER TO asterisk;
 
 --
--- Name: dialaction_action; Type: TYPE; Schema: public; Owner: postgres
+-- Name: dialaction_action; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.dialaction_action AS ENUM (
@@ -180,10 +160,10 @@ CREATE TYPE public.dialaction_action AS ENUM (
 );
 
 
-ALTER TYPE public.dialaction_action OWNER TO postgres;
+ALTER TYPE public.dialaction_action OWNER TO asterisk;
 
 --
--- Name: dialaction_category; Type: TYPE; Schema: public; Owner: postgres
+-- Name: dialaction_category; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.dialaction_category AS ENUM (
@@ -198,10 +178,10 @@ CREATE TYPE public.dialaction_category AS ENUM (
 );
 
 
-ALTER TYPE public.dialaction_category OWNER TO postgres;
+ALTER TYPE public.dialaction_category OWNER TO asterisk;
 
 --
--- Name: endpoint_sip_section_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.endpoint_sip_section_type AS ENUM (
@@ -215,10 +195,10 @@ CREATE TYPE public.endpoint_sip_section_type AS ENUM (
 );
 
 
-ALTER TYPE public.endpoint_sip_section_type OWNER TO postgres;
+ALTER TYPE public.endpoint_sip_section_type OWNER TO asterisk;
 
 --
--- Name: extenumbers_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: extenumbers_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.extenumbers_type AS ENUM (
@@ -236,10 +216,10 @@ CREATE TYPE public.extenumbers_type AS ENUM (
 );
 
 
-ALTER TYPE public.extenumbers_type OWNER TO postgres;
+ALTER TYPE public.extenumbers_type OWNER TO asterisk;
 
 --
--- Name: generic_bsfilter; Type: TYPE; Schema: public; Owner: postgres
+-- Name: generic_bsfilter; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.generic_bsfilter AS ENUM (
@@ -249,10 +229,10 @@ CREATE TYPE public.generic_bsfilter AS ENUM (
 );
 
 
-ALTER TYPE public.generic_bsfilter OWNER TO postgres;
+ALTER TYPE public.generic_bsfilter OWNER TO asterisk;
 
 --
--- Name: netiface_family; Type: TYPE; Schema: public; Owner: postgres
+-- Name: netiface_family; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.netiface_family AS ENUM (
@@ -261,10 +241,10 @@ CREATE TYPE public.netiface_family AS ENUM (
 );
 
 
-ALTER TYPE public.netiface_family OWNER TO postgres;
+ALTER TYPE public.netiface_family OWNER TO asterisk;
 
 --
--- Name: netiface_method; Type: TYPE; Schema: public; Owner: postgres
+-- Name: netiface_method; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.netiface_method AS ENUM (
@@ -274,10 +254,10 @@ CREATE TYPE public.netiface_method AS ENUM (
 );
 
 
-ALTER TYPE public.netiface_method OWNER TO postgres;
+ALTER TYPE public.netiface_method OWNER TO asterisk;
 
 --
--- Name: netiface_networktype; Type: TYPE; Schema: public; Owner: postgres
+-- Name: netiface_networktype; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.netiface_networktype AS ENUM (
@@ -286,10 +266,10 @@ CREATE TYPE public.netiface_networktype AS ENUM (
 );
 
 
-ALTER TYPE public.netiface_networktype OWNER TO postgres;
+ALTER TYPE public.netiface_networktype OWNER TO asterisk;
 
 --
--- Name: netiface_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: netiface_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.netiface_type AS ENUM (
@@ -297,10 +277,10 @@ CREATE TYPE public.netiface_type AS ENUM (
 );
 
 
-ALTER TYPE public.netiface_type OWNER TO postgres;
+ALTER TYPE public.netiface_type OWNER TO asterisk;
 
 --
--- Name: pickup_category; Type: TYPE; Schema: public; Owner: postgres
+-- Name: pickup_category; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.pickup_category AS ENUM (
@@ -309,10 +289,10 @@ CREATE TYPE public.pickup_category AS ENUM (
 );
 
 
-ALTER TYPE public.pickup_category OWNER TO postgres;
+ALTER TYPE public.pickup_category OWNER TO asterisk;
 
 --
--- Name: pickup_membertype; Type: TYPE; Schema: public; Owner: postgres
+-- Name: pickup_membertype; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.pickup_membertype AS ENUM (
@@ -322,10 +302,10 @@ CREATE TYPE public.pickup_membertype AS ENUM (
 );
 
 
-ALTER TYPE public.pickup_membertype OWNER TO postgres;
+ALTER TYPE public.pickup_membertype OWNER TO asterisk;
 
 --
--- Name: queue_category; Type: TYPE; Schema: public; Owner: postgres
+-- Name: queue_category; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.queue_category AS ENUM (
@@ -334,10 +314,10 @@ CREATE TYPE public.queue_category AS ENUM (
 );
 
 
-ALTER TYPE public.queue_category OWNER TO postgres;
+ALTER TYPE public.queue_category OWNER TO asterisk;
 
 --
--- Name: queue_monitor_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: queue_monitor_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.queue_monitor_type AS ENUM (
@@ -346,7 +326,7 @@ CREATE TYPE public.queue_monitor_type AS ENUM (
 );
 
 
-ALTER TYPE public.queue_monitor_type OWNER TO postgres;
+ALTER TYPE public.queue_monitor_type OWNER TO asterisk;
 
 --
 -- Name: queue_statistics; Type: TYPE; Schema: public; Owner: asterisk
@@ -366,7 +346,7 @@ CREATE TYPE public.queue_statistics AS (
 ALTER TYPE public.queue_statistics OWNER TO asterisk;
 
 --
--- Name: queuemember_usertype; Type: TYPE; Schema: public; Owner: postgres
+-- Name: queuemember_usertype; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.queuemember_usertype AS ENUM (
@@ -375,23 +355,10 @@ CREATE TYPE public.queuemember_usertype AS ENUM (
 );
 
 
-ALTER TYPE public.queuemember_usertype OWNER TO postgres;
+ALTER TYPE public.queuemember_usertype OWNER TO asterisk;
 
 --
--- Name: queuepenaltychange_sign; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.queuepenaltychange_sign AS ENUM (
-    '=',
-    '+',
-    '-'
-);
-
-
-ALTER TYPE public.queuepenaltychange_sign OWNER TO postgres;
-
---
--- Name: schedule_path_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: schedule_path_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.schedule_path_type AS ENUM (
@@ -404,10 +371,10 @@ CREATE TYPE public.schedule_path_type AS ENUM (
 );
 
 
-ALTER TYPE public.schedule_path_type OWNER TO postgres;
+ALTER TYPE public.schedule_path_type OWNER TO asterisk;
 
 --
--- Name: schedule_time_mode; Type: TYPE; Schema: public; Owner: postgres
+-- Name: schedule_time_mode; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.schedule_time_mode AS ENUM (
@@ -416,10 +383,10 @@ CREATE TYPE public.schedule_time_mode AS ENUM (
 );
 
 
-ALTER TYPE public.schedule_time_mode OWNER TO postgres;
+ALTER TYPE public.schedule_time_mode OWNER TO asterisk;
 
 --
--- Name: stat_switchboard_endtype; Type: TYPE; Schema: public; Owner: postgres
+-- Name: stat_switchboard_endtype; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.stat_switchboard_endtype AS ENUM (
@@ -430,10 +397,10 @@ CREATE TYPE public.stat_switchboard_endtype AS ENUM (
 );
 
 
-ALTER TYPE public.stat_switchboard_endtype OWNER TO postgres;
+ALTER TYPE public.stat_switchboard_endtype OWNER TO asterisk;
 
 --
--- Name: trunk_protocol; Type: TYPE; Schema: public; Owner: postgres
+-- Name: trunk_protocol; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.trunk_protocol AS ENUM (
@@ -444,10 +411,10 @@ CREATE TYPE public.trunk_protocol AS ENUM (
 );
 
 
-ALTER TYPE public.trunk_protocol OWNER TO postgres;
+ALTER TYPE public.trunk_protocol OWNER TO asterisk;
 
 --
--- Name: usercustom_category; Type: TYPE; Schema: public; Owner: postgres
+-- Name: usercustom_category; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.usercustom_category AS ENUM (
@@ -456,10 +423,10 @@ CREATE TYPE public.usercustom_category AS ENUM (
 );
 
 
-ALTER TYPE public.usercustom_category OWNER TO postgres;
+ALTER TYPE public.usercustom_category OWNER TO asterisk;
 
 --
--- Name: useriax_amaflags; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_amaflags; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_amaflags AS ENUM (
@@ -470,10 +437,10 @@ CREATE TYPE public.useriax_amaflags AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_amaflags OWNER TO postgres;
+ALTER TYPE public.useriax_amaflags OWNER TO asterisk;
 
 --
--- Name: useriax_auth; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_auth; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_auth AS ENUM (
@@ -487,10 +454,10 @@ CREATE TYPE public.useriax_auth AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_auth OWNER TO postgres;
+ALTER TYPE public.useriax_auth OWNER TO asterisk;
 
 --
--- Name: useriax_category; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_category; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_category AS ENUM (
@@ -499,10 +466,10 @@ CREATE TYPE public.useriax_category AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_category OWNER TO postgres;
+ALTER TYPE public.useriax_category OWNER TO asterisk;
 
 --
--- Name: useriax_codecpriority; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_codecpriority; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_codecpriority AS ENUM (
@@ -513,10 +480,10 @@ CREATE TYPE public.useriax_codecpriority AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_codecpriority OWNER TO postgres;
+ALTER TYPE public.useriax_codecpriority OWNER TO asterisk;
 
 --
--- Name: useriax_encryption; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_encryption; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_encryption AS ENUM (
@@ -526,21 +493,10 @@ CREATE TYPE public.useriax_encryption AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_encryption OWNER TO postgres;
+ALTER TYPE public.useriax_encryption OWNER TO asterisk;
 
 --
--- Name: useriax_protocol; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.useriax_protocol AS ENUM (
-    'iax'
-);
-
-
-ALTER TYPE public.useriax_protocol OWNER TO postgres;
-
---
--- Name: useriax_transfer; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_transfer; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_transfer AS ENUM (
@@ -550,10 +506,10 @@ CREATE TYPE public.useriax_transfer AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_transfer OWNER TO postgres;
+ALTER TYPE public.useriax_transfer OWNER TO asterisk;
 
 --
--- Name: useriax_type; Type: TYPE; Schema: public; Owner: postgres
+-- Name: useriax_type; Type: TYPE; Schema: public; Owner: asterisk
 --
 
 CREATE TYPE public.useriax_type AS ENUM (
@@ -563,113 +519,7 @@ CREATE TYPE public.useriax_type AS ENUM (
 );
 
 
-ALTER TYPE public.useriax_type OWNER TO postgres;
-
---
--- Name: usersip_dtmfmode; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_dtmfmode AS ENUM (
-    'rfc2833',
-    'inband',
-    'info',
-    'auto'
-);
-
-
-ALTER TYPE public.usersip_dtmfmode OWNER TO postgres;
-
---
--- Name: usersip_insecure; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_insecure AS ENUM (
-    'port',
-    'invite',
-    'port,invite'
-);
-
-
-ALTER TYPE public.usersip_insecure OWNER TO postgres;
-
---
--- Name: usersip_nat; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_nat AS ENUM (
-    'no',
-    'force_rport',
-    'comedia',
-    'force_rport,comedia',
-    'auto_force_rport',
-    'auto_comedia',
-    'auto_force_rport,auto_comedia'
-);
-
-
-ALTER TYPE public.usersip_nat OWNER TO postgres;
-
---
--- Name: usersip_progressinband; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_progressinband AS ENUM (
-    'no',
-    'yes',
-    'never'
-);
-
-
-ALTER TYPE public.usersip_progressinband OWNER TO postgres;
-
---
--- Name: usersip_protocol; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_protocol AS ENUM (
-    'sip'
-);
-
-
-ALTER TYPE public.usersip_protocol OWNER TO postgres;
-
---
--- Name: usersip_session_refresher; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_session_refresher AS ENUM (
-    'uac',
-    'uas'
-);
-
-
-ALTER TYPE public.usersip_session_refresher OWNER TO postgres;
-
---
--- Name: usersip_session_timers; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_session_timers AS ENUM (
-    'originate',
-    'accept',
-    'refuse'
-);
-
-
-ALTER TYPE public.usersip_session_timers OWNER TO postgres;
-
---
--- Name: usersip_videosupport; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.usersip_videosupport AS ENUM (
-    'no',
-    'yes',
-    'always'
-);
-
-
-ALTER TYPE public.usersip_videosupport OWNER TO postgres;
+ALTER TYPE public.useriax_type OWNER TO asterisk;
 
 --
 -- Name: fill_leaveempty_calls(timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: public; Owner: asterisk
@@ -678,22 +528,31 @@ ALTER TYPE public.usersip_videosupport OWNER TO postgres;
 CREATE FUNCTION public.fill_leaveempty_calls(period_start timestamp with time zone, period_end timestamp with time zone) RETURNS void
     LANGUAGE sql
     AS $_$
+WITH
+leave_call as (
+    SELECT main.id, main.callid, main.time AS leave_time, main.queuename,
+        (SELECT time FROM queue_log
+        WHERE callid = main.callid AND queuename = main.queuename
+        AND time <= main.time AND event = 'ENTERQUEUE'
+        ORDER BY time DESC LIMIT 1) AS enter_time,
+        stat_queue.id as stat_queue_id
+    FROM queue_log AS main
+    LEFT JOIN stat_queue ON stat_queue.name = main.queuename
+    WHERE event='LEAVEEMPTY'
+),
+leave_call_in_range AS (
+    SELECT *
+    FROM leave_call
+    WHERE enter_time BETWEEN $1 AND $2
+)
 INSERT INTO stat_call_on_queue (callid, time, waittime, stat_queue_id, status)
 SELECT
-  callid,
-  enter_time as time,
-  EXTRACT(EPOCH FROM (leave_time - enter_time))::INTEGER as waittime,
-  stat_queue_id,
-  'leaveempty' AS status
-FROM (SELECT
-        time AS enter_time,
-        (select time from queue_log where callid=main.callid AND event='LEAVEEMPTY' LIMIT 1) AS leave_time,
-        callid,
-        (SELECT id FROM stat_queue WHERE name=queuename) AS stat_queue_id
-      FROM queue_log AS main
-      WHERE callid IN (SELECT callid FROM queue_log WHERE event = 'LEAVEEMPTY')
-            AND event = 'ENTERQUEUE'
-            AND time BETWEEN $1 AND $2) AS first;
+    callid,
+    enter_time AS time,
+    EXTRACT(EPOCH FROM (leave_time - enter_time))::INTEGER AS waittime,
+    stat_queue_id,
+    'leaveempty' AS status
+FROM leave_call_in_range;
 $_$;
 
 
@@ -749,10 +608,10 @@ ALTER FUNCTION public.set_agent_on_pauseall() OWNER TO asterisk;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
--- Name: accessfeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: accessfeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.accessfeatures (
@@ -764,10 +623,10 @@ CREATE TABLE public.accessfeatures (
 );
 
 
-ALTER TABLE public.accessfeatures OWNER TO postgres;
+ALTER TABLE public.accessfeatures OWNER TO asterisk;
 
 --
--- Name: accessfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: accessfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.accessfeatures_id_seq
@@ -779,36 +638,36 @@ CREATE SEQUENCE public.accessfeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.accessfeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.accessfeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: accessfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: accessfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.accessfeatures_id_seq OWNED BY public.accessfeatures.id;
 
 
 --
--- Name: agent_login_status; Type: TABLE; Schema: public; Owner: postgres
+-- Name: agent_login_status; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.agent_login_status (
     agent_id integer NOT NULL,
     agent_number character varying(40) NOT NULL,
     extension character varying(80) NOT NULL,
-    context character varying(80) NOT NULL,
+    context character varying(79) NOT NULL,
     interface character varying(128) NOT NULL,
     state_interface character varying(128) NOT NULL,
     paused boolean DEFAULT false NOT NULL,
     paused_reason character varying(80),
-    login_at timestamp without time zone DEFAULT (current_timestamp at time zone 'utc') NOT NULL
+    login_at timestamp without time zone DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'utc'::text) NOT NULL
 );
 
 
-ALTER TABLE public.agent_login_status OWNER TO postgres;
+ALTER TABLE public.agent_login_status OWNER TO asterisk;
 
 --
--- Name: agent_membership_status; Type: TABLE; Schema: public; Owner: postgres
+-- Name: agent_membership_status; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.agent_membership_status (
@@ -819,10 +678,10 @@ CREATE TABLE public.agent_membership_status (
 );
 
 
-ALTER TABLE public.agent_membership_status OWNER TO postgres;
+ALTER TABLE public.agent_membership_status OWNER TO asterisk;
 
 --
--- Name: agentfeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: agentfeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.agentfeatures (
@@ -832,19 +691,19 @@ CREATE TABLE public.agentfeatures (
     lastname character varying(128),
     number character varying(40) NOT NULL,
     passwd character varying(128),
-    context character varying(39),
+    context character varying(79),
     language character varying(20),
     autologoff integer,
     "group" character varying(255),
     description text,
-    preprocess_subroutine character varying(40)
+    preprocess_subroutine character varying(79)
 );
 
 
-ALTER TABLE public.agentfeatures OWNER TO postgres;
+ALTER TABLE public.agentfeatures OWNER TO asterisk;
 
 --
--- Name: agentfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: agentfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.agentfeatures_id_seq
@@ -856,17 +715,17 @@ CREATE SEQUENCE public.agentfeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.agentfeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.agentfeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: agentfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: agentfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.agentfeatures_id_seq OWNED BY public.agentfeatures.id;
 
 
 --
--- Name: agentglobalparams; Type: TABLE; Schema: public; Owner: postgres
+-- Name: agentglobalparams; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.agentglobalparams (
@@ -877,10 +736,10 @@ CREATE TABLE public.agentglobalparams (
 );
 
 
-ALTER TABLE public.agentglobalparams OWNER TO postgres;
+ALTER TABLE public.agentglobalparams OWNER TO asterisk;
 
 --
--- Name: agentglobalparams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: agentglobalparams_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.agentglobalparams_id_seq
@@ -892,17 +751,17 @@ CREATE SEQUENCE public.agentglobalparams_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.agentglobalparams_id_seq OWNER TO postgres;
+ALTER TABLE public.agentglobalparams_id_seq OWNER TO asterisk;
 
 --
--- Name: agentglobalparams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: agentglobalparams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.agentglobalparams_id_seq OWNED BY public.agentglobalparams.id;
 
 
 --
--- Name: agentqueueskill; Type: TABLE; Schema: public; Owner: postgres
+-- Name: agentqueueskill; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.agentqueueskill (
@@ -912,21 +771,10 @@ CREATE TABLE public.agentqueueskill (
 );
 
 
-ALTER TABLE public.agentqueueskill OWNER TO postgres;
+ALTER TABLE public.agentqueueskill OWNER TO asterisk;
 
 --
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.alembic_version (
-    version_num character varying(32) NOT NULL
-);
-
-
-ALTER TABLE public.alembic_version OWNER TO postgres;
-
---
--- Name: application; Type: TABLE; Schema: public; Owner: postgres
+-- Name: application; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.application (
@@ -936,10 +784,10 @@ CREATE TABLE public.application (
 );
 
 
-ALTER TABLE public.application OWNER TO postgres;
+ALTER TABLE public.application OWNER TO asterisk;
 
 --
--- Name: application_dest_node; Type: TABLE; Schema: public; Owner: postgres
+-- Name: application_dest_node; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.application_dest_node (
@@ -951,10 +799,10 @@ CREATE TABLE public.application_dest_node (
 );
 
 
-ALTER TABLE public.application_dest_node OWNER TO postgres;
+ALTER TABLE public.application_dest_node OWNER TO asterisk;
 
 --
--- Name: asterisk_file; Type: TABLE; Schema: public; Owner: postgres
+-- Name: asterisk_file; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.asterisk_file (
@@ -963,10 +811,10 @@ CREATE TABLE public.asterisk_file (
 );
 
 
-ALTER TABLE public.asterisk_file OWNER TO postgres;
+ALTER TABLE public.asterisk_file OWNER TO asterisk;
 
 --
--- Name: asterisk_file_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: asterisk_file_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.asterisk_file_id_seq
@@ -978,17 +826,17 @@ CREATE SEQUENCE public.asterisk_file_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.asterisk_file_id_seq OWNER TO postgres;
+ALTER TABLE public.asterisk_file_id_seq OWNER TO asterisk;
 
 --
--- Name: asterisk_file_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: asterisk_file_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.asterisk_file_id_seq OWNED BY public.asterisk_file.id;
 
 
 --
--- Name: asterisk_file_section; Type: TABLE; Schema: public; Owner: postgres
+-- Name: asterisk_file_section; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.asterisk_file_section (
@@ -999,10 +847,10 @@ CREATE TABLE public.asterisk_file_section (
 );
 
 
-ALTER TABLE public.asterisk_file_section OWNER TO postgres;
+ALTER TABLE public.asterisk_file_section OWNER TO asterisk;
 
 --
--- Name: asterisk_file_section_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: asterisk_file_section_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.asterisk_file_section_id_seq
@@ -1014,17 +862,17 @@ CREATE SEQUENCE public.asterisk_file_section_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.asterisk_file_section_id_seq OWNER TO postgres;
+ALTER TABLE public.asterisk_file_section_id_seq OWNER TO asterisk;
 
 --
--- Name: asterisk_file_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: asterisk_file_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.asterisk_file_section_id_seq OWNED BY public.asterisk_file_section.id;
 
 
 --
--- Name: asterisk_file_variable; Type: TABLE; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.asterisk_file_variable (
@@ -1036,10 +884,10 @@ CREATE TABLE public.asterisk_file_variable (
 );
 
 
-ALTER TABLE public.asterisk_file_variable OWNER TO postgres;
+ALTER TABLE public.asterisk_file_variable OWNER TO asterisk;
 
 --
--- Name: asterisk_file_variable_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.asterisk_file_variable_id_seq
@@ -1051,17 +899,55 @@ CREATE SEQUENCE public.asterisk_file_variable_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.asterisk_file_variable_id_seq OWNER TO postgres;
+ALTER TABLE public.asterisk_file_variable_id_seq OWNER TO asterisk;
 
 --
--- Name: asterisk_file_variable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.asterisk_file_variable_id_seq OWNED BY public.asterisk_file_variable.id;
 
 
 --
--- Name: callerid; Type: TABLE; Schema: public; Owner: postgres
+-- Name: blocklist; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.blocklist (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    tenant_uuid character varying(36) NOT NULL
+);
+
+
+ALTER TABLE public.blocklist OWNER TO asterisk;
+
+--
+-- Name: blocklist_number; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.blocklist_number (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    number text NOT NULL,
+    label text,
+    blocklist_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE public.blocklist_number OWNER TO asterisk;
+
+--
+-- Name: blocklist_user; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.blocklist_user (
+    user_uuid character varying(36) NOT NULL,
+    blocklist_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE public.blocklist_user OWNER TO asterisk;
+
+--
+-- Name: callerid; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.callerid (
@@ -1072,10 +958,10 @@ CREATE TABLE public.callerid (
 );
 
 
-ALTER TABLE public.callerid OWNER TO postgres;
+ALTER TABLE public.callerid OWNER TO asterisk;
 
 --
--- Name: callfilter; Type: TABLE; Schema: public; Owner: postgres
+-- Name: callfilter; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.callfilter (
@@ -1091,10 +977,10 @@ CREATE TABLE public.callfilter (
 );
 
 
-ALTER TABLE public.callfilter OWNER TO postgres;
+ALTER TABLE public.callfilter OWNER TO asterisk;
 
 --
--- Name: callfilter_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: callfilter_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.callfilter_id_seq
@@ -1106,17 +992,17 @@ CREATE SEQUENCE public.callfilter_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.callfilter_id_seq OWNER TO postgres;
+ALTER TABLE public.callfilter_id_seq OWNER TO asterisk;
 
 --
--- Name: callfilter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: callfilter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.callfilter_id_seq OWNED BY public.callfilter.id;
 
 
 --
--- Name: callfiltermember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: callfiltermember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.callfiltermember (
@@ -1128,14 +1014,14 @@ CREATE TABLE public.callfiltermember (
     priority integer DEFAULT 0 NOT NULL,
     bstype public.generic_bsfilter NOT NULL,
     active integer DEFAULT 0 NOT NULL,
-    CONSTRAINT callfiltermember_bstype_check CHECK ((bstype = ANY (ARRAY['boss'::public.generic_bsfilter, 'secretary'::public.generic_bsfilter])))
+    CONSTRAINT callfiltermember_bstype_check CHECK (bstype IN ('boss', 'secretary'))
 );
 
 
-ALTER TABLE public.callfiltermember OWNER TO postgres;
+ALTER TABLE public.callfiltermember OWNER TO asterisk;
 
 --
--- Name: callfiltermember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: callfiltermember_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.callfiltermember_id_seq
@@ -1147,17 +1033,17 @@ CREATE SEQUENCE public.callfiltermember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.callfiltermember_id_seq OWNER TO postgres;
+ALTER TABLE public.callfiltermember_id_seq OWNER TO asterisk;
 
 --
--- Name: callfiltermember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: callfiltermember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.callfiltermember_id_seq OWNED BY public.callfiltermember.id;
 
 
 --
--- Name: cel; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cel; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.cel (
@@ -1187,10 +1073,10 @@ CREATE TABLE public.cel (
 );
 
 
-ALTER TABLE public.cel OWNER TO postgres;
+ALTER TABLE public.cel OWNER TO asterisk;
 
 --
--- Name: cel_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: cel_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.cel_id_seq
@@ -1202,24 +1088,24 @@ CREATE SEQUENCE public.cel_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cel_id_seq OWNER TO postgres;
+ALTER TABLE public.cel_id_seq OWNER TO asterisk;
 
 --
--- Name: cel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: cel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.cel_id_seq OWNED BY public.cel.id;
 
 
 --
--- Name: conference; Type: TABLE; Schema: public; Owner: postgres
+-- Name: conference; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.conference (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
     name character varying(128),
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     max_users integer DEFAULT 50 NOT NULL,
     record boolean DEFAULT false NOT NULL,
     pin character varying(80),
@@ -1232,10 +1118,10 @@ CREATE TABLE public.conference (
 );
 
 
-ALTER TABLE public.conference OWNER TO postgres;
+ALTER TABLE public.conference OWNER TO asterisk;
 
 --
--- Name: conference_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: conference_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.conference_id_seq
@@ -1247,23 +1133,24 @@ CREATE SEQUENCE public.conference_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.conference_id_seq OWNER TO postgres;
+ALTER TABLE public.conference_id_seq OWNER TO asterisk;
 
 --
--- Name: conference_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: conference_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.conference_id_seq OWNED BY public.conference.id;
 
 
 --
--- Name: context; Type: TABLE; Schema: public; Owner: postgres
+-- Name: context; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.context (
     id integer NOT NULL,
+    uuid uuid DEFAULT public.uuid_generate_v4(),
     tenant_uuid character varying(36) NOT NULL,
-    name character varying(39) NOT NULL,
+    name character varying(79) NOT NULL,
     displayname character varying(128),
     contexttype character varying(40) DEFAULT 'internal'::character varying NOT NULL,
     commented integer DEFAULT 0 NOT NULL,
@@ -1271,10 +1158,10 @@ CREATE TABLE public.context (
 );
 
 
-ALTER TABLE public.context OWNER TO postgres;
+ALTER TABLE public.context OWNER TO asterisk;
 
 --
--- Name: context_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: context_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.context_id_seq
@@ -1286,48 +1173,48 @@ CREATE SEQUENCE public.context_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.context_id_seq OWNER TO postgres;
+ALTER TABLE public.context_id_seq OWNER TO asterisk;
 
 --
--- Name: context_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: context_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.context_id_seq OWNED BY public.context.id;
 
 
 --
--- Name: contextinclude; Type: TABLE; Schema: public; Owner: postgres
+-- Name: contextinclude; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.contextinclude (
-    context character varying(39) NOT NULL,
-    include character varying(39) NOT NULL,
+    context character varying(79) NOT NULL,
+    include character varying(79) NOT NULL,
     priority integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.contextinclude OWNER TO postgres;
+ALTER TABLE public.contextinclude OWNER TO asterisk;
 
 --
--- Name: contextmember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: contextmember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.contextmember (
-    context character varying(39) NOT NULL,
+    context character varying(79) NOT NULL,
     type character varying(32) NOT NULL,
     typeval character varying(128) DEFAULT ''::character varying NOT NULL,
     varname character varying(128) DEFAULT ''::character varying NOT NULL
 );
 
 
-ALTER TABLE public.contextmember OWNER TO postgres;
+ALTER TABLE public.contextmember OWNER TO asterisk;
 
 --
--- Name: contextnumbers; Type: TABLE; Schema: public; Owner: postgres
+-- Name: contextnumbers; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.contextnumbers (
-    context character varying(39) NOT NULL,
+    context character varying(79) NOT NULL,
     type public.contextnumbers_type NOT NULL,
     numberbeg character varying(16) DEFAULT ''::character varying NOT NULL,
     numberend character varying(16) DEFAULT ''::character varying NOT NULL,
@@ -1335,10 +1222,10 @@ CREATE TABLE public.contextnumbers (
 );
 
 
-ALTER TABLE public.contextnumbers OWNER TO postgres;
+ALTER TABLE public.contextnumbers OWNER TO asterisk;
 
 --
--- Name: contexttype; Type: TABLE; Schema: public; Owner: postgres
+-- Name: contexttype; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.contexttype (
@@ -1350,10 +1237,10 @@ CREATE TABLE public.contexttype (
 );
 
 
-ALTER TABLE public.contexttype OWNER TO postgres;
+ALTER TABLE public.contexttype OWNER TO asterisk;
 
 --
--- Name: contexttype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: contexttype_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.contexttype_id_seq
@@ -1365,17 +1252,17 @@ CREATE SEQUENCE public.contexttype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.contexttype_id_seq OWNER TO postgres;
+ALTER TABLE public.contexttype_id_seq OWNER TO asterisk;
 
 --
--- Name: contexttype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: contexttype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.contexttype_id_seq OWNED BY public.contexttype.id;
 
 
 --
--- Name: dhcp; Type: TABLE; Schema: public; Owner: postgres
+-- Name: dhcp; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.dhcp (
@@ -1387,10 +1274,10 @@ CREATE TABLE public.dhcp (
 );
 
 
-ALTER TABLE public.dhcp OWNER TO postgres;
+ALTER TABLE public.dhcp OWNER TO asterisk;
 
 --
--- Name: dhcp_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: dhcp_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.dhcp_id_seq
@@ -1402,17 +1289,17 @@ CREATE SEQUENCE public.dhcp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dhcp_id_seq OWNER TO postgres;
+ALTER TABLE public.dhcp_id_seq OWNER TO asterisk;
 
 --
--- Name: dhcp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: dhcp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.dhcp_id_seq OWNED BY public.dhcp.id;
 
 
 --
--- Name: dialaction; Type: TABLE; Schema: public; Owner: postgres
+-- Name: dialaction; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.dialaction (
@@ -1425,10 +1312,10 @@ CREATE TABLE public.dialaction (
 );
 
 
-ALTER TABLE public.dialaction OWNER TO postgres;
+ALTER TABLE public.dialaction OWNER TO asterisk;
 
 --
--- Name: dialpattern; Type: TABLE; Schema: public; Owner: postgres
+-- Name: dialpattern; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.dialpattern (
@@ -1443,10 +1330,10 @@ CREATE TABLE public.dialpattern (
 );
 
 
-ALTER TABLE public.dialpattern OWNER TO postgres;
+ALTER TABLE public.dialpattern OWNER TO asterisk;
 
 --
--- Name: dialpattern_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: dialpattern_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.dialpattern_id_seq
@@ -1458,17 +1345,17 @@ CREATE SEQUENCE public.dialpattern_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dialpattern_id_seq OWNER TO postgres;
+ALTER TABLE public.dialpattern_id_seq OWNER TO asterisk;
 
 --
--- Name: dialpattern_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: dialpattern_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.dialpattern_id_seq OWNED BY public.dialpattern.id;
 
 
 --
--- Name: endpoint_sip; Type: TABLE; Schema: public; Owner: postgres
+-- Name: endpoint_sip; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.endpoint_sip (
@@ -1482,10 +1369,10 @@ CREATE TABLE public.endpoint_sip (
 );
 
 
-ALTER TABLE public.endpoint_sip OWNER TO postgres;
+ALTER TABLE public.endpoint_sip OWNER TO asterisk;
 
 --
--- Name: endpoint_sip_section; Type: TABLE; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.endpoint_sip_section (
@@ -1495,10 +1382,10 @@ CREATE TABLE public.endpoint_sip_section (
 );
 
 
-ALTER TABLE public.endpoint_sip_section OWNER TO postgres;
+ALTER TABLE public.endpoint_sip_section OWNER TO asterisk;
 
 --
--- Name: endpoint_sip_section_option; Type: TABLE; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section_option; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.endpoint_sip_section_option (
@@ -1509,10 +1396,10 @@ CREATE TABLE public.endpoint_sip_section_option (
 );
 
 
-ALTER TABLE public.endpoint_sip_section_option OWNER TO postgres;
+ALTER TABLE public.endpoint_sip_section_option OWNER TO asterisk;
 
 --
--- Name: endpoint_sip_template; Type: TABLE; Schema: public; Owner: postgres
+-- Name: endpoint_sip_template; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.endpoint_sip_template (
@@ -1522,10 +1409,10 @@ CREATE TABLE public.endpoint_sip_template (
 );
 
 
-ALTER TABLE public.endpoint_sip_template OWNER TO postgres;
+ALTER TABLE public.endpoint_sip_template OWNER TO asterisk;
 
 --
--- Name: endpoint_sip_options_view; Type: MATERIALIZED VIEW; Schema: public; Owner: postgres
+-- Name: endpoint_sip_options_view; Type: MATERIALIZED VIEW; Schema: public; Owner: asterisk
 --
 
 CREATE MATERIALIZED VIEW public.endpoint_sip_options_view AS
@@ -1552,26 +1439,26 @@ CREATE MATERIALIZED VIEW public.endpoint_sip_options_view AS
   WITH NO DATA;
 
 
-ALTER TABLE public.endpoint_sip_options_view OWNER TO postgres;
+ALTER TABLE public.endpoint_sip_options_view OWNER TO asterisk;
 
 --
--- Name: extensions; Type: TABLE; Schema: public; Owner: postgres
+-- Name: extensions; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.extensions (
     id integer NOT NULL,
     commented integer DEFAULT 0 NOT NULL,
-    context character varying(39) DEFAULT ''::character varying NOT NULL,
+    context character varying(79) DEFAULT ''::character varying NOT NULL,
     exten character varying(40) DEFAULT ''::character varying NOT NULL,
     type public.extenumbers_type NOT NULL,
     typeval character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
-ALTER TABLE public.extensions OWNER TO postgres;
+ALTER TABLE public.extensions OWNER TO asterisk;
 
 --
--- Name: extensions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: extensions_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.extensions_id_seq
@@ -1583,17 +1470,17 @@ CREATE SEQUENCE public.extensions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.extensions_id_seq OWNER TO postgres;
+ALTER TABLE public.extensions_id_seq OWNER TO asterisk;
 
 --
--- Name: extensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: extensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.extensions_id_seq OWNED BY public.extensions.id;
 
 
 --
--- Name: external_app; Type: TABLE; Schema: public; Owner: postgres
+-- Name: external_app; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.external_app (
@@ -1604,10 +1491,24 @@ CREATE TABLE public.external_app (
 );
 
 
-ALTER TABLE public.external_app OWNER TO postgres;
+ALTER TABLE public.external_app OWNER TO asterisk;
 
 --
--- Name: features; Type: TABLE; Schema: public; Owner: postgres
+-- Name: feature_extension; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.feature_extension (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    exten character varying(40) NOT NULL,
+    feature character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.feature_extension OWNER TO asterisk;
+
+--
+-- Name: features; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.features (
@@ -1622,10 +1523,10 @@ CREATE TABLE public.features (
 );
 
 
-ALTER TABLE public.features OWNER TO postgres;
+ALTER TABLE public.features OWNER TO asterisk;
 
 --
--- Name: features_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: features_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.features_id_seq
@@ -1637,17 +1538,17 @@ CREATE SEQUENCE public.features_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.features_id_seq OWNER TO postgres;
+ALTER TABLE public.features_id_seq OWNER TO asterisk;
 
 --
--- Name: features_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: features_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.features_id_seq OWNED BY public.features.id;
 
 
 --
--- Name: func_key; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key (
@@ -1657,25 +1558,25 @@ CREATE TABLE public.func_key (
 );
 
 
-ALTER TABLE public.func_key OWNER TO postgres;
+ALTER TABLE public.func_key OWNER TO asterisk;
 
 --
--- Name: func_key_dest_agent; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_agent (
     func_key_id integer NOT NULL,
     destination_type_id integer DEFAULT 11 NOT NULL,
     agent_id integer NOT NULL,
-    extension_id integer NOT NULL,
+    feature_extension_uuid uuid NOT NULL,
     CONSTRAINT func_key_dest_agent_destination_type_id_check CHECK ((destination_type_id = 11))
 );
 
 
-ALTER TABLE public.func_key_dest_agent OWNER TO postgres;
+ALTER TABLE public.func_key_dest_agent OWNER TO asterisk;
 
 --
--- Name: func_key_dest_bsfilter; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_bsfilter; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_bsfilter (
@@ -1686,10 +1587,10 @@ CREATE TABLE public.func_key_dest_bsfilter (
 );
 
 
-ALTER TABLE public.func_key_dest_bsfilter OWNER TO postgres;
+ALTER TABLE public.func_key_dest_bsfilter OWNER TO asterisk;
 
 --
--- Name: func_key_dest_conference; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_conference; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_conference (
@@ -1700,10 +1601,10 @@ CREATE TABLE public.func_key_dest_conference (
 );
 
 
-ALTER TABLE public.func_key_dest_conference OWNER TO postgres;
+ALTER TABLE public.func_key_dest_conference OWNER TO asterisk;
 
 --
--- Name: func_key_dest_custom; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_custom; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_custom (
@@ -1714,10 +1615,10 @@ CREATE TABLE public.func_key_dest_custom (
 );
 
 
-ALTER TABLE public.func_key_dest_custom OWNER TO postgres;
+ALTER TABLE public.func_key_dest_custom OWNER TO asterisk;
 
 --
--- Name: func_key_dest_features; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_features; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_features (
@@ -1728,25 +1629,25 @@ CREATE TABLE public.func_key_dest_features (
 );
 
 
-ALTER TABLE public.func_key_dest_features OWNER TO postgres;
+ALTER TABLE public.func_key_dest_features OWNER TO asterisk;
 
 --
--- Name: func_key_dest_forward; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_forward; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_forward (
     func_key_id integer NOT NULL,
     destination_type_id integer DEFAULT 6 NOT NULL,
-    extension_id integer NOT NULL,
+    feature_extension_uuid uuid NOT NULL,
     number character varying(40),
     CONSTRAINT func_key_dest_forward_destination_type_id_check CHECK ((destination_type_id = 6))
 );
 
 
-ALTER TABLE public.func_key_dest_forward OWNER TO postgres;
+ALTER TABLE public.func_key_dest_forward OWNER TO asterisk;
 
 --
--- Name: func_key_dest_group; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_group; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_group (
@@ -1757,25 +1658,25 @@ CREATE TABLE public.func_key_dest_group (
 );
 
 
-ALTER TABLE public.func_key_dest_group OWNER TO postgres;
+ALTER TABLE public.func_key_dest_group OWNER TO asterisk;
 
 --
--- Name: func_key_dest_groupmember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_groupmember (
     func_key_id integer NOT NULL,
     destination_type_id integer DEFAULT 13 NOT NULL,
     group_id integer NOT NULL,
-    extension_id integer NOT NULL,
+    feature_extension_uuid uuid NOT NULL,
     CONSTRAINT func_key_dest_groupmember_destination_type_id_check CHECK ((destination_type_id = 13))
 );
 
 
-ALTER TABLE public.func_key_dest_groupmember OWNER TO postgres;
+ALTER TABLE public.func_key_dest_groupmember OWNER TO asterisk;
 
 --
--- Name: func_key_dest_paging; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_paging; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_paging (
@@ -1786,25 +1687,40 @@ CREATE TABLE public.func_key_dest_paging (
 );
 
 
-ALTER TABLE public.func_key_dest_paging OWNER TO postgres;
+ALTER TABLE public.func_key_dest_paging OWNER TO asterisk;
 
 --
--- Name: func_key_dest_park_position; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_park_position; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_park_position (
     func_key_id integer NOT NULL,
     destination_type_id integer DEFAULT 7 NOT NULL,
+    parking_lot_id integer NOT NULL,
     park_position character varying(40) NOT NULL,
     CONSTRAINT func_key_dest_park_position_destination_type_id_check CHECK ((destination_type_id = 7)),
     CONSTRAINT func_key_dest_park_position_park_position_check CHECK (((park_position)::text ~ '^[0-9]+$'::text))
 );
 
 
-ALTER TABLE public.func_key_dest_park_position OWNER TO postgres;
+ALTER TABLE public.func_key_dest_park_position OWNER TO asterisk;
 
 --
--- Name: func_key_dest_queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_parking; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.func_key_dest_parking (
+    func_key_id integer NOT NULL,
+    destination_type_id integer DEFAULT 14 NOT NULL,
+    parking_lot_id integer NOT NULL,
+    CONSTRAINT func_key_dest_parking_destination_type_id_check CHECK ((destination_type_id = 14))
+);
+
+
+ALTER TABLE public.func_key_dest_parking OWNER TO asterisk;
+
+--
+-- Name: func_key_dest_queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_queue (
@@ -1815,24 +1731,24 @@ CREATE TABLE public.func_key_dest_queue (
 );
 
 
-ALTER TABLE public.func_key_dest_queue OWNER TO postgres;
+ALTER TABLE public.func_key_dest_queue OWNER TO asterisk;
 
 --
--- Name: func_key_dest_service; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_service; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_service (
     func_key_id integer NOT NULL,
     destination_type_id integer DEFAULT 5 NOT NULL,
-    extension_id integer NOT NULL,
+    feature_extension_uuid uuid NOT NULL,
     CONSTRAINT func_key_dest_service_destination_type_id_check CHECK ((destination_type_id = 5))
 );
 
 
-ALTER TABLE public.func_key_dest_service OWNER TO postgres;
+ALTER TABLE public.func_key_dest_service OWNER TO asterisk;
 
 --
--- Name: func_key_dest_user; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_dest_user; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_dest_user (
@@ -1843,10 +1759,10 @@ CREATE TABLE public.func_key_dest_user (
 );
 
 
-ALTER TABLE public.func_key_dest_user OWNER TO postgres;
+ALTER TABLE public.func_key_dest_user OWNER TO asterisk;
 
 --
--- Name: func_key_destination_type; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_destination_type; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_destination_type (
@@ -1855,10 +1771,10 @@ CREATE TABLE public.func_key_destination_type (
 );
 
 
-ALTER TABLE public.func_key_destination_type OWNER TO postgres;
+ALTER TABLE public.func_key_destination_type OWNER TO asterisk;
 
 --
--- Name: func_key_destination_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: func_key_destination_type_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.func_key_destination_type_id_seq
@@ -1870,17 +1786,17 @@ CREATE SEQUENCE public.func_key_destination_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.func_key_destination_type_id_seq OWNER TO postgres;
+ALTER TABLE public.func_key_destination_type_id_seq OWNER TO asterisk;
 
 --
--- Name: func_key_destination_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: func_key_destination_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.func_key_destination_type_id_seq OWNED BY public.func_key_destination_type.id;
 
 
 --
--- Name: func_key_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: func_key_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.func_key_id_seq
@@ -1892,17 +1808,17 @@ CREATE SEQUENCE public.func_key_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.func_key_id_seq OWNER TO postgres;
+ALTER TABLE public.func_key_id_seq OWNER TO asterisk;
 
 --
--- Name: func_key_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: func_key_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.func_key_id_seq OWNED BY public.func_key.id;
 
 
 --
--- Name: func_key_mapping; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_mapping; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_mapping (
@@ -1916,10 +1832,10 @@ CREATE TABLE public.func_key_mapping (
 );
 
 
-ALTER TABLE public.func_key_mapping OWNER TO postgres;
+ALTER TABLE public.func_key_mapping OWNER TO asterisk;
 
 --
--- Name: func_key_template; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_template; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_template (
@@ -1930,10 +1846,10 @@ CREATE TABLE public.func_key_template (
 );
 
 
-ALTER TABLE public.func_key_template OWNER TO postgres;
+ALTER TABLE public.func_key_template OWNER TO asterisk;
 
 --
--- Name: func_key_template_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: func_key_template_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.func_key_template_id_seq
@@ -1945,17 +1861,17 @@ CREATE SEQUENCE public.func_key_template_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.func_key_template_id_seq OWNER TO postgres;
+ALTER TABLE public.func_key_template_id_seq OWNER TO asterisk;
 
 --
--- Name: func_key_template_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: func_key_template_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.func_key_template_id_seq OWNED BY public.func_key_template.id;
 
 
 --
--- Name: func_key_type; Type: TABLE; Schema: public; Owner: postgres
+-- Name: func_key_type; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.func_key_type (
@@ -1964,10 +1880,10 @@ CREATE TABLE public.func_key_type (
 );
 
 
-ALTER TABLE public.func_key_type OWNER TO postgres;
+ALTER TABLE public.func_key_type OWNER TO asterisk;
 
 --
--- Name: func_key_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: func_key_type_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.func_key_type_id_seq
@@ -1979,17 +1895,17 @@ CREATE SEQUENCE public.func_key_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.func_key_type_id_seq OWNER TO postgres;
+ALTER TABLE public.func_key_type_id_seq OWNER TO asterisk;
 
 --
--- Name: func_key_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: func_key_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.func_key_type_id_seq OWNED BY public.func_key_type.id;
 
 
 --
--- Name: groupfeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: groupfeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.groupfeatures (
@@ -1997,22 +1913,23 @@ CREATE TABLE public.groupfeatures (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
     name character varying(128) NOT NULL,
+    dtmf_record_toggle boolean DEFAULT false NOT NULL,
     label text NOT NULL,
     transfer_user integer DEFAULT 0 NOT NULL,
     transfer_call integer DEFAULT 0 NOT NULL,
     write_caller integer DEFAULT 0 NOT NULL,
     write_calling integer DEFAULT 0 NOT NULL,
-    ignore_forward integer DEFAULT 1 NOT NULL,
+    ignore_forward integer DEFAULT 0 NOT NULL,
     timeout integer,
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     mark_answered_elsewhere integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.groupfeatures OWNER TO postgres;
+ALTER TABLE public.groupfeatures OWNER TO asterisk;
 
 --
--- Name: groupfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: groupfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.groupfeatures_id_seq
@@ -2024,17 +1941,17 @@ CREATE SEQUENCE public.groupfeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.groupfeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.groupfeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: groupfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: groupfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.groupfeatures_id_seq OWNED BY public.groupfeatures.id;
 
 
 --
--- Name: iaxcallnumberlimits; Type: TABLE; Schema: public; Owner: postgres
+-- Name: iaxcallnumberlimits; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.iaxcallnumberlimits (
@@ -2045,10 +1962,10 @@ CREATE TABLE public.iaxcallnumberlimits (
 );
 
 
-ALTER TABLE public.iaxcallnumberlimits OWNER TO postgres;
+ALTER TABLE public.iaxcallnumberlimits OWNER TO asterisk;
 
 --
--- Name: iaxcallnumberlimits_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: iaxcallnumberlimits_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.iaxcallnumberlimits_id_seq
@@ -2060,33 +1977,33 @@ CREATE SEQUENCE public.iaxcallnumberlimits_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.iaxcallnumberlimits_id_seq OWNER TO postgres;
+ALTER TABLE public.iaxcallnumberlimits_id_seq OWNER TO asterisk;
 
 --
--- Name: iaxcallnumberlimits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: iaxcallnumberlimits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.iaxcallnumberlimits_id_seq OWNED BY public.iaxcallnumberlimits.id;
 
 
 --
--- Name: incall; Type: TABLE; Schema: public; Owner: postgres
+-- Name: incall; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.incall (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     greeting_sound text,
     commented integer DEFAULT 0 NOT NULL,
     description text
 );
 
 
-ALTER TABLE public.incall OWNER TO postgres;
+ALTER TABLE public.incall OWNER TO asterisk;
 
 --
--- Name: incall_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: incall_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.incall_id_seq
@@ -2098,17 +2015,17 @@ CREATE SEQUENCE public.incall_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.incall_id_seq OWNER TO postgres;
+ALTER TABLE public.incall_id_seq OWNER TO asterisk;
 
 --
--- Name: incall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: incall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.incall_id_seq OWNED BY public.incall.id;
 
 
 --
--- Name: infos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: infos; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.infos (
@@ -2120,10 +2037,10 @@ CREATE TABLE public.infos (
 );
 
 
-ALTER TABLE public.infos OWNER TO postgres;
+ALTER TABLE public.infos OWNER TO asterisk;
 
 --
--- Name: ingress_http; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ingress_http; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.ingress_http (
@@ -2133,10 +2050,10 @@ CREATE TABLE public.ingress_http (
 );
 
 
-ALTER TABLE public.ingress_http OWNER TO postgres;
+ALTER TABLE public.ingress_http OWNER TO asterisk;
 
 --
--- Name: ivr; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ivr; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.ivr (
@@ -2153,10 +2070,10 @@ CREATE TABLE public.ivr (
 );
 
 
-ALTER TABLE public.ivr OWNER TO postgres;
+ALTER TABLE public.ivr OWNER TO asterisk;
 
 --
--- Name: ivr_choice; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ivr_choice; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.ivr_choice (
@@ -2166,10 +2083,10 @@ CREATE TABLE public.ivr_choice (
 );
 
 
-ALTER TABLE public.ivr_choice OWNER TO postgres;
+ALTER TABLE public.ivr_choice OWNER TO asterisk;
 
 --
--- Name: ivr_choice_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ivr_choice_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.ivr_choice_id_seq
@@ -2181,17 +2098,17 @@ CREATE SEQUENCE public.ivr_choice_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ivr_choice_id_seq OWNER TO postgres;
+ALTER TABLE public.ivr_choice_id_seq OWNER TO asterisk;
 
 --
--- Name: ivr_choice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ivr_choice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.ivr_choice_id_seq OWNED BY public.ivr_choice.id;
 
 
 --
--- Name: ivr_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ivr_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.ivr_id_seq
@@ -2203,17 +2120,17 @@ CREATE SEQUENCE public.ivr_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ivr_id_seq OWNER TO postgres;
+ALTER TABLE public.ivr_id_seq OWNER TO asterisk;
 
 --
--- Name: ivr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ivr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.ivr_id_seq OWNED BY public.ivr.id;
 
 
 --
--- Name: line_extension; Type: TABLE; Schema: public; Owner: postgres
+-- Name: line_extension; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.line_extension (
@@ -2223,10 +2140,10 @@ CREATE TABLE public.line_extension (
 );
 
 
-ALTER TABLE public.line_extension OWNER TO postgres;
+ALTER TABLE public.line_extension OWNER TO asterisk;
 
 --
--- Name: linefeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: linefeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.linefeatures (
@@ -2235,7 +2152,7 @@ CREATE TABLE public.linefeatures (
     configregistrar character varying(128),
     name character varying(128),
     number character varying(40),
-    context character varying(39) NOT NULL,
+    context character varying(79) NOT NULL,
     provisioningid integer NOT NULL,
     num integer DEFAULT 1,
     ipfrom character varying(15),
@@ -2261,10 +2178,10 @@ END) <= 1))
 );
 
 
-ALTER TABLE public.linefeatures OWNER TO postgres;
+ALTER TABLE public.linefeatures OWNER TO asterisk;
 
 --
--- Name: linefeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: linefeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.linefeatures_id_seq
@@ -2276,17 +2193,17 @@ CREATE SEQUENCE public.linefeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.linefeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.linefeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: linefeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: linefeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.linefeatures_id_seq OWNED BY public.linefeatures.id;
 
 
 --
--- Name: mail; Type: TABLE; Schema: public; Owner: postgres
+-- Name: mail; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.mail (
@@ -2299,10 +2216,10 @@ CREATE TABLE public.mail (
 );
 
 
-ALTER TABLE public.mail OWNER TO postgres;
+ALTER TABLE public.mail OWNER TO asterisk;
 
 --
--- Name: mail_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: mail_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.mail_id_seq
@@ -2314,17 +2231,17 @@ CREATE SEQUENCE public.mail_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.mail_id_seq OWNER TO postgres;
+ALTER TABLE public.mail_id_seq OWNER TO asterisk;
 
 --
--- Name: mail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: mail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.mail_id_seq OWNED BY public.mail.id;
 
 
 --
--- Name: meeting; Type: TABLE; Schema: public; Owner: postgres
+-- Name: meeting; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.meeting (
@@ -2339,10 +2256,10 @@ CREATE TABLE public.meeting (
 );
 
 
-ALTER TABLE public.meeting OWNER TO postgres;
+ALTER TABLE public.meeting OWNER TO asterisk;
 
 --
--- Name: meeting_authorization; Type: TABLE; Schema: public; Owner: postgres
+-- Name: meeting_authorization; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.meeting_authorization (
@@ -2355,10 +2272,10 @@ CREATE TABLE public.meeting_authorization (
 );
 
 
-ALTER TABLE public.meeting_authorization OWNER TO postgres;
+ALTER TABLE public.meeting_authorization OWNER TO asterisk;
 
 --
--- Name: meeting_owner; Type: TABLE; Schema: public; Owner: postgres
+-- Name: meeting_owner; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.meeting_owner (
@@ -2367,10 +2284,10 @@ CREATE TABLE public.meeting_owner (
 );
 
 
-ALTER TABLE public.meeting_owner OWNER TO postgres;
+ALTER TABLE public.meeting_owner OWNER TO asterisk;
 
 --
--- Name: moh; Type: TABLE; Schema: public; Owner: postgres
+-- Name: moh; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.moh (
@@ -2384,46 +2301,10 @@ CREATE TABLE public.moh (
 );
 
 
-ALTER TABLE public.moh OWNER TO postgres;
+ALTER TABLE public.moh OWNER TO asterisk;
 
 --
--- Name: monitoring; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.monitoring (
-    id integer NOT NULL,
-    maintenance integer DEFAULT 0 NOT NULL,
-    alert_emails character varying(4096),
-    max_call_duration integer
-);
-
-
-ALTER TABLE public.monitoring OWNER TO postgres;
-
---
--- Name: monitoring_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.monitoring_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.monitoring_id_seq OWNER TO postgres;
-
---
--- Name: monitoring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.monitoring_id_seq OWNED BY public.monitoring.id;
-
-
---
--- Name: netiface; Type: TABLE; Schema: public; Owner: postgres
+-- Name: netiface; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.netiface (
@@ -2448,10 +2329,10 @@ CREATE TABLE public.netiface (
 );
 
 
-ALTER TABLE public.netiface OWNER TO postgres;
+ALTER TABLE public.netiface OWNER TO asterisk;
 
 --
--- Name: netiface_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: netiface_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.netiface_id_seq
@@ -2463,36 +2344,36 @@ CREATE SEQUENCE public.netiface_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.netiface_id_seq OWNER TO postgres;
+ALTER TABLE public.netiface_id_seq OWNER TO asterisk;
 
 --
--- Name: netiface_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: netiface_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.netiface_id_seq OWNED BY public.netiface.id;
 
 
 --
--- Name: outcall; Type: TABLE; Schema: public; Owner: postgres
+-- Name: outcall; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.outcall (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
     name character varying(128) NOT NULL,
-    context character varying(39),
+    context character varying(79),
     internal integer DEFAULT 0 NOT NULL,
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     hangupringtime integer DEFAULT 0 NOT NULL,
     commented integer DEFAULT 0 NOT NULL,
     description text
 );
 
 
-ALTER TABLE public.outcall OWNER TO postgres;
+ALTER TABLE public.outcall OWNER TO asterisk;
 
 --
--- Name: outcall_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: outcall_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.outcall_id_seq
@@ -2504,17 +2385,17 @@ CREATE SEQUENCE public.outcall_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.outcall_id_seq OWNER TO postgres;
+ALTER TABLE public.outcall_id_seq OWNER TO asterisk;
 
 --
--- Name: outcall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: outcall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.outcall_id_seq OWNED BY public.outcall.id;
 
 
 --
--- Name: outcalltrunk; Type: TABLE; Schema: public; Owner: postgres
+-- Name: outcalltrunk; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.outcalltrunk (
@@ -2524,10 +2405,10 @@ CREATE TABLE public.outcalltrunk (
 );
 
 
-ALTER TABLE public.outcalltrunk OWNER TO postgres;
+ALTER TABLE public.outcalltrunk OWNER TO asterisk;
 
 --
--- Name: paging; Type: TABLE; Schema: public; Owner: postgres
+-- Name: paging; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.paging (
@@ -2548,10 +2429,10 @@ CREATE TABLE public.paging (
 );
 
 
-ALTER TABLE public.paging OWNER TO postgres;
+ALTER TABLE public.paging OWNER TO asterisk;
 
 --
--- Name: paging_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: paging_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.paging_id_seq
@@ -2563,17 +2444,17 @@ CREATE SEQUENCE public.paging_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.paging_id_seq OWNER TO postgres;
+ALTER TABLE public.paging_id_seq OWNER TO asterisk;
 
 --
--- Name: paging_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: paging_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.paging_id_seq OWNED BY public.paging.id;
 
 
 --
--- Name: paginguser; Type: TABLE; Schema: public; Owner: postgres
+-- Name: paginguser; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.paginguser (
@@ -2583,10 +2464,10 @@ CREATE TABLE public.paginguser (
 );
 
 
-ALTER TABLE public.paginguser OWNER TO postgres;
+ALTER TABLE public.paginguser OWNER TO asterisk;
 
 --
--- Name: parking_lot; Type: TABLE; Schema: public; Owner: postgres
+-- Name: parking_lot; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.parking_lot (
@@ -2600,10 +2481,10 @@ CREATE TABLE public.parking_lot (
 );
 
 
-ALTER TABLE public.parking_lot OWNER TO postgres;
+ALTER TABLE public.parking_lot OWNER TO asterisk;
 
 --
--- Name: parking_lot_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: parking_lot_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.parking_lot_id_seq
@@ -2615,17 +2496,38 @@ CREATE SEQUENCE public.parking_lot_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.parking_lot_id_seq OWNER TO postgres;
+ALTER TABLE public.parking_lot_id_seq OWNER TO asterisk;
 
 --
--- Name: parking_lot_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: parking_lot_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.parking_lot_id_seq OWNED BY public.parking_lot.id;
 
 
 --
--- Name: pickup; Type: TABLE; Schema: public; Owner: postgres
+-- Name: phone_number; Type: TABLE; Schema: public; Owner: asterisk
+--
+
+CREATE TABLE public.phone_number (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    tenant_uuid character varying(36) NOT NULL,
+    number text NOT NULL,
+    caller_id_name text,
+    shared boolean DEFAULT false NOT NULL,
+    main boolean DEFAULT false NOT NULL,
+    CONSTRAINT phone_number_shared_if_main CHECK (
+CASE
+    WHEN main THEN shared
+    ELSE true
+END)
+);
+
+
+ALTER TABLE public.phone_number OWNER TO asterisk;
+
+--
+-- Name: pickup; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.pickup (
@@ -2637,10 +2539,10 @@ CREATE TABLE public.pickup (
 );
 
 
-ALTER TABLE public.pickup OWNER TO postgres;
+ALTER TABLE public.pickup OWNER TO asterisk;
 
 --
--- Name: pickupmember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: pickupmember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.pickupmember (
@@ -2651,10 +2553,10 @@ CREATE TABLE public.pickupmember (
 );
 
 
-ALTER TABLE public.pickupmember OWNER TO postgres;
+ALTER TABLE public.pickupmember OWNER TO asterisk;
 
 --
--- Name: pjsip_transport; Type: TABLE; Schema: public; Owner: postgres
+-- Name: pjsip_transport; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.pjsip_transport (
@@ -2663,10 +2565,10 @@ CREATE TABLE public.pjsip_transport (
 );
 
 
-ALTER TABLE public.pjsip_transport OWNER TO postgres;
+ALTER TABLE public.pjsip_transport OWNER TO asterisk;
 
 --
--- Name: pjsip_transport_option; Type: TABLE; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.pjsip_transport_option (
@@ -2677,10 +2579,10 @@ CREATE TABLE public.pjsip_transport_option (
 );
 
 
-ALTER TABLE public.pjsip_transport_option OWNER TO postgres;
+ALTER TABLE public.pjsip_transport_option OWNER TO asterisk;
 
 --
--- Name: pjsip_transport_option_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.pjsip_transport_option_id_seq
@@ -2692,31 +2594,32 @@ CREATE SEQUENCE public.pjsip_transport_option_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pjsip_transport_option_id_seq OWNER TO postgres;
+ALTER TABLE public.pjsip_transport_option_id_seq OWNER TO asterisk;
 
 --
--- Name: pjsip_transport_option_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.pjsip_transport_option_id_seq OWNED BY public.pjsip_transport_option.id;
 
 
 --
--- Name: provisioning; Type: TABLE; Schema: public; Owner: postgres
+-- Name: provisioning; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.provisioning (
     id integer NOT NULL,
     net4_ip character varying(39),
+    http_base_url character varying(255),
     dhcp_integration integer DEFAULT 0 NOT NULL,
     http_port integer NOT NULL
 );
 
 
-ALTER TABLE public.provisioning OWNER TO postgres;
+ALTER TABLE public.provisioning OWNER TO asterisk;
 
 --
--- Name: provisioning_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: provisioning_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.provisioning_id_seq
@@ -2728,24 +2631,24 @@ CREATE SEQUENCE public.provisioning_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.provisioning_id_seq OWNER TO postgres;
+ALTER TABLE public.provisioning_id_seq OWNER TO asterisk;
 
 --
--- Name: provisioning_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: provisioning_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.provisioning_id_seq OWNED BY public.provisioning.id;
 
 
 --
--- Name: queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queue (
     name character varying(128) NOT NULL,
     musicclass character varying(128),
     announce character varying(128),
-    context character varying(39),
+    context character varying(79),
     timeout integer DEFAULT 0,
     "monitor-type" public.queue_monitor_type,
     "monitor-format" character varying(128),
@@ -2792,10 +2695,10 @@ CREATE TABLE public.queue (
 );
 
 
-ALTER TABLE public.queue OWNER TO postgres;
+ALTER TABLE public.queue OWNER TO asterisk;
 
 --
--- Name: queue_log; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queue_log; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queue_log (
@@ -2813,10 +2716,10 @@ CREATE TABLE public.queue_log (
 );
 
 
-ALTER TABLE public.queue_log OWNER TO postgres;
+ALTER TABLE public.queue_log OWNER TO asterisk;
 
 --
--- Name: queue_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: queue_log_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.queue_log_id_seq
@@ -2828,17 +2731,17 @@ CREATE SEQUENCE public.queue_log_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.queue_log_id_seq OWNER TO postgres;
+ALTER TABLE public.queue_log_id_seq OWNER TO asterisk;
 
 --
--- Name: queue_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: queue_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.queue_log_id_seq OWNED BY public.queue_log.id;
 
 
 --
--- Name: queuefeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queuefeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queuefeatures (
@@ -2847,8 +2750,9 @@ CREATE TABLE public.queuefeatures (
     name character varying(128) NOT NULL,
     displayname character varying(128) NOT NULL,
     number character varying(40),
-    context character varying(39),
+    context character varying(79),
     data_quality integer DEFAULT 0 NOT NULL,
+    dtmf_record_toggle boolean DEFAULT false NOT NULL,
     hitting_callee integer DEFAULT 0 NOT NULL,
     hitting_caller integer DEFAULT 0 NOT NULL,
     retries integer DEFAULT 0 NOT NULL,
@@ -2861,7 +2765,7 @@ CREATE TABLE public.queuefeatures (
     url character varying(255) DEFAULT ''::character varying NOT NULL,
     announceoverride character varying(128) DEFAULT ''::character varying NOT NULL,
     timeout integer,
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     announce_holdtime integer DEFAULT 0 NOT NULL,
     waittime integer,
     waitratio double precision,
@@ -2869,10 +2773,10 @@ CREATE TABLE public.queuefeatures (
 );
 
 
-ALTER TABLE public.queuefeatures OWNER TO postgres;
+ALTER TABLE public.queuefeatures OWNER TO asterisk;
 
 --
--- Name: queuefeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: queuefeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.queuefeatures_id_seq
@@ -2884,17 +2788,17 @@ CREATE SEQUENCE public.queuefeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.queuefeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.queuefeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: queuefeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: queuefeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.queuefeatures_id_seq OWNED BY public.queuefeatures.id;
 
 
 --
--- Name: queuemember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queuemember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queuemember (
@@ -2910,77 +2814,24 @@ CREATE TABLE public.queuemember (
 );
 
 
-ALTER TABLE public.queuemember OWNER TO postgres;
+ALTER TABLE public.queuemember OWNER TO asterisk;
 
 --
--- Name: queuepenalty; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.queuepenalty (
-    id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    commented integer DEFAULT 0 NOT NULL,
-    description text NOT NULL
-);
-
-
-ALTER TABLE public.queuepenalty OWNER TO postgres;
-
---
--- Name: queuepenalty_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.queuepenalty_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.queuepenalty_id_seq OWNER TO postgres;
-
---
--- Name: queuepenalty_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.queuepenalty_id_seq OWNED BY public.queuepenalty.id;
-
-
---
--- Name: queuepenaltychange; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.queuepenaltychange (
-    queuepenalty_id integer NOT NULL,
-    seconds integer DEFAULT 0 NOT NULL,
-    maxp_sign public.queuepenaltychange_sign,
-    maxp_value integer,
-    minp_sign public.queuepenaltychange_sign,
-    minp_value integer
-);
-
-
-ALTER TABLE public.queuepenaltychange OWNER TO postgres;
-
---
--- Name: queueskill; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queueskill; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queueskill (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
-    catid integer,
     name character varying(64) DEFAULT ''::character varying NOT NULL,
     description text
 );
 
 
-ALTER TABLE public.queueskill OWNER TO postgres;
+ALTER TABLE public.queueskill OWNER TO asterisk;
 
 --
--- Name: queueskill_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: queueskill_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.queueskill_id_seq
@@ -2992,51 +2843,17 @@ CREATE SEQUENCE public.queueskill_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.queueskill_id_seq OWNER TO postgres;
+ALTER TABLE public.queueskill_id_seq OWNER TO asterisk;
 
 --
--- Name: queueskill_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: queueskill_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.queueskill_id_seq OWNED BY public.queueskill.id;
 
 
 --
--- Name: queueskillcat; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.queueskillcat (
-    id integer NOT NULL,
-    name character varying(64) DEFAULT ''::character varying NOT NULL
-);
-
-
-ALTER TABLE public.queueskillcat OWNER TO postgres;
-
---
--- Name: queueskillcat_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.queueskillcat_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.queueskillcat_id_seq OWNER TO postgres;
-
---
--- Name: queueskillcat_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.queueskillcat_id_seq OWNED BY public.queueskillcat.id;
-
-
---
--- Name: queueskillrule; Type: TABLE; Schema: public; Owner: postgres
+-- Name: queueskillrule; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.queueskillrule (
@@ -3047,10 +2864,10 @@ CREATE TABLE public.queueskillrule (
 );
 
 
-ALTER TABLE public.queueskillrule OWNER TO postgres;
+ALTER TABLE public.queueskillrule OWNER TO asterisk;
 
 --
--- Name: queueskillrule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: queueskillrule_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.queueskillrule_id_seq
@@ -3062,17 +2879,17 @@ CREATE SEQUENCE public.queueskillrule_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.queueskillrule_id_seq OWNER TO postgres;
+ALTER TABLE public.queueskillrule_id_seq OWNER TO asterisk;
 
 --
--- Name: queueskillrule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: queueskillrule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.queueskillrule_id_seq OWNED BY public.queueskillrule.id;
 
 
 --
--- Name: resolvconf; Type: TABLE; Schema: public; Owner: postgres
+-- Name: resolvconf; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.resolvconf (
@@ -3087,10 +2904,10 @@ CREATE TABLE public.resolvconf (
 );
 
 
-ALTER TABLE public.resolvconf OWNER TO postgres;
+ALTER TABLE public.resolvconf OWNER TO asterisk;
 
 --
--- Name: resolvconf_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: resolvconf_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.resolvconf_id_seq
@@ -3102,17 +2919,17 @@ CREATE SEQUENCE public.resolvconf_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.resolvconf_id_seq OWNER TO postgres;
+ALTER TABLE public.resolvconf_id_seq OWNER TO asterisk;
 
 --
--- Name: resolvconf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: resolvconf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.resolvconf_id_seq OWNED BY public.resolvconf.id;
 
 
 --
--- Name: rightcall; Type: TABLE; Schema: public; Owner: postgres
+-- Name: rightcall; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.rightcall (
@@ -3126,10 +2943,10 @@ CREATE TABLE public.rightcall (
 );
 
 
-ALTER TABLE public.rightcall OWNER TO postgres;
+ALTER TABLE public.rightcall OWNER TO asterisk;
 
 --
--- Name: rightcall_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: rightcall_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.rightcall_id_seq
@@ -3141,17 +2958,17 @@ CREATE SEQUENCE public.rightcall_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.rightcall_id_seq OWNER TO postgres;
+ALTER TABLE public.rightcall_id_seq OWNER TO asterisk;
 
 --
--- Name: rightcall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: rightcall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.rightcall_id_seq OWNED BY public.rightcall.id;
 
 
 --
--- Name: rightcallexten; Type: TABLE; Schema: public; Owner: postgres
+-- Name: rightcallexten; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.rightcallexten (
@@ -3161,10 +2978,10 @@ CREATE TABLE public.rightcallexten (
 );
 
 
-ALTER TABLE public.rightcallexten OWNER TO postgres;
+ALTER TABLE public.rightcallexten OWNER TO asterisk;
 
 --
--- Name: rightcallexten_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: rightcallexten_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.rightcallexten_id_seq
@@ -3176,17 +2993,17 @@ CREATE SEQUENCE public.rightcallexten_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.rightcallexten_id_seq OWNER TO postgres;
+ALTER TABLE public.rightcallexten_id_seq OWNER TO asterisk;
 
 --
--- Name: rightcallexten_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: rightcallexten_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.rightcallexten_id_seq OWNED BY public.rightcallexten.id;
 
 
 --
--- Name: rightcallmember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: rightcallmember; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.rightcallmember (
@@ -3198,10 +3015,10 @@ CREATE TABLE public.rightcallmember (
 );
 
 
-ALTER TABLE public.rightcallmember OWNER TO postgres;
+ALTER TABLE public.rightcallmember OWNER TO asterisk;
 
 --
--- Name: rightcallmember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: rightcallmember_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.rightcallmember_id_seq
@@ -3213,17 +3030,17 @@ CREATE SEQUENCE public.rightcallmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.rightcallmember_id_seq OWNER TO postgres;
+ALTER TABLE public.rightcallmember_id_seq OWNER TO asterisk;
 
 --
--- Name: rightcallmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: rightcallmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.rightcallmember_id_seq OWNED BY public.rightcallmember.id;
 
 
 --
--- Name: sccpdevice; Type: TABLE; Schema: public; Owner: postgres
+-- Name: sccpdevice; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.sccpdevice (
@@ -3234,10 +3051,10 @@ CREATE TABLE public.sccpdevice (
 );
 
 
-ALTER TABLE public.sccpdevice OWNER TO postgres;
+ALTER TABLE public.sccpdevice OWNER TO asterisk;
 
 --
--- Name: sccpdevice_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: sccpdevice_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.sccpdevice_id_seq
@@ -3249,17 +3066,17 @@ CREATE SEQUENCE public.sccpdevice_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sccpdevice_id_seq OWNER TO postgres;
+ALTER TABLE public.sccpdevice_id_seq OWNER TO asterisk;
 
 --
--- Name: sccpdevice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: sccpdevice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.sccpdevice_id_seq OWNED BY public.sccpdevice.id;
 
 
 --
--- Name: sccpgeneralsettings; Type: TABLE; Schema: public; Owner: postgres
+-- Name: sccpgeneralsettings; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.sccpgeneralsettings (
@@ -3269,10 +3086,10 @@ CREATE TABLE public.sccpgeneralsettings (
 );
 
 
-ALTER TABLE public.sccpgeneralsettings OWNER TO postgres;
+ALTER TABLE public.sccpgeneralsettings OWNER TO asterisk;
 
 --
--- Name: sccpgeneralsettings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: sccpgeneralsettings_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.sccpgeneralsettings_id_seq
@@ -3284,24 +3101,24 @@ CREATE SEQUENCE public.sccpgeneralsettings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sccpgeneralsettings_id_seq OWNER TO postgres;
+ALTER TABLE public.sccpgeneralsettings_id_seq OWNER TO asterisk;
 
 --
--- Name: sccpgeneralsettings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: sccpgeneralsettings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.sccpgeneralsettings_id_seq OWNED BY public.sccpgeneralsettings.id;
 
 
 --
--- Name: sccpline; Type: TABLE; Schema: public; Owner: postgres
+-- Name: sccpline; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.sccpline (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
     name character varying(80) NOT NULL,
-    context character varying(80) NOT NULL,
+    context character varying(79) NOT NULL,
     cid_name character varying(80) NOT NULL,
     cid_num character varying(80) NOT NULL,
     disallow character varying(100),
@@ -3311,10 +3128,10 @@ CREATE TABLE public.sccpline (
 );
 
 
-ALTER TABLE public.sccpline OWNER TO postgres;
+ALTER TABLE public.sccpline OWNER TO asterisk;
 
 --
--- Name: sccpline_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: sccpline_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.sccpline_id_seq
@@ -3326,17 +3143,17 @@ CREATE SEQUENCE public.sccpline_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sccpline_id_seq OWNER TO postgres;
+ALTER TABLE public.sccpline_id_seq OWNER TO asterisk;
 
 --
--- Name: sccpline_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: sccpline_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.sccpline_id_seq OWNED BY public.sccpline.id;
 
 
 --
--- Name: schedule; Type: TABLE; Schema: public; Owner: postgres
+-- Name: schedule; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.schedule (
@@ -3352,10 +3169,10 @@ CREATE TABLE public.schedule (
 );
 
 
-ALTER TABLE public.schedule OWNER TO postgres;
+ALTER TABLE public.schedule OWNER TO asterisk;
 
 --
--- Name: schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.schedule_id_seq
@@ -3367,17 +3184,17 @@ CREATE SEQUENCE public.schedule_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.schedule_id_seq OWNER TO postgres;
+ALTER TABLE public.schedule_id_seq OWNER TO asterisk;
 
 --
--- Name: schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.schedule_id_seq OWNED BY public.schedule.id;
 
 
 --
--- Name: schedule_path; Type: TABLE; Schema: public; Owner: postgres
+-- Name: schedule_path; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.schedule_path (
@@ -3387,10 +3204,10 @@ CREATE TABLE public.schedule_path (
 );
 
 
-ALTER TABLE public.schedule_path OWNER TO postgres;
+ALTER TABLE public.schedule_path OWNER TO asterisk;
 
 --
--- Name: schedule_time; Type: TABLE; Schema: public; Owner: postgres
+-- Name: schedule_time; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.schedule_time (
@@ -3408,10 +3225,10 @@ CREATE TABLE public.schedule_time (
 );
 
 
-ALTER TABLE public.schedule_time OWNER TO postgres;
+ALTER TABLE public.schedule_time OWNER TO asterisk;
 
 --
--- Name: schedule_time_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: schedule_time_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.schedule_time_id_seq
@@ -3423,17 +3240,17 @@ CREATE SEQUENCE public.schedule_time_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.schedule_time_id_seq OWNER TO postgres;
+ALTER TABLE public.schedule_time_id_seq OWNER TO asterisk;
 
 --
--- Name: schedule_time_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: schedule_time_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.schedule_time_id_seq OWNED BY public.schedule_time.id;
 
 
 --
--- Name: session; Type: TABLE; Schema: public; Owner: postgres
+-- Name: session; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.session (
@@ -3445,10 +3262,10 @@ CREATE TABLE public.session (
 );
 
 
-ALTER TABLE public.session OWNER TO postgres;
+ALTER TABLE public.session OWNER TO asterisk;
 
 --
--- Name: stat_agent; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_agent; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_agent (
@@ -3460,10 +3277,10 @@ CREATE TABLE public.stat_agent (
 );
 
 
-ALTER TABLE public.stat_agent OWNER TO postgres;
+ALTER TABLE public.stat_agent OWNER TO asterisk;
 
 --
--- Name: stat_agent_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_agent_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_agent_id_seq
@@ -3475,17 +3292,17 @@ CREATE SEQUENCE public.stat_agent_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_agent_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_agent_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_agent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_agent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_agent_id_seq OWNED BY public.stat_agent.id;
 
 
 --
--- Name: stat_agent_periodic; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_agent_periodic (
@@ -3498,10 +3315,10 @@ CREATE TABLE public.stat_agent_periodic (
 );
 
 
-ALTER TABLE public.stat_agent_periodic OWNER TO postgres;
+ALTER TABLE public.stat_agent_periodic OWNER TO asterisk;
 
 --
--- Name: stat_agent_periodic_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_agent_periodic_id_seq
@@ -3513,17 +3330,17 @@ CREATE SEQUENCE public.stat_agent_periodic_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_agent_periodic_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_agent_periodic_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_agent_periodic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_agent_periodic_id_seq OWNED BY public.stat_agent_periodic.id;
 
 
 --
--- Name: stat_call_on_queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_call_on_queue (
@@ -3539,10 +3356,10 @@ CREATE TABLE public.stat_call_on_queue (
 );
 
 
-ALTER TABLE public.stat_call_on_queue OWNER TO postgres;
+ALTER TABLE public.stat_call_on_queue OWNER TO asterisk;
 
 --
--- Name: stat_call_on_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_call_on_queue_id_seq
@@ -3554,17 +3371,17 @@ CREATE SEQUENCE public.stat_call_on_queue_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_call_on_queue_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_call_on_queue_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_call_on_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_call_on_queue_id_seq OWNED BY public.stat_call_on_queue.id;
 
 
 --
--- Name: stat_queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_queue (
@@ -3576,10 +3393,10 @@ CREATE TABLE public.stat_queue (
 );
 
 
-ALTER TABLE public.stat_queue OWNER TO postgres;
+ALTER TABLE public.stat_queue OWNER TO asterisk;
 
 --
--- Name: stat_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_queue_id_seq
@@ -3591,17 +3408,17 @@ CREATE SEQUENCE public.stat_queue_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_queue_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_queue_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_queue_id_seq OWNED BY public.stat_queue.id;
 
 
 --
--- Name: stat_queue_periodic; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_queue_periodic (
@@ -3621,10 +3438,10 @@ CREATE TABLE public.stat_queue_periodic (
 );
 
 
-ALTER TABLE public.stat_queue_periodic OWNER TO postgres;
+ALTER TABLE public.stat_queue_periodic OWNER TO asterisk;
 
 --
--- Name: stat_queue_periodic_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_queue_periodic_id_seq
@@ -3636,17 +3453,17 @@ CREATE SEQUENCE public.stat_queue_periodic_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_queue_periodic_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_queue_periodic_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_queue_periodic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_queue_periodic_id_seq OWNED BY public.stat_queue_periodic.id;
 
 
 --
--- Name: stat_switchboard_queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stat_switchboard_queue (
@@ -3658,10 +3475,10 @@ CREATE TABLE public.stat_switchboard_queue (
 );
 
 
-ALTER TABLE public.stat_switchboard_queue OWNER TO postgres;
+ALTER TABLE public.stat_switchboard_queue OWNER TO asterisk;
 
 --
--- Name: stat_switchboard_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stat_switchboard_queue_id_seq
@@ -3673,17 +3490,17 @@ CREATE SEQUENCE public.stat_switchboard_queue_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_switchboard_queue_id_seq OWNER TO postgres;
+ALTER TABLE public.stat_switchboard_queue_id_seq OWNER TO asterisk;
 
 --
--- Name: stat_switchboard_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stat_switchboard_queue_id_seq OWNED BY public.stat_switchboard_queue.id;
 
 
 --
--- Name: staticiax; Type: TABLE; Schema: public; Owner: postgres
+-- Name: staticiax; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.staticiax (
@@ -3698,10 +3515,10 @@ CREATE TABLE public.staticiax (
 );
 
 
-ALTER TABLE public.staticiax OWNER TO postgres;
+ALTER TABLE public.staticiax OWNER TO asterisk;
 
 --
--- Name: staticiax_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: staticiax_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.staticiax_id_seq
@@ -3713,17 +3530,17 @@ CREATE SEQUENCE public.staticiax_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.staticiax_id_seq OWNER TO postgres;
+ALTER TABLE public.staticiax_id_seq OWNER TO asterisk;
 
 --
--- Name: staticiax_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: staticiax_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.staticiax_id_seq OWNED BY public.staticiax.id;
 
 
 --
--- Name: staticqueue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: staticqueue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.staticqueue (
@@ -3738,10 +3555,10 @@ CREATE TABLE public.staticqueue (
 );
 
 
-ALTER TABLE public.staticqueue OWNER TO postgres;
+ALTER TABLE public.staticqueue OWNER TO asterisk;
 
 --
--- Name: staticqueue_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: staticqueue_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.staticqueue_id_seq
@@ -3753,17 +3570,17 @@ CREATE SEQUENCE public.staticqueue_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.staticqueue_id_seq OWNER TO postgres;
+ALTER TABLE public.staticqueue_id_seq OWNER TO asterisk;
 
 --
--- Name: staticqueue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: staticqueue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.staticqueue_id_seq OWNED BY public.staticqueue.id;
 
 
 --
--- Name: staticvoicemail; Type: TABLE; Schema: public; Owner: postgres
+-- Name: staticvoicemail; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.staticvoicemail (
@@ -3778,10 +3595,10 @@ CREATE TABLE public.staticvoicemail (
 );
 
 
-ALTER TABLE public.staticvoicemail OWNER TO postgres;
+ALTER TABLE public.staticvoicemail OWNER TO asterisk;
 
 --
--- Name: staticvoicemail_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: staticvoicemail_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.staticvoicemail_id_seq
@@ -3793,17 +3610,17 @@ CREATE SEQUENCE public.staticvoicemail_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.staticvoicemail_id_seq OWNER TO postgres;
+ALTER TABLE public.staticvoicemail_id_seq OWNER TO asterisk;
 
 --
--- Name: staticvoicemail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: staticvoicemail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.staticvoicemail_id_seq OWNED BY public.staticvoicemail.id;
 
 
 --
--- Name: stats_conf; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stats_conf; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stats_conf (
@@ -3836,10 +3653,10 @@ CREATE TABLE public.stats_conf (
 );
 
 
-ALTER TABLE public.stats_conf OWNER TO postgres;
+ALTER TABLE public.stats_conf OWNER TO asterisk;
 
 --
--- Name: stats_conf_agent; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stats_conf_agent; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stats_conf_agent (
@@ -3848,10 +3665,10 @@ CREATE TABLE public.stats_conf_agent (
 );
 
 
-ALTER TABLE public.stats_conf_agent OWNER TO postgres;
+ALTER TABLE public.stats_conf_agent OWNER TO asterisk;
 
 --
--- Name: stats_conf_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: stats_conf_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.stats_conf_id_seq
@@ -3863,17 +3680,17 @@ CREATE SEQUENCE public.stats_conf_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stats_conf_id_seq OWNER TO postgres;
+ALTER TABLE public.stats_conf_id_seq OWNER TO asterisk;
 
 --
--- Name: stats_conf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: stats_conf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.stats_conf_id_seq OWNED BY public.stats_conf.id;
 
 
 --
--- Name: stats_conf_queue; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stats_conf_queue; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stats_conf_queue (
@@ -3883,10 +3700,10 @@ CREATE TABLE public.stats_conf_queue (
 );
 
 
-ALTER TABLE public.stats_conf_queue OWNER TO postgres;
+ALTER TABLE public.stats_conf_queue OWNER TO asterisk;
 
 --
--- Name: stats_conf_xivouser; Type: TABLE; Schema: public; Owner: postgres
+-- Name: stats_conf_xivouser; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.stats_conf_xivouser (
@@ -3895,10 +3712,10 @@ CREATE TABLE public.stats_conf_xivouser (
 );
 
 
-ALTER TABLE public.stats_conf_xivouser OWNER TO postgres;
+ALTER TABLE public.stats_conf_xivouser OWNER TO asterisk;
 
 --
--- Name: switchboard; Type: TABLE; Schema: public; Owner: postgres
+-- Name: switchboard; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.switchboard (
@@ -3911,10 +3728,10 @@ CREATE TABLE public.switchboard (
 );
 
 
-ALTER TABLE public.switchboard OWNER TO postgres;
+ALTER TABLE public.switchboard OWNER TO asterisk;
 
 --
--- Name: switchboard_member_user; Type: TABLE; Schema: public; Owner: postgres
+-- Name: switchboard_member_user; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.switchboard_member_user (
@@ -3923,10 +3740,10 @@ CREATE TABLE public.switchboard_member_user (
 );
 
 
-ALTER TABLE public.switchboard_member_user OWNER TO postgres;
+ALTER TABLE public.switchboard_member_user OWNER TO asterisk;
 
 --
--- Name: tenant; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tenant; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.tenant (
@@ -3937,14 +3754,17 @@ CREATE TABLE public.tenant (
     webrtc_sip_template_uuid uuid,
     registration_trunk_sip_template_uuid uuid,
     meeting_guest_sip_template_uuid uuid,
-    twilio_trunk_sip_template_uuid uuid
+    twilio_trunk_sip_template_uuid uuid,
+    country character varying(2),
+    record_start_announcement text,
+    record_stop_announcement text
 );
 
 
-ALTER TABLE public.tenant OWNER TO postgres;
+ALTER TABLE public.tenant OWNER TO asterisk;
 
 --
--- Name: trunkfeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: trunkfeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.trunkfeatures (
@@ -3956,7 +3776,8 @@ CREATE TABLE public.trunkfeatures (
     register_iax_id integer,
     registercommented integer DEFAULT 0 NOT NULL,
     description text,
-    context character varying(39),
+    context character varying(79),
+    outgoing_caller_id_format text DEFAULT '+E164'::text NOT NULL,
     twilio_incoming boolean DEFAULT false NOT NULL,
     CONSTRAINT trunkfeatures_endpoint_register_check CHECK (((register_iax_id IS NULL) OR ((register_iax_id IS NOT NULL) AND (endpoint_sip_uuid IS NULL) AND (endpoint_custom_id IS NULL)))),
     CONSTRAINT trunkfeatures_endpoints_check CHECK ((((
@@ -3971,14 +3792,15 @@ END) +
 CASE
     WHEN (endpoint_custom_id IS NULL) THEN 0
     ELSE 1
-END) <= 1))
+END) <= 1)),
+    CONSTRAINT trunkfeatures_outgoing_caller_id_format_check CHECK (outgoing_caller_id_format IN ('+E164', 'E164', 'national'))
 );
 
 
-ALTER TABLE public.trunkfeatures OWNER TO postgres;
+ALTER TABLE public.trunkfeatures OWNER TO asterisk;
 
 --
--- Name: trunkfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: trunkfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.trunkfeatures_id_seq
@@ -3990,17 +3812,17 @@ CREATE SEQUENCE public.trunkfeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.trunkfeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.trunkfeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: trunkfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: trunkfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.trunkfeatures_id_seq OWNED BY public.trunkfeatures.id;
 
 
 --
--- Name: user_external_app; Type: TABLE; Schema: public; Owner: postgres
+-- Name: user_external_app; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.user_external_app (
@@ -4011,10 +3833,10 @@ CREATE TABLE public.user_external_app (
 );
 
 
-ALTER TABLE public.user_external_app OWNER TO postgres;
+ALTER TABLE public.user_external_app OWNER TO asterisk;
 
 --
--- Name: user_line; Type: TABLE; Schema: public; Owner: postgres
+-- Name: user_line; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.user_line (
@@ -4025,17 +3847,17 @@ CREATE TABLE public.user_line (
 );
 
 
-ALTER TABLE public.user_line OWNER TO postgres;
+ALTER TABLE public.user_line OWNER TO asterisk;
 
 --
--- Name: usercustom; Type: TABLE; Schema: public; Owner: postgres
+-- Name: usercustom; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.usercustom (
     id integer NOT NULL,
     tenant_uuid character varying(36) NOT NULL,
     name character varying(40),
-    context character varying(39),
+    context character varying(79),
     interface character varying(128) NOT NULL,
     intfsuffix character varying(32) DEFAULT ''::character varying NOT NULL,
     commented integer DEFAULT 0 NOT NULL,
@@ -4044,10 +3866,10 @@ CREATE TABLE public.usercustom (
 );
 
 
-ALTER TABLE public.usercustom OWNER TO postgres;
+ALTER TABLE public.usercustom OWNER TO asterisk;
 
 --
--- Name: usercustom_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: usercustom_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.usercustom_id_seq
@@ -4059,17 +3881,17 @@ CREATE SEQUENCE public.usercustom_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.usercustom_id_seq OWNER TO postgres;
+ALTER TABLE public.usercustom_id_seq OWNER TO asterisk;
 
 --
--- Name: usercustom_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: usercustom_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.usercustom_id_seq OWNED BY public.usercustom.id;
 
 
 --
--- Name: userfeatures; Type: TABLE; Schema: public; Owner: postgres
+-- Name: userfeatures; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.userfeatures (
@@ -4108,7 +3930,7 @@ CREATE TABLE public.userfeatures (
     outcallerid character varying(80) DEFAULT ''::character varying NOT NULL,
     mobilephonenumber character varying(128) DEFAULT ''::character varying NOT NULL,
     bsfilter public.generic_bsfilter DEFAULT 'no'::public.generic_bsfilter NOT NULL,
-    preprocess_subroutine character varying(39),
+    preprocess_subroutine character varying(79),
     timezone character varying(128),
     language character varying(20),
     ringintern character varying(64),
@@ -4127,10 +3949,10 @@ CREATE TABLE public.userfeatures (
 );
 
 
-ALTER TABLE public.userfeatures OWNER TO postgres;
+ALTER TABLE public.userfeatures OWNER TO asterisk;
 
 --
--- Name: userfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: userfeatures_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.userfeatures_id_seq
@@ -4142,17 +3964,17 @@ CREATE SEQUENCE public.userfeatures_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.userfeatures_id_seq OWNER TO postgres;
+ALTER TABLE public.userfeatures_id_seq OWNER TO asterisk;
 
 --
--- Name: userfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: userfeatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.userfeatures_id_seq OWNED BY public.userfeatures.id;
 
 
 --
--- Name: useriax; Type: TABLE; Schema: public; Owner: postgres
+-- Name: useriax; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.useriax (
@@ -4163,7 +3985,7 @@ CREATE TABLE public.useriax (
     username character varying(80),
     secret character varying(80) DEFAULT ''::character varying NOT NULL,
     dbsecret character varying(255) DEFAULT ''::character varying NOT NULL,
-    context character varying(39),
+    context character varying(79),
     language character varying(20),
     accountcode character varying(20),
     amaflags public.useriax_amaflags DEFAULT 'default'::public.useriax_amaflags,
@@ -4214,10 +4036,10 @@ CREATE TABLE public.useriax (
 );
 
 
-ALTER TABLE public.useriax OWNER TO postgres;
+ALTER TABLE public.useriax OWNER TO asterisk;
 
 --
--- Name: useriax_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: useriax_id_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.useriax_id_seq
@@ -4229,138 +4051,22 @@ CREATE SEQUENCE public.useriax_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.useriax_id_seq OWNER TO postgres;
+ALTER TABLE public.useriax_id_seq OWNER TO asterisk;
 
 --
--- Name: useriax_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: useriax_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.useriax_id_seq OWNED BY public.useriax.id;
 
 
 --
--- Name: usersip; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.usersip (
-    id integer NOT NULL,
-    tenant_uuid character varying(36) NOT NULL,
-    name character varying(40) NOT NULL,
-    type public.useriax_type NOT NULL,
-    username character varying(80),
-    secret character varying(80) DEFAULT ''::character varying NOT NULL,
-    md5secret character varying(32) DEFAULT ''::character varying NOT NULL,
-    context character varying(39),
-    language character varying(20),
-    accountcode character varying(20),
-    amaflags public.useriax_amaflags DEFAULT 'default'::public.useriax_amaflags NOT NULL,
-    allowtransfer integer,
-    fromuser character varying(80),
-    fromdomain character varying(255),
-    subscribemwi integer DEFAULT 0 NOT NULL,
-    buggymwi integer,
-    "call-limit" integer DEFAULT 10 NOT NULL,
-    callerid character varying(160),
-    fullname character varying(80),
-    cid_number character varying(80),
-    maxcallbitrate integer,
-    insecure public.usersip_insecure,
-    nat public.usersip_nat,
-    promiscredir integer,
-    usereqphone integer,
-    videosupport public.usersip_videosupport,
-    trustrpid integer,
-    sendrpid character varying(16),
-    allowsubscribe integer,
-    allowoverlap integer,
-    dtmfmode public.usersip_dtmfmode,
-    rfc2833compensate integer,
-    qualify character varying(4),
-    g726nonstandard integer,
-    disallow character varying(100),
-    allow text,
-    autoframing integer,
-    mohinterpret character varying(80),
-    useclientcode integer,
-    progressinband public.usersip_progressinband,
-    t38pt_udptl integer,
-    t38pt_usertpsource integer,
-    rtptimeout integer,
-    rtpholdtimeout integer,
-    rtpkeepalive integer,
-    deny character varying(31),
-    permit character varying(31),
-    defaultip character varying(255),
-    host character varying(255) DEFAULT 'dynamic'::character varying NOT NULL,
-    port integer,
-    regexten character varying(80),
-    subscribecontext character varying(80),
-    vmexten character varying(40),
-    callingpres integer,
-    parkinglot integer,
-    protocol public.trunk_protocol DEFAULT 'sip'::public.trunk_protocol NOT NULL,
-    category public.useriax_category NOT NULL,
-    outboundproxy character varying(1024),
-    transport character varying(255),
-    remotesecret character varying(255),
-    directmedia character varying(20),
-    callcounter integer,
-    busylevel integer,
-    ignoresdpversion integer,
-    "session-timers" public.usersip_session_timers,
-    "session-expires" integer,
-    "session-minse" integer,
-    "session-refresher" public.usersip_session_refresher,
-    callbackextension character varying(255),
-    timert1 integer,
-    timerb integer,
-    qualifyfreq integer,
-    contactpermit character varying(1024),
-    contactdeny character varying(1024),
-    unsolicited_mailbox character varying(1024),
-    use_q850_reason integer,
-    encryption integer,
-    snom_aoc_enabled integer,
-    maxforwards integer,
-    disallowed_methods character varying(1024),
-    textsupport integer,
-    commented integer DEFAULT 0 NOT NULL,
-    options character varying[] DEFAULT '{}'::character varying[] NOT NULL,
-    CONSTRAINT usersip_directmedia_check CHECK (((directmedia)::text = ANY ((ARRAY['no'::character varying, 'yes'::character varying, 'nonat'::character varying, 'update'::character varying, 'update,nonat'::character varying, 'outgoing'::character varying])::text[])))
-);
-
-
-ALTER TABLE public.usersip OWNER TO postgres;
-
---
--- Name: usersip_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.usersip_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.usersip_id_seq OWNER TO postgres;
-
---
--- Name: usersip_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.usersip_id_seq OWNED BY public.usersip.id;
-
-
---
--- Name: voicemail; Type: TABLE; Schema: public; Owner: postgres
+-- Name: voicemail; Type: TABLE; Schema: public; Owner: asterisk
 --
 
 CREATE TABLE public.voicemail (
     uniqueid integer NOT NULL,
-    context character varying(39) NOT NULL,
+    context character varying(79) NOT NULL,
     mailbox character varying(40) NOT NULL,
     password character varying(80),
     fullname character varying(80) DEFAULT ''::character varying NOT NULL,
@@ -4377,10 +4083,10 @@ CREATE TABLE public.voicemail (
 );
 
 
-ALTER TABLE public.voicemail OWNER TO postgres;
+ALTER TABLE public.voicemail OWNER TO asterisk;
 
 --
--- Name: voicemail_uniqueid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: voicemail_uniqueid_seq; Type: SEQUENCE; Schema: public; Owner: asterisk
 --
 
 CREATE SEQUENCE public.voicemail_uniqueid_seq
@@ -4392,472 +4098,1941 @@ CREATE SEQUENCE public.voicemail_uniqueid_seq
     CACHE 1;
 
 
-ALTER TABLE public.voicemail_uniqueid_seq OWNER TO postgres;
+ALTER TABLE public.voicemail_uniqueid_seq OWNER TO asterisk;
 
 --
--- Name: voicemail_uniqueid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: voicemail_uniqueid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: asterisk
 --
 
 ALTER SEQUENCE public.voicemail_uniqueid_seq OWNED BY public.voicemail.uniqueid;
 
 
 --
--- Name: accessfeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: accessfeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.accessfeatures ALTER COLUMN id SET DEFAULT nextval('public.accessfeatures_id_seq'::regclass);
 
 
 --
--- Name: agentfeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: agentfeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentfeatures ALTER COLUMN id SET DEFAULT nextval('public.agentfeatures_id_seq'::regclass);
 
 
 --
--- Name: agentglobalparams id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: agentglobalparams id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentglobalparams ALTER COLUMN id SET DEFAULT nextval('public.agentglobalparams_id_seq'::regclass);
 
 
 --
--- Name: asterisk_file id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: asterisk_file id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file ALTER COLUMN id SET DEFAULT nextval('public.asterisk_file_id_seq'::regclass);
 
 
 --
--- Name: asterisk_file_section id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: asterisk_file_section id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_section ALTER COLUMN id SET DEFAULT nextval('public.asterisk_file_section_id_seq'::regclass);
 
 
 --
--- Name: asterisk_file_variable id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_variable ALTER COLUMN id SET DEFAULT nextval('public.asterisk_file_variable_id_seq'::regclass);
 
 
 --
--- Name: callfilter id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: callfilter id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfilter ALTER COLUMN id SET DEFAULT nextval('public.callfilter_id_seq'::regclass);
 
 
 --
--- Name: callfiltermember id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: callfiltermember id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfiltermember ALTER COLUMN id SET DEFAULT nextval('public.callfiltermember_id_seq'::regclass);
 
 
 --
--- Name: cel id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: cel id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.cel ALTER COLUMN id SET DEFAULT nextval('public.cel_id_seq'::regclass);
 
 
 --
--- Name: conference id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: conference id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.conference ALTER COLUMN id SET DEFAULT nextval('public.conference_id_seq'::regclass);
 
 
 --
--- Name: context id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: context id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.context ALTER COLUMN id SET DEFAULT nextval('public.context_id_seq'::regclass);
 
 
 --
--- Name: contexttype id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: contexttype id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contexttype ALTER COLUMN id SET DEFAULT nextval('public.contexttype_id_seq'::regclass);
 
 
 --
--- Name: dhcp id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: dhcp id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.dhcp ALTER COLUMN id SET DEFAULT nextval('public.dhcp_id_seq'::regclass);
 
 
 --
--- Name: dialpattern id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: dialpattern id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.dialpattern ALTER COLUMN id SET DEFAULT nextval('public.dialpattern_id_seq'::regclass);
 
 
 --
--- Name: extensions id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: extensions id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.extensions ALTER COLUMN id SET DEFAULT nextval('public.extensions_id_seq'::regclass);
 
 
 --
--- Name: features id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: features id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.features ALTER COLUMN id SET DEFAULT nextval('public.features_id_seq'::regclass);
 
 
 --
--- Name: func_key id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: func_key id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key ALTER COLUMN id SET DEFAULT nextval('public.func_key_id_seq'::regclass);
 
 
 --
--- Name: func_key_destination_type id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: func_key_destination_type id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_destination_type ALTER COLUMN id SET DEFAULT nextval('public.func_key_destination_type_id_seq'::regclass);
 
 
 --
--- Name: func_key_template id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: func_key_template id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_template ALTER COLUMN id SET DEFAULT nextval('public.func_key_template_id_seq'::regclass);
 
 
 --
--- Name: func_key_type id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: func_key_type id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_type ALTER COLUMN id SET DEFAULT nextval('public.func_key_type_id_seq'::regclass);
 
 
 --
--- Name: groupfeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: groupfeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.groupfeatures ALTER COLUMN id SET DEFAULT nextval('public.groupfeatures_id_seq'::regclass);
 
 
 --
--- Name: iaxcallnumberlimits id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: iaxcallnumberlimits id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.iaxcallnumberlimits ALTER COLUMN id SET DEFAULT nextval('public.iaxcallnumberlimits_id_seq'::regclass);
 
 
 --
--- Name: incall id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: incall id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.incall ALTER COLUMN id SET DEFAULT nextval('public.incall_id_seq'::regclass);
 
 
 --
--- Name: ivr id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ivr id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr ALTER COLUMN id SET DEFAULT nextval('public.ivr_id_seq'::regclass);
 
 
 --
--- Name: ivr_choice id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ivr_choice id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr_choice ALTER COLUMN id SET DEFAULT nextval('public.ivr_choice_id_seq'::regclass);
 
 
 --
--- Name: linefeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: linefeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures ALTER COLUMN id SET DEFAULT nextval('public.linefeatures_id_seq'::regclass);
 
 
 --
--- Name: mail id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: mail id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.mail ALTER COLUMN id SET DEFAULT nextval('public.mail_id_seq'::regclass);
 
 
 --
--- Name: monitoring id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.monitoring ALTER COLUMN id SET DEFAULT nextval('public.monitoring_id_seq'::regclass);
-
-
---
--- Name: netiface id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: netiface id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.netiface ALTER COLUMN id SET DEFAULT nextval('public.netiface_id_seq'::regclass);
 
 
 --
--- Name: outcall id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: outcall id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcall ALTER COLUMN id SET DEFAULT nextval('public.outcall_id_seq'::regclass);
 
 
 --
--- Name: paging id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: paging id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paging ALTER COLUMN id SET DEFAULT nextval('public.paging_id_seq'::regclass);
 
 
 --
--- Name: parking_lot id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: parking_lot id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.parking_lot ALTER COLUMN id SET DEFAULT nextval('public.parking_lot_id_seq'::regclass);
 
 
 --
--- Name: pjsip_transport_option id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pjsip_transport_option ALTER COLUMN id SET DEFAULT nextval('public.pjsip_transport_option_id_seq'::regclass);
 
 
 --
--- Name: provisioning id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: provisioning id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.provisioning ALTER COLUMN id SET DEFAULT nextval('public.provisioning_id_seq'::regclass);
 
 
 --
--- Name: queue_log id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: queue_log id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queue_log ALTER COLUMN id SET DEFAULT nextval('public.queue_log_id_seq'::regclass);
 
 
 --
--- Name: queuefeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: queuefeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuefeatures ALTER COLUMN id SET DEFAULT nextval('public.queuefeatures_id_seq'::regclass);
 
 
 --
--- Name: queuepenalty id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queuepenalty ALTER COLUMN id SET DEFAULT nextval('public.queuepenalty_id_seq'::regclass);
-
-
---
--- Name: queueskill id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: queueskill id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskill ALTER COLUMN id SET DEFAULT nextval('public.queueskill_id_seq'::regclass);
 
 
 --
--- Name: queueskillcat id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queueskillcat ALTER COLUMN id SET DEFAULT nextval('public.queueskillcat_id_seq'::regclass);
-
-
---
--- Name: queueskillrule id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: queueskillrule id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskillrule ALTER COLUMN id SET DEFAULT nextval('public.queueskillrule_id_seq'::regclass);
 
 
 --
--- Name: resolvconf id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: resolvconf id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.resolvconf ALTER COLUMN id SET DEFAULT nextval('public.resolvconf_id_seq'::regclass);
 
 
 --
--- Name: rightcall id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: rightcall id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcall ALTER COLUMN id SET DEFAULT nextval('public.rightcall_id_seq'::regclass);
 
 
 --
--- Name: rightcallexten id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: rightcallexten id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallexten ALTER COLUMN id SET DEFAULT nextval('public.rightcallexten_id_seq'::regclass);
 
 
 --
--- Name: rightcallmember id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: rightcallmember id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallmember ALTER COLUMN id SET DEFAULT nextval('public.rightcallmember_id_seq'::regclass);
 
 
 --
--- Name: sccpdevice id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: sccpdevice id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpdevice ALTER COLUMN id SET DEFAULT nextval('public.sccpdevice_id_seq'::regclass);
 
 
 --
--- Name: sccpgeneralsettings id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: sccpgeneralsettings id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpgeneralsettings ALTER COLUMN id SET DEFAULT nextval('public.sccpgeneralsettings_id_seq'::regclass);
 
 
 --
--- Name: sccpline id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: sccpline id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpline ALTER COLUMN id SET DEFAULT nextval('public.sccpline_id_seq'::regclass);
 
 
 --
--- Name: schedule id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: schedule id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule ALTER COLUMN id SET DEFAULT nextval('public.schedule_id_seq'::regclass);
 
 
 --
--- Name: schedule_time id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: schedule_time id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule_time ALTER COLUMN id SET DEFAULT nextval('public.schedule_time_id_seq'::regclass);
 
 
 --
--- Name: stat_agent id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_agent id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_agent ALTER COLUMN id SET DEFAULT nextval('public.stat_agent_id_seq'::regclass);
 
 
 --
--- Name: stat_agent_periodic id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_agent_periodic ALTER COLUMN id SET DEFAULT nextval('public.stat_agent_periodic_id_seq'::regclass);
 
 
 --
--- Name: stat_call_on_queue id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_call_on_queue ALTER COLUMN id SET DEFAULT nextval('public.stat_call_on_queue_id_seq'::regclass);
 
 
 --
--- Name: stat_queue id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_queue id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_queue ALTER COLUMN id SET DEFAULT nextval('public.stat_queue_id_seq'::regclass);
 
 
 --
--- Name: stat_queue_periodic id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_queue_periodic ALTER COLUMN id SET DEFAULT nextval('public.stat_queue_periodic_id_seq'::regclass);
 
 
 --
--- Name: stat_switchboard_queue id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_switchboard_queue ALTER COLUMN id SET DEFAULT nextval('public.stat_switchboard_queue_id_seq'::regclass);
 
 
 --
--- Name: staticiax id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: staticiax id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticiax ALTER COLUMN id SET DEFAULT nextval('public.staticiax_id_seq'::regclass);
 
 
 --
--- Name: staticqueue id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: staticqueue id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticqueue ALTER COLUMN id SET DEFAULT nextval('public.staticqueue_id_seq'::regclass);
 
 
 --
--- Name: staticvoicemail id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: staticvoicemail id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticvoicemail ALTER COLUMN id SET DEFAULT nextval('public.staticvoicemail_id_seq'::regclass);
 
 
 --
--- Name: stats_conf id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: stats_conf id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf ALTER COLUMN id SET DEFAULT nextval('public.stats_conf_id_seq'::regclass);
 
 
 --
--- Name: trunkfeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: trunkfeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures ALTER COLUMN id SET DEFAULT nextval('public.trunkfeatures_id_seq'::regclass);
 
 
 --
--- Name: usercustom id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: usercustom id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.usercustom ALTER COLUMN id SET DEFAULT nextval('public.usercustom_id_seq'::regclass);
 
 
 --
--- Name: userfeatures id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: userfeatures id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures ALTER COLUMN id SET DEFAULT nextval('public.userfeatures_id_seq'::regclass);
 
 
 --
--- Name: useriax id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: useriax id; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.useriax ALTER COLUMN id SET DEFAULT nextval('public.useriax_id_seq'::regclass);
 
 
 --
--- Name: usersip id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.usersip ALTER COLUMN id SET DEFAULT nextval('public.usersip_id_seq'::regclass);
-
-
---
--- Name: voicemail uniqueid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: voicemail uniqueid; Type: DEFAULT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.voicemail ALTER COLUMN uniqueid SET DEFAULT nextval('public.voicemail_uniqueid_seq'::regclass);
 
 
 --
--- Name: accessfeatures accessfeatures_host_feature_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Data for Name: accessfeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: agent_login_status; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: agent_membership_status; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: agentfeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: agentglobalparams; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.agentglobalparams VALUES (1, 'general', 'multiplelogin', 'no');
+INSERT INTO public.agentglobalparams VALUES (2, 'general', 'persistentagents', 'yes');
+INSERT INTO public.agentglobalparams VALUES (3, 'agents', 'autologoffunavail', 'no');
+INSERT INTO public.agentglobalparams VALUES (4, 'agents', 'maxlogintries', '3');
+INSERT INTO public.agentglobalparams VALUES (5, 'agents', 'endcall', 'no');
+
+
+--
+-- Data for Name: agentqueueskill; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: application; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: application_dest_node; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: asterisk_file; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.asterisk_file VALUES (1, 'confbridge.conf');
+INSERT INTO public.asterisk_file VALUES (2, 'rtp.conf');
+INSERT INTO public.asterisk_file VALUES (3, 'hep.conf');
+INSERT INTO public.asterisk_file VALUES (4, 'pjsip.conf');
+
+
+--
+-- Data for Name: asterisk_file_section; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.asterisk_file_section VALUES (1, 'general', 0, 1);
+INSERT INTO public.asterisk_file_section VALUES (2, 'wazo_default_bridge', NULL, 1);
+INSERT INTO public.asterisk_file_section VALUES (3, 'wazo_default_user', NULL, 1);
+INSERT INTO public.asterisk_file_section VALUES (4, 'general', 0, 2);
+INSERT INTO public.asterisk_file_section VALUES (5, 'ice_host_candidates', NULL, 2);
+INSERT INTO public.asterisk_file_section VALUES (6, 'general', 0, 3);
+INSERT INTO public.asterisk_file_section VALUES (7, 'global', 0, 4);
+INSERT INTO public.asterisk_file_section VALUES (8, 'system', 0, 4);
+
+
+--
+-- Data for Name: asterisk_file_variable; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.asterisk_file_variable VALUES (1, 'type', 'bridge', NULL, 2);
+INSERT INTO public.asterisk_file_variable VALUES (2, 'type', 'user', NULL, 3);
+INSERT INTO public.asterisk_file_variable VALUES (3, 'dsp_drop_silence', 'yes', NULL, 3);
+INSERT INTO public.asterisk_file_variable VALUES (4, 'talk_detection_events', 'yes', NULL, 3);
+INSERT INTO public.asterisk_file_variable VALUES (5, 'rtpstart', '10000', NULL, 4);
+INSERT INTO public.asterisk_file_variable VALUES (6, 'rtpend', '20000', NULL, 4);
+INSERT INTO public.asterisk_file_variable VALUES (7, 'enabled', '0', NULL, 6);
+INSERT INTO public.asterisk_file_variable VALUES (8, 'user_agent', 'Wazo PBX', NULL, 7);
+INSERT INTO public.asterisk_file_variable VALUES (9, 'endpoint_identifier_order', 'auth_username,username,ip', NULL, 7);
+
+
+--
+-- Data for Name: blocklist; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: blocklist_number; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: blocklist_user; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: callerid; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: callfilter; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: callfiltermember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: cel; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: conference; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: context; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: contextinclude; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: contextmember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: contextnumbers; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: contexttype; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.contexttype VALUES (1, 'internal', 0, 0, '');
+INSERT INTO public.contexttype VALUES (2, 'incall', 0, 0, '');
+INSERT INTO public.contexttype VALUES (3, 'outcall', 0, 0, '');
+INSERT INTO public.contexttype VALUES (4, 'services', 0, 0, '');
+INSERT INTO public.contexttype VALUES (5, 'others', 0, 0, '');
+
+
+--
+-- Data for Name: dhcp; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.dhcp VALUES (1, 0, '', '', '');
+
+
+--
+-- Data for Name: dialaction; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: dialpattern; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: endpoint_sip; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: endpoint_sip_section; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: endpoint_sip_section_option; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: endpoint_sip_template; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: extensions; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: external_app; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: feature_extension; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.feature_extension VALUES ('e0598cc7-d27e-4ad2-b703-c45ec8a4a1e3', true, '_*31.', 'agentstaticlogin');
+INSERT INTO public.feature_extension VALUES ('dec4d643-eed5-40ef-b3c0-8f492d1c1764', true, '_*32.', 'agentstaticlogoff');
+INSERT INTO public.feature_extension VALUES ('a77cbf2e-3133-441c-8371-c71f3219e299', true, '_*30.', 'agentstaticlogtoggle');
+INSERT INTO public.feature_extension VALUES ('890b9dde-a712-4287-934b-029147438d50', true, '_*37.', 'bsfilter');
+INSERT INTO public.feature_extension VALUES ('a527d930-8d1d-4e01-99ff-0f0348151e41', false, '*34', 'calllistening');
+INSERT INTO public.feature_extension VALUES ('3f6261f8-9a9e-4a22-9c75-0dfe7a178967', false, '*26', 'callrecord');
+INSERT INTO public.feature_extension VALUES ('be6b0112-96e8-40c0-b58d-516d238871ad', true, '*36', 'directoryaccess');
+INSERT INTO public.feature_extension VALUES ('6029ec61-b7e0-4562-9691-a23b7802b5eb', true, '*25', 'enablednd');
+INSERT INTO public.feature_extension VALUES ('549eb85c-523e-41e9-9e75-435f47bad193', true, '*90', 'enablevm');
+INSERT INTO public.feature_extension VALUES ('08aae077-ac0a-48fc-9c14-ff6e7b50cbf7', true, '_*90.', 'enablevmslt');
+INSERT INTO public.feature_extension VALUES ('25ec57ed-2d14-451f-be9b-72c801f03fca', true, '_*23.', 'fwdbusy');
+INSERT INTO public.feature_extension VALUES ('5c4c5e5f-665f-4667-9957-7e31a1e36bac', true, '_*22.', 'fwdrna');
+INSERT INTO public.feature_extension VALUES ('b93a8bf9-95cb-41fa-90e9-c52120a472b9', true, '_*21.', 'fwdunc');
+INSERT INTO public.feature_extension VALUES ('c1333c55-0131-4b76-89f8-f0bdf4cf20d2', true, '*20', 'fwdundoall');
+INSERT INTO public.feature_extension VALUES ('7ac4464a-62fd-497a-8785-00629c760524', true, '*48378', 'autoprov');
+INSERT INTO public.feature_extension VALUES ('f0cc49a6-0bc5-483a-8489-f6652af93246', true, '*27', 'incallfilter');
+INSERT INTO public.feature_extension VALUES ('afabd57d-c40b-4787-9733-94b9b25eaaf6', true, '*10', 'phonestatus');
+INSERT INTO public.feature_extension VALUES ('08802907-b432-4da5-bd4d-15459e367930', true, '_*735.', 'phoneprogfunckey');
+INSERT INTO public.feature_extension VALUES ('accc5cfe-908f-458b-93b3-0ed0d48e3af4', false, '_*8.', 'pickup');
+INSERT INTO public.feature_extension VALUES ('d8a6572d-f578-4793-b998-d599864bd8d6', true, '*9', 'recsnd');
+INSERT INTO public.feature_extension VALUES ('25a6630c-b590-44a5-8f99-6adb11cbe16a', true, '_*99.', 'vmboxmsgslt');
+INSERT INTO public.feature_extension VALUES ('1b08ef0a-cbce-4c08-bc1e-907e669db725', false, '_*93.', 'vmboxpurgeslt');
+INSERT INTO public.feature_extension VALUES ('ef4a1f52-cd88-465c-8a7e-08d9d2591341', true, '_*97.', 'vmboxslt');
+INSERT INTO public.feature_extension VALUES ('f7a1be9b-97f6-4371-a551-607fdb403a7f', true, '*98', 'vmusermsg');
+INSERT INTO public.feature_extension VALUES ('f6e1f268-cf8f-4a40-8ebe-3489ff9c312f', false, '*92', 'vmuserpurge');
+INSERT INTO public.feature_extension VALUES ('28149394-26bb-4507-bc0d-e99776b7f53b', false, '_*92.', 'vmuserpurgeslt');
+INSERT INTO public.feature_extension VALUES ('a18c8273-f767-4718-a8f3-0dcac2cc8d00', true, '_*96.', 'vmuserslt');
+INSERT INTO public.feature_extension VALUES ('27d00844-6d9a-458b-bd3f-e50b4a907eaf', true, '_*11.', 'paging');
+INSERT INTO public.feature_extension VALUES ('e17f6e47-5739-4d29-b6f0-b27d4fb92509', true, '_*41.', 'meetingjoin');
+INSERT INTO public.feature_extension VALUES ('22271321-76b2-4f9d-8e94-61a702558636', true, '_*50.', 'groupmembertoggle');
+INSERT INTO public.feature_extension VALUES ('78342f74-9ac1-4ae2-9fd9-4a09a8709753', true, '_*51.', 'groupmemberjoin');
+INSERT INTO public.feature_extension VALUES ('762a1ef8-0953-4ea6-bc7e-73a68e950175', true, '_*52.', 'groupmemberleave');
+
+
+--
+-- Data for Name: features; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.features VALUES (1, 0, 0, 0, 'features.conf', 'general', 'transferdigittimeout', '5');
+INSERT INTO public.features VALUES (2, 0, 0, 1, 'features.conf', 'general', 'xfersound', NULL);
+INSERT INTO public.features VALUES (3, 0, 0, 1, 'features.conf', 'general', 'xferfailsound', NULL);
+INSERT INTO public.features VALUES (4, 0, 0, 0, 'features.conf', 'general', 'pickupexten', '*8');
+INSERT INTO public.features VALUES (5, 0, 0, 0, 'features.conf', 'general', 'featuredigittimeout', '1500');
+INSERT INTO public.features VALUES (6, 0, 0, 0, 'features.conf', 'general', 'atxfernoanswertimeout', '15');
+INSERT INTO public.features VALUES (7, 0, 0, 0, 'features.conf', 'general', 'atxferdropcall', 'no');
+INSERT INTO public.features VALUES (8, 0, 0, 0, 'features.conf', 'general', 'atxferloopdelay', '10');
+INSERT INTO public.features VALUES (9, 0, 0, 0, 'features.conf', 'general', 'atxfercallbackretries', '2');
+INSERT INTO public.features VALUES (10, 1, 0, 0, 'features.conf', 'featuremap', 'blindxfer', '*1');
+INSERT INTO public.features VALUES (11, 1, 0, 0, 'features.conf', 'featuremap', 'disconnect', '*0');
+INSERT INTO public.features VALUES (12, 1, 0, 0, 'features.conf', 'featuremap', 'atxfer', '*2');
+INSERT INTO public.features VALUES (13, 1, 0, 0, 'features.conf', 'applicationmap', 'togglerecord', '*3,self,AGI(agi://${WAZO_AGID_IP}/call_recording)');
+
+
+--
+-- Data for Name: func_key; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.func_key VALUES (1, 1, 5);
+INSERT INTO public.func_key VALUES (2, 1, 5);
+INSERT INTO public.func_key VALUES (3, 1, 5);
+INSERT INTO public.func_key VALUES (4, 1, 5);
+INSERT INTO public.func_key VALUES (5, 1, 5);
+INSERT INTO public.func_key VALUES (6, 1, 5);
+INSERT INTO public.func_key VALUES (7, 1, 5);
+INSERT INTO public.func_key VALUES (8, 1, 5);
+INSERT INTO public.func_key VALUES (9, 1, 5);
+INSERT INTO public.func_key VALUES (10, 1, 5);
+INSERT INTO public.func_key VALUES (11, 1, 5);
+INSERT INTO public.func_key VALUES (12, 1, 5);
+INSERT INTO public.func_key VALUES (13, 3, 8);
+INSERT INTO public.func_key VALUES (14, 3, 8);
+INSERT INTO public.func_key VALUES (15, 3, 8);
+
+
+--
+-- Data for Name: func_key_dest_agent; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_bsfilter; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_conference; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_custom; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_features; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.func_key_dest_features VALUES (13, 8, 10);
+INSERT INTO public.func_key_dest_features VALUES (14, 8, 12);
+INSERT INTO public.func_key_dest_features VALUES (15, 8, 13);
+
+
+--
+-- Data for Name: func_key_dest_forward; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_group; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_groupmember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_paging; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_park_position; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_parking; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_dest_service; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.func_key_dest_service VALUES (1, 5, '549eb85c-523e-41e9-9e75-435f47bad193');
+INSERT INTO public.func_key_dest_service VALUES (2, 5, 'f7a1be9b-97f6-4371-a551-607fdb403a7f');
+INSERT INTO public.func_key_dest_service VALUES (3, 5, 'f6e1f268-cf8f-4a40-8ebe-3489ff9c312f');
+INSERT INTO public.func_key_dest_service VALUES (4, 5, 'afabd57d-c40b-4787-9733-94b9b25eaaf6');
+INSERT INTO public.func_key_dest_service VALUES (5, 5, 'd8a6572d-f578-4793-b998-d599864bd8d6');
+INSERT INTO public.func_key_dest_service VALUES (6, 5, 'a527d930-8d1d-4e01-99ff-0f0348151e41');
+INSERT INTO public.func_key_dest_service VALUES (7, 5, 'be6b0112-96e8-40c0-b58d-516d238871ad');
+INSERT INTO public.func_key_dest_service VALUES (8, 5, 'c1333c55-0131-4b76-89f8-f0bdf4cf20d2');
+INSERT INTO public.func_key_dest_service VALUES (9, 5, 'accc5cfe-908f-458b-93b3-0ed0d48e3af4');
+INSERT INTO public.func_key_dest_service VALUES (10, 5, '3f6261f8-9a9e-4a22-9c75-0dfe7a178967');
+INSERT INTO public.func_key_dest_service VALUES (11, 5, 'f0cc49a6-0bc5-483a-8489-f6652af93246');
+INSERT INTO public.func_key_dest_service VALUES (12, 5, '6029ec61-b7e0-4562-9691-a23b7802b5eb');
+
+
+--
+-- Data for Name: func_key_dest_user; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_destination_type; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.func_key_destination_type VALUES (1, 'user');
+INSERT INTO public.func_key_destination_type VALUES (2, 'group');
+INSERT INTO public.func_key_destination_type VALUES (3, 'queue');
+INSERT INTO public.func_key_destination_type VALUES (4, 'conference');
+INSERT INTO public.func_key_destination_type VALUES (5, 'service');
+INSERT INTO public.func_key_destination_type VALUES (6, 'forward');
+INSERT INTO public.func_key_destination_type VALUES (7, 'park_position');
+INSERT INTO public.func_key_destination_type VALUES (8, 'features');
+INSERT INTO public.func_key_destination_type VALUES (9, 'paging');
+INSERT INTO public.func_key_destination_type VALUES (10, 'custom');
+INSERT INTO public.func_key_destination_type VALUES (11, 'agent');
+INSERT INTO public.func_key_destination_type VALUES (12, 'bsfilter');
+INSERT INTO public.func_key_destination_type VALUES (13, 'groupmember');
+INSERT INTO public.func_key_destination_type VALUES (14, 'parking');
+
+
+--
+-- Data for Name: func_key_mapping; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_template; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: func_key_type; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.func_key_type VALUES (1, 'speeddial');
+INSERT INTO public.func_key_type VALUES (2, 'transfer');
+INSERT INTO public.func_key_type VALUES (3, 'dtmf');
+
+
+--
+-- Data for Name: groupfeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: iaxcallnumberlimits; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: incall; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: infos; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.infos VALUES ('ea1a65ef-a8b9-4046-8248-a810a310cc16', '25.14', true, 'Europe/Paris', false);
+
+
+--
+-- Data for Name: ingress_http; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: ivr; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: ivr_choice; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: line_extension; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: linefeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: mail; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.mail VALUES (1, '', 'example.wazo.community', '', '', '');
+
+
+--
+-- Data for Name: meeting; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: meeting_authorization; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: meeting_owner; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: moh; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: netiface; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: outcall; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: outcalltrunk; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: paging; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: paginguser; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: parking_lot; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: phone_number; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: pickup; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: pickupmember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: pjsip_transport; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.pjsip_transport VALUES ('0c2fdf3c-089f-43aa-b02d-b1aac306ab82', 'transport-udp');
+INSERT INTO public.pjsip_transport VALUES ('1679b919-cbe1-4f02-b783-4701b3982df4', 'transport-wss');
+
+
+--
+-- Data for Name: pjsip_transport_option; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.pjsip_transport_option VALUES (1, 'protocol', 'udp', '0c2fdf3c-089f-43aa-b02d-b1aac306ab82');
+INSERT INTO public.pjsip_transport_option VALUES (2, 'bind', '0.0.0.0:5060', '0c2fdf3c-089f-43aa-b02d-b1aac306ab82');
+INSERT INTO public.pjsip_transport_option VALUES (3, 'protocol', 'wss', '1679b919-cbe1-4f02-b783-4701b3982df4');
+INSERT INTO public.pjsip_transport_option VALUES (4, 'bind', '0.0.0.0:5060', '1679b919-cbe1-4f02-b783-4701b3982df4');
+
+
+--
+-- Data for Name: provisioning; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.provisioning VALUES (1, '', '', 0, 8667);
+
+
+--
+-- Data for Name: queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: queue_log; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: queuefeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: queuemember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: queueskill; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: queueskillrule; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: resolvconf; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.resolvconf VALUES (1, '', '', NULL, NULL, NULL, NULL, '');
+
+
+--
+-- Data for Name: rightcall; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: rightcallexten; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: rightcallmember; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: sccpdevice; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: sccpgeneralsettings; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.sccpgeneralsettings VALUES (1, 'directmedia', 'no');
+INSERT INTO public.sccpgeneralsettings VALUES (2, 'dialtimeout', '5');
+INSERT INTO public.sccpgeneralsettings VALUES (3, 'keepalive', '10');
+INSERT INTO public.sccpgeneralsettings VALUES (4, 'language', 'en_US');
+INSERT INTO public.sccpgeneralsettings VALUES (5, 'allow', '');
+INSERT INTO public.sccpgeneralsettings VALUES (6, 'guest', 'no');
+INSERT INTO public.sccpgeneralsettings VALUES (7, 'max_guests', '100');
+
+
+--
+-- Data for Name: sccpline; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: schedule; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: schedule_path; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: schedule_time; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_agent; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_agent_periodic; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_call_on_queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_queue_periodic; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stat_switchboard_queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: staticiax; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.staticiax VALUES (1, 0, 0, 0, 'iax.conf', 'general', 'bindport', '4569');
+INSERT INTO public.staticiax VALUES (2, 0, 0, 0, 'iax.conf', 'general', 'bindaddr', '0.0.0.0');
+INSERT INTO public.staticiax VALUES (3, 0, 0, 0, 'iax.conf', 'general', 'iaxthreadcount', '10');
+INSERT INTO public.staticiax VALUES (4, 0, 0, 0, 'iax.conf', 'general', 'iaxmaxthreadcount', '100');
+INSERT INTO public.staticiax VALUES (5, 0, 0, 0, 'iax.conf', 'general', 'iaxcompat', 'no');
+INSERT INTO public.staticiax VALUES (6, 0, 0, 0, 'iax.conf', 'general', 'authdebug', 'yes');
+INSERT INTO public.staticiax VALUES (7, 0, 0, 0, 'iax.conf', 'general', 'delayreject', 'no');
+INSERT INTO public.staticiax VALUES (8, 0, 0, 0, 'iax.conf', 'general', 'trunkfreq', '20');
+INSERT INTO public.staticiax VALUES (9, 0, 0, 0, 'iax.conf', 'general', 'trunktimestamps', 'yes');
+INSERT INTO public.staticiax VALUES (10, 0, 0, 1, 'iax.conf', 'general', 'regcontext', NULL);
+INSERT INTO public.staticiax VALUES (11, 0, 0, 0, 'iax.conf', 'general', 'minregexpire', '60');
+INSERT INTO public.staticiax VALUES (12, 0, 0, 0, 'iax.conf', 'general', 'maxregexpire', '60');
+INSERT INTO public.staticiax VALUES (13, 0, 0, 0, 'iax.conf', 'general', 'bandwidth', 'high');
+INSERT INTO public.staticiax VALUES (14, 0, 0, 1, 'iax.conf', 'general', 'tos', NULL);
+INSERT INTO public.staticiax VALUES (15, 0, 0, 0, 'iax.conf', 'general', 'jitterbuffer', 'no');
+INSERT INTO public.staticiax VALUES (16, 0, 0, 0, 'iax.conf', 'general', 'forcejitterbuffer', 'no');
+INSERT INTO public.staticiax VALUES (17, 0, 0, 0, 'iax.conf', 'general', 'maxjitterbuffer', '1000');
+INSERT INTO public.staticiax VALUES (18, 0, 0, 0, 'iax.conf', 'general', 'maxjitterinterps', '10');
+INSERT INTO public.staticiax VALUES (19, 0, 0, 0, 'iax.conf', 'general', 'resyncthreshold', '1000');
+INSERT INTO public.staticiax VALUES (20, 0, 0, 1, 'iax.conf', 'general', 'accountcode', NULL);
+INSERT INTO public.staticiax VALUES (21, 0, 0, 0, 'iax.conf', 'general', 'amaflags', 'default');
+INSERT INTO public.staticiax VALUES (22, 0, 0, 0, 'iax.conf', 'general', 'adsi', 'no');
+INSERT INTO public.staticiax VALUES (23, 0, 0, 0, 'iax.conf', 'general', 'transfer', 'yes');
+INSERT INTO public.staticiax VALUES (24, 0, 0, 0, 'iax.conf', 'general', 'language', 'fr_FR');
+INSERT INTO public.staticiax VALUES (25, 0, 0, 0, 'iax.conf', 'general', 'mohinterpret', 'default');
+INSERT INTO public.staticiax VALUES (26, 0, 0, 1, 'iax.conf', 'general', 'mohsuggest', NULL);
+INSERT INTO public.staticiax VALUES (27, 0, 0, 0, 'iax.conf', 'general', 'encryption', 'no');
+INSERT INTO public.staticiax VALUES (28, 0, 0, 0, 'iax.conf', 'general', 'maxauthreq', '3');
+INSERT INTO public.staticiax VALUES (29, 0, 0, 0, 'iax.conf', 'general', 'codecpriority', 'host');
+INSERT INTO public.staticiax VALUES (30, 0, 0, 1, 'iax.conf', 'general', 'disallow', NULL);
+INSERT INTO public.staticiax VALUES (31, 0, 0, 1, 'iax.conf', 'general', 'allow', NULL);
+INSERT INTO public.staticiax VALUES (32, 0, 0, 0, 'iax.conf', 'general', 'rtcachefriends', 'yes');
+INSERT INTO public.staticiax VALUES (33, 0, 0, 0, 'iax.conf', 'general', 'rtupdate', 'yes');
+INSERT INTO public.staticiax VALUES (34, 0, 0, 0, 'iax.conf', 'general', 'rtignoreregexpire', 'yes');
+INSERT INTO public.staticiax VALUES (35, 0, 0, 0, 'iax.conf', 'general', 'rtautoclear', 'no');
+INSERT INTO public.staticiax VALUES (36, 0, 0, 0, 'iax.conf', 'general', 'pingtime', '20');
+INSERT INTO public.staticiax VALUES (37, 0, 0, 0, 'iax.conf', 'general', 'lagrqtime', '10');
+INSERT INTO public.staticiax VALUES (38, 0, 0, 0, 'iax.conf', 'general', 'nochecksums', 'no');
+INSERT INTO public.staticiax VALUES (39, 0, 0, 0, 'iax.conf', 'general', 'autokill', 'yes');
+INSERT INTO public.staticiax VALUES (40, 0, 0, 0, 'iax.conf', 'general', 'calltokenoptional', '0.0.0.0');
+INSERT INTO public.staticiax VALUES (41, 0, 0, 0, 'iax.conf', 'general', 'srvlookup', NULL);
+INSERT INTO public.staticiax VALUES (42, 0, 0, 0, 'iax.conf', 'general', 'jittertargetextra', NULL);
+INSERT INTO public.staticiax VALUES (43, 0, 0, 0, 'iax.conf', 'general', 'forceencryption', NULL);
+INSERT INTO public.staticiax VALUES (44, 0, 0, 0, 'iax.conf', 'general', 'trunkmaxsize', NULL);
+INSERT INTO public.staticiax VALUES (45, 0, 0, 0, 'iax.conf', 'general', 'trunkmtu', NULL);
+INSERT INTO public.staticiax VALUES (46, 0, 0, 0, 'iax.conf', 'general', 'cos', NULL);
+INSERT INTO public.staticiax VALUES (47, 0, 0, 0, 'iax.conf', 'general', 'allowfwdownload', NULL);
+INSERT INTO public.staticiax VALUES (48, 0, 0, 0, 'iax.conf', 'general', 'parkinglot', NULL);
+INSERT INTO public.staticiax VALUES (49, 0, 0, 0, 'iax.conf', 'general', 'maxcallnumbers', NULL);
+INSERT INTO public.staticiax VALUES (50, 0, 0, 0, 'iax.conf', 'general', 'maxcallnumbers_nonvalidated', NULL);
+INSERT INTO public.staticiax VALUES (51, 0, 0, 0, 'iax.conf', 'general', 'shrinkcallerid', NULL);
+
+
+--
+-- Data for Name: staticqueue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.staticqueue VALUES (1, 0, 0, 0, 'queues.conf', 'general', 'persistentmembers', 'yes');
+INSERT INTO public.staticqueue VALUES (2, 0, 0, 0, 'queues.conf', 'general', 'autofill', 'no');
+INSERT INTO public.staticqueue VALUES (3, 0, 0, 0, 'queues.conf', 'general', 'monitor-type', 'no');
+INSERT INTO public.staticqueue VALUES (4, 0, 0, 0, 'queues.conf', 'general', 'updatecdr', 'no');
+INSERT INTO public.staticqueue VALUES (5, 0, 0, 0, 'queues.conf', 'general', 'shared_lastcall', 'yes');
+
+
+--
+-- Data for Name: staticvoicemail; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+INSERT INTO public.staticvoicemail VALUES (1, 0, 0, 0, 'voicemail.conf', 'general', 'maxmsg', '100');
+INSERT INTO public.staticvoicemail VALUES (2, 0, 0, 0, 'voicemail.conf', 'general', 'silencethreshold', '256');
+INSERT INTO public.staticvoicemail VALUES (3, 0, 0, 0, 'voicemail.conf', 'general', 'minsecs', '0');
+INSERT INTO public.staticvoicemail VALUES (4, 0, 0, 0, 'voicemail.conf', 'general', 'maxsecs', '0');
+INSERT INTO public.staticvoicemail VALUES (5, 0, 0, 0, 'voicemail.conf', 'general', 'maxsilence', '15');
+INSERT INTO public.staticvoicemail VALUES (6, 0, 0, 0, 'voicemail.conf', 'general', 'review', 'yes');
+INSERT INTO public.staticvoicemail VALUES (7, 0, 0, 0, 'voicemail.conf', 'general', 'operator', 'yes');
+INSERT INTO public.staticvoicemail VALUES (8, 0, 0, 0, 'voicemail.conf', 'general', 'format', 'wav');
+INSERT INTO public.staticvoicemail VALUES (9, 0, 0, 0, 'voicemail.conf', 'general', 'maxlogins', '3');
+INSERT INTO public.staticvoicemail VALUES (10, 0, 0, 0, 'voicemail.conf', 'general', 'envelope', 'yes');
+INSERT INTO public.staticvoicemail VALUES (11, 0, 0, 0, 'voicemail.conf', 'general', 'saycid', 'no');
+INSERT INTO public.staticvoicemail VALUES (12, 0, 0, 1, 'voicemail.conf', 'general', 'cidinternalcontexts', NULL);
+INSERT INTO public.staticvoicemail VALUES (13, 0, 0, 0, 'voicemail.conf', 'general', 'sayduration', 'yes');
+INSERT INTO public.staticvoicemail VALUES (14, 0, 0, 0, 'voicemail.conf', 'general', 'saydurationm', '2');
+INSERT INTO public.staticvoicemail VALUES (15, 0, 0, 0, 'voicemail.conf', 'general', 'forcename', 'no');
+INSERT INTO public.staticvoicemail VALUES (16, 0, 0, 0, 'voicemail.conf', 'general', 'forcegreetings', 'no');
+INSERT INTO public.staticvoicemail VALUES (17, 0, 0, 0, 'voicemail.conf', 'general', 'tempgreetwarn', 'yes');
+INSERT INTO public.staticvoicemail VALUES (18, 0, 0, 0, 'voicemail.conf', 'general', 'maxgreet', '0');
+INSERT INTO public.staticvoicemail VALUES (19, 0, 0, 0, 'voicemail.conf', 'general', 'skipms', '3000');
+INSERT INTO public.staticvoicemail VALUES (20, 0, 0, 0, 'voicemail.conf', 'general', 'sendvoicemail', 'no');
+INSERT INTO public.staticvoicemail VALUES (21, 0, 0, 0, 'voicemail.conf', 'general', 'usedirectory', 'yes');
+INSERT INTO public.staticvoicemail VALUES (22, 0, 0, 0, 'voicemail.conf', 'general', 'nextaftercmd', 'yes');
+INSERT INTO public.staticvoicemail VALUES (23, 0, 0, 1, 'voicemail.conf', 'general', 'dialout', NULL);
+INSERT INTO public.staticvoicemail VALUES (24, 0, 0, 1, 'voicemail.conf', 'general', 'callback', NULL);
+INSERT INTO public.staticvoicemail VALUES (25, 0, 0, 1, 'voicemail.conf', 'general', 'exitcontext', NULL);
+INSERT INTO public.staticvoicemail VALUES (26, 0, 0, 0, 'voicemail.conf', 'general', 'attach', 'yes');
+INSERT INTO public.staticvoicemail VALUES (27, 0, 0, 0, 'voicemail.conf', 'general', 'volgain', '0');
+INSERT INTO public.staticvoicemail VALUES (28, 0, 0, 0, 'voicemail.conf', 'general', 'mailcmd', '/usr/sbin/sendmail -t');
+INSERT INTO public.staticvoicemail VALUES (29, 0, 0, 0, 'voicemail.conf', 'general', 'serveremail', 'wazo');
+INSERT INTO public.staticvoicemail VALUES (30, 0, 0, 0, 'voicemail.conf', 'general', 'charset', 'UTF-8');
+INSERT INTO public.staticvoicemail VALUES (31, 0, 0, 0, 'voicemail.conf', 'general', 'fromstring', 'Wazo PBX');
+INSERT INTO public.staticvoicemail VALUES (32, 0, 0, 0, 'voicemail.conf', 'general', 'emaildateformat', '%Y-%m-%d à %H:%M:%S');
+INSERT INTO public.staticvoicemail VALUES (33, 0, 0, 0, 'voicemail.conf', 'general', 'pbxskip', 'no');
+INSERT INTO public.staticvoicemail VALUES (34, 0, 0, 0, 'voicemail.conf', 'general', 'emailsubject', 'Messagerie Wazo');
+INSERT INTO public.staticvoicemail VALUES (35, 0, 0, 0, 'voicemail.conf', 'general', 'emailbody', 'Bonjour ${VM_NAME},\n\nVous avez reçu un message d''une durée de ${VM_DUR} minute(s), il vous reste actuellement ${VM_MSGNUM} message(s) non lu(s) sur votre messagerie vocale : ${VM_MAILBOX}.\n\nLe dernier a été envoyé par ${VM_CALLERID}, le ${VM_DATE}. Si vous le souhaitez vous pouvez l''écouter ou le consulter en tapant le *98 sur votre téléphone.\n\nMerci.\n\n-- Messagerie Wazo --');
+INSERT INTO public.staticvoicemail VALUES (36, 0, 0, 0, 'voicemail.conf', 'general', 'pagerfromstring', 'Wazo PBX');
+INSERT INTO public.staticvoicemail VALUES (37, 0, 0, 1, 'voicemail.conf', 'general', 'pagersubject', NULL);
+INSERT INTO public.staticvoicemail VALUES (38, 0, 0, 1, 'voicemail.conf', 'general', 'pagerbody', NULL);
+INSERT INTO public.staticvoicemail VALUES (39, 0, 0, 0, 'voicemail.conf', 'general', 'adsifdn', '0000000F');
+INSERT INTO public.staticvoicemail VALUES (40, 0, 0, 0, 'voicemail.conf', 'general', 'adsisec', '9BDBF7AC');
+INSERT INTO public.staticvoicemail VALUES (41, 0, 0, 0, 'voicemail.conf', 'general', 'adsiver', '1');
+INSERT INTO public.staticvoicemail VALUES (42, 0, 0, 0, 'voicemail.conf', 'general', 'searchcontexts', 'no');
+INSERT INTO public.staticvoicemail VALUES (43, 0, 0, 0, 'voicemail.conf', 'general', 'externpass', '/usr/share/asterisk/bin/change-pass-vm');
+INSERT INTO public.staticvoicemail VALUES (44, 0, 0, 1, 'voicemail.conf', 'general', 'externnotify', NULL);
+INSERT INTO public.staticvoicemail VALUES (45, 0, 0, 1, 'voicemail.conf', 'general', 'smdiport', NULL);
+INSERT INTO public.staticvoicemail VALUES (46, 0, 0, 1, 'voicemail.conf', 'general', 'odbcstorage', NULL);
+INSERT INTO public.staticvoicemail VALUES (47, 0, 0, 1, 'voicemail.conf', 'general', 'odbctable', NULL);
+INSERT INTO public.staticvoicemail VALUES (48, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'eu-fr', 'Europe/Paris|''vm-received'' q ''digits/at'' kM');
+INSERT INTO public.staticvoicemail VALUES (49, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-newfoundland', 'America/St_Johns|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (50, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-atlantic', 'America/Halifax|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (51, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-eastern', 'America/New_York|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (52, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-central', 'America/Chicago|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (53, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-mountain', 'America/Denver|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (54, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-pacific', 'America/Los_Angeles|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (55, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'na-alaska', 'America/Anchorage|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (56, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'be-brussels', 'Europe/Brussels|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (57, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'it-rome', 'Europe/Rome|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (58, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-glace_bay', 'America/Glace_Bay|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (59, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-moncton', 'America/Moncton|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (60, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-goose_bay', 'America/Goose_Bay|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (61, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-blanc-sablon', 'America/Blanc-Sablon|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (62, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-toronto', 'America/Toronto|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (63, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-nipigon', 'America/Nipigon|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (64, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-thunder_bay', 'America/Thunder_Bay|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (65, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-iqaluit', 'America/Iqaluit|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (66, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-pangnirtung', 'America/Pangnirtung|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (67, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-atikokan', 'America/Atikokan|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (68, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-winnipeg', 'America/Winnipeg|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (69, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-rainy_river', 'America/Rainy_River|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (70, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-resolute', 'America/Resolute|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (71, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-rankin_inlet', 'America/Rankin_Inlet|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (72, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-regina', 'America/Regina|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (73, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-swift_current', 'America/Swift_Current|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (74, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-edmonton', 'America/Edmonton|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (75, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-cambridge_bay', 'America/Cambridge_Bay|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (76, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-yellowknife', 'America/Yellowknife|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (77, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-inuvik', 'America/Inuvik|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (78, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-creston', 'America/Creston|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (79, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-dawson_creek', 'America/Dawson_Creek|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (80, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-fort_nelson', 'America/Fort_Nelson|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (81, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-whitehorse', 'America/Whitehorse|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (82, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-dawson', 'America/Dawson|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (83, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ca-vancouver', 'America/Vancouver|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (84, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'de-berlin', 'Europe/Berlin|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (85, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'de-busingen', 'Europe/Busingen|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (86, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'il-jerusalem', 'Asia/Jerusalem|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (87, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'lu-luxembourg', 'Europe/Luxembourg|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (88, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'my-kuala_lumpur', 'Asia/Kuala_Lumpur|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (89, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'my-kuching', 'Asia/Kuching|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (90, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'mc-monaco', 'Europe/Monaco|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (91, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'nl-amsterdam', 'Europe/Amsterdam|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (92, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'pl-warsaw', 'Europe/Warsaw|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (93, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'pt-lisbon', 'Europe/Lisbon|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (94, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'pt-madeira', 'Atlantic/Madeira|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (95, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'pt-azores', 'Atlantic/Azores|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (96, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'gb-london', 'Europe/London|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (97, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-detroit', 'America/Detroit|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (98, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-kentucky-louisville', 'America/Kentucky/Louisville|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (99, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-kentucky-monticello', 'America/Kentucky/Monticello|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (100, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-indianapolis', 'America/Indiana/Indianapolis|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (101, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-vincennes', 'America/Indiana/Vincennes|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (102, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-winamac', 'America/Indiana/Winamac|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (103, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-marengo', 'America/Indiana/Marengo|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (104, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-petersburg', 'America/Indiana/Petersburg|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (105, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-vevay', 'America/Indiana/Vevay|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (106, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-tell_city', 'America/Indiana/Tell_City|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (107, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-indiana-knox', 'America/Indiana/Knox|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (108, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-menominee', 'America/Menominee|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (109, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-north_dakota-center', 'America/North_Dakota/Center|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (110, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-north_dakota-new_salem', 'America/North_Dakota/New_Salem|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (111, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-north_dakota-beulah', 'America/North_Dakota/Beulah|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (112, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-boise', 'America/Boise|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (113, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-phoenix', 'America/Phoenix|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (114, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-juneau', 'America/Juneau|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (115, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-sitka', 'America/Sitka|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (116, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-metlakatla', 'America/Metlakatla|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (117, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-yakutat', 'America/Yakutat|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (118, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-nome', 'America/Nome|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (119, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-adak', 'America/Adak|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (120, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'us-honolulu', 'Pacific/Honolulu|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (121, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'es-madrid', 'Europe/Madrid|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (122, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'es-ceuta', 'Africa/Ceuta|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (123, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'es-canary', 'Atlantic/Canary|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (124, 1, 0, 0, 'voicemail.conf', 'zonemessages', 'ch-zurich', 'Europe/Zurich|''vm-received'' q ''digits/at'' IMp');
+INSERT INTO public.staticvoicemail VALUES (125, 0, 0, 1, 'voicemail.conf', 'general', 'moveheard', NULL);
+INSERT INTO public.staticvoicemail VALUES (126, 0, 0, 1, 'voicemail.conf', 'general', 'forward_urgent_auto', NULL);
+INSERT INTO public.staticvoicemail VALUES (127, 0, 0, 1, 'voicemail.conf', 'general', 'userscontext', NULL);
+INSERT INTO public.staticvoicemail VALUES (128, 0, 0, 1, 'voicemail.conf', 'general', 'smdienable', NULL);
+INSERT INTO public.staticvoicemail VALUES (129, 0, 0, 1, 'voicemail.conf', 'general', 'externpassnotify', NULL);
+INSERT INTO public.staticvoicemail VALUES (130, 0, 0, 1, 'voicemail.conf', 'general', 'externpasscheck', NULL);
+INSERT INTO public.staticvoicemail VALUES (131, 0, 0, 1, 'voicemail.conf', 'general', 'directoryinfo', NULL);
+INSERT INTO public.staticvoicemail VALUES (132, 0, 0, 1, 'voicemail.conf', 'general', 'pollmailboxes', NULL);
+INSERT INTO public.staticvoicemail VALUES (133, 0, 0, 1, 'voicemail.conf', 'general', 'pollfreq', NULL);
+INSERT INTO public.staticvoicemail VALUES (134, 0, 0, 1, 'voicemail.conf', 'general', 'imapgreetings', NULL);
+INSERT INTO public.staticvoicemail VALUES (135, 0, 0, 1, 'voicemail.conf', 'general', 'greetingsfolder', NULL);
+INSERT INTO public.staticvoicemail VALUES (136, 0, 0, 1, 'voicemail.conf', 'general', 'imapparentfolder', NULL);
+INSERT INTO public.staticvoicemail VALUES (137, 0, 0, 1, 'voicemail.conf', 'general', 'tz', NULL);
+INSERT INTO public.staticvoicemail VALUES (138, 0, 0, 1, 'voicemail.conf', 'general', 'hidefromdir', NULL);
+INSERT INTO public.staticvoicemail VALUES (139, 0, 0, 1, 'voicemail.conf', 'general', 'messagewrap', NULL);
+INSERT INTO public.staticvoicemail VALUES (140, 0, 0, 1, 'voicemail.conf', 'general', 'minpassword', NULL);
+INSERT INTO public.staticvoicemail VALUES (141, 0, 0, 1, 'voicemail.conf', 'general', 'vm-password', NULL);
+INSERT INTO public.staticvoicemail VALUES (142, 0, 0, 1, 'voicemail.conf', 'general', 'vm-newpassword', NULL);
+INSERT INTO public.staticvoicemail VALUES (143, 0, 0, 1, 'voicemail.conf', 'general', 'vm-passchanged', NULL);
+INSERT INTO public.staticvoicemail VALUES (144, 0, 0, 1, 'voicemail.conf', 'general', 'vm-reenterpassword', NULL);
+INSERT INTO public.staticvoicemail VALUES (145, 0, 0, 1, 'voicemail.conf', 'general', 'vm-mismatch', NULL);
+INSERT INTO public.staticvoicemail VALUES (146, 0, 0, 1, 'voicemail.conf', 'general', 'vm-invalid-password', NULL);
+INSERT INTO public.staticvoicemail VALUES (147, 0, 0, 1, 'voicemail.conf', 'general', 'vm-pls-try-again', NULL);
+INSERT INTO public.staticvoicemail VALUES (148, 0, 0, 1, 'voicemail.conf', 'general', 'listen-control-forward-key', NULL);
+INSERT INTO public.staticvoicemail VALUES (149, 0, 0, 1, 'voicemail.conf', 'general', 'listen-control-reverse-key', NULL);
+INSERT INTO public.staticvoicemail VALUES (150, 0, 0, 1, 'voicemail.conf', 'general', 'listen-control-pause-key', NULL);
+INSERT INTO public.staticvoicemail VALUES (151, 0, 0, 1, 'voicemail.conf', 'general', 'listen-control-restart-key', NULL);
+INSERT INTO public.staticvoicemail VALUES (152, 0, 0, 1, 'voicemail.conf', 'general', 'listen-control-stop-key', NULL);
+INSERT INTO public.staticvoicemail VALUES (153, 0, 0, 1, 'voicemail.conf', 'general', 'backupdeleted', NULL);
+
+
+--
+-- Data for Name: stats_conf; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stats_conf_agent; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stats_conf_queue; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: stats_conf_xivouser; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: switchboard; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: switchboard_member_user; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: tenant; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: trunkfeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: user_external_app; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: user_line; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: usercustom; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: userfeatures; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: useriax; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Data for Name: voicemail; Type: TABLE DATA; Schema: public; Owner: asterisk
+--
+
+
+
+--
+-- Name: accessfeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.accessfeatures_id_seq', 1, false);
+
+
+--
+-- Name: agentfeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.agentfeatures_id_seq', 1, false);
+
+
+--
+-- Name: agentglobalparams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.agentglobalparams_id_seq', 5, true);
+
+
+--
+-- Name: asterisk_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.asterisk_file_id_seq', 4, true);
+
+
+--
+-- Name: asterisk_file_section_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.asterisk_file_section_id_seq', 8, true);
+
+
+--
+-- Name: asterisk_file_variable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.asterisk_file_variable_id_seq', 9, true);
+
+
+--
+-- Name: callfilter_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.callfilter_id_seq', 1, false);
+
+
+--
+-- Name: callfiltermember_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.callfiltermember_id_seq', 1, false);
+
+
+--
+-- Name: cel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.cel_id_seq', 1, false);
+
+
+--
+-- Name: conference_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.conference_id_seq', 1, false);
+
+
+--
+-- Name: context_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.context_id_seq', 1, false);
+
+
+--
+-- Name: contexttype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.contexttype_id_seq', 5, true);
+
+
+--
+-- Name: dhcp_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.dhcp_id_seq', 1, true);
+
+
+--
+-- Name: dialpattern_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.dialpattern_id_seq', 1, false);
+
+
+--
+-- Name: extensions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.extensions_id_seq', 1, false);
+
+
+--
+-- Name: features_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.features_id_seq', 13, true);
+
+
+--
+-- Name: func_key_destination_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.func_key_destination_type_id_seq', 1, false);
+
+
+--
+-- Name: func_key_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.func_key_id_seq', 15, true);
+
+
+--
+-- Name: func_key_template_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.func_key_template_id_seq', 1, false);
+
+
+--
+-- Name: func_key_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.func_key_type_id_seq', 3, true);
+
+
+--
+-- Name: groupfeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.groupfeatures_id_seq', 1, false);
+
+
+--
+-- Name: iaxcallnumberlimits_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.iaxcallnumberlimits_id_seq', 1, false);
+
+
+--
+-- Name: incall_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.incall_id_seq', 1, false);
+
+
+--
+-- Name: ivr_choice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.ivr_choice_id_seq', 1, false);
+
+
+--
+-- Name: ivr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.ivr_id_seq', 1, false);
+
+
+--
+-- Name: linefeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.linefeatures_id_seq', 1, false);
+
+
+--
+-- Name: mail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.mail_id_seq', 1, true);
+
+
+--
+-- Name: netiface_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.netiface_id_seq', 1, false);
+
+
+--
+-- Name: outcall_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.outcall_id_seq', 1, false);
+
+
+--
+-- Name: paging_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.paging_id_seq', 1, false);
+
+
+--
+-- Name: parking_lot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.parking_lot_id_seq', 1, false);
+
+
+--
+-- Name: pjsip_transport_option_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.pjsip_transport_option_id_seq', 4, true);
+
+
+--
+-- Name: provisioning_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.provisioning_id_seq', 1, true);
+
+
+--
+-- Name: queue_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.queue_log_id_seq', 1, false);
+
+
+--
+-- Name: queuefeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.queuefeatures_id_seq', 1, false);
+
+
+--
+-- Name: queueskill_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.queueskill_id_seq', 1, false);
+
+
+--
+-- Name: queueskillrule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.queueskillrule_id_seq', 1, false);
+
+
+--
+-- Name: resolvconf_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.resolvconf_id_seq', 1, true);
+
+
+--
+-- Name: rightcall_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.rightcall_id_seq', 1, false);
+
+
+--
+-- Name: rightcallexten_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.rightcallexten_id_seq', 1, false);
+
+
+--
+-- Name: rightcallmember_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.rightcallmember_id_seq', 1, false);
+
+
+--
+-- Name: sccpdevice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.sccpdevice_id_seq', 1, false);
+
+
+--
+-- Name: sccpgeneralsettings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.sccpgeneralsettings_id_seq', 7, true);
+
+
+--
+-- Name: sccpline_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.sccpline_id_seq', 1, false);
+
+
+--
+-- Name: schedule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.schedule_id_seq', 1, false);
+
+
+--
+-- Name: schedule_time_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.schedule_time_id_seq', 1, false);
+
+
+--
+-- Name: stat_agent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_agent_id_seq', 1, false);
+
+
+--
+-- Name: stat_agent_periodic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_agent_periodic_id_seq', 1, false);
+
+
+--
+-- Name: stat_call_on_queue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_call_on_queue_id_seq', 1, false);
+
+
+--
+-- Name: stat_queue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_queue_id_seq', 1, false);
+
+
+--
+-- Name: stat_queue_periodic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_queue_periodic_id_seq', 1, false);
+
+
+--
+-- Name: stat_switchboard_queue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stat_switchboard_queue_id_seq', 1, false);
+
+
+--
+-- Name: staticiax_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.staticiax_id_seq', 51, true);
+
+
+--
+-- Name: staticqueue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.staticqueue_id_seq', 5, true);
+
+
+--
+-- Name: staticvoicemail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.staticvoicemail_id_seq', 153, true);
+
+
+--
+-- Name: stats_conf_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.stats_conf_id_seq', 1, false);
+
+
+--
+-- Name: trunkfeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.trunkfeatures_id_seq', 1, false);
+
+
+--
+-- Name: usercustom_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.usercustom_id_seq', 1, false);
+
+
+--
+-- Name: userfeatures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.userfeatures_id_seq', 1, false);
+
+
+--
+-- Name: useriax_id_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.useriax_id_seq', 1, false);
+
+
+--
+-- Name: voicemail_uniqueid_seq; Type: SEQUENCE SET; Schema: public; Owner: asterisk
+--
+
+SELECT pg_catalog.setval('public.voicemail_uniqueid_seq', 1, false);
+
+
+--
+-- Name: accessfeatures accessfeatures_host_feature_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.accessfeatures
@@ -4865,7 +6040,7 @@ ALTER TABLE ONLY public.accessfeatures
 
 
 --
--- Name: accessfeatures accessfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: accessfeatures accessfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.accessfeatures
@@ -4873,7 +6048,7 @@ ALTER TABLE ONLY public.accessfeatures
 
 
 --
--- Name: agent_login_status agent_login_status_extension_context_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agent_login_status agent_login_status_extension_context_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agent_login_status
@@ -4881,7 +6056,7 @@ ALTER TABLE ONLY public.agent_login_status
 
 
 --
--- Name: agent_login_status agent_login_status_interface_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agent_login_status agent_login_status_interface_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agent_login_status
@@ -4889,7 +6064,7 @@ ALTER TABLE ONLY public.agent_login_status
 
 
 --
--- Name: agent_login_status agent_login_status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agent_login_status agent_login_status_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agent_login_status
@@ -4897,7 +6072,7 @@ ALTER TABLE ONLY public.agent_login_status
 
 
 --
--- Name: agent_membership_status agent_membership_status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agent_membership_status agent_membership_status_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agent_membership_status
@@ -4905,15 +6080,15 @@ ALTER TABLE ONLY public.agent_membership_status
 
 
 --
--- Name: agentfeatures agentfeatures_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agentfeatures agentfeatures_number_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentfeatures
-    ADD CONSTRAINT agentfeatures_number_key UNIQUE (number);
+    ADD CONSTRAINT agentfeatures_number_tenant_uuid_key UNIQUE (number, tenant_uuid);
 
 
 --
--- Name: agentfeatures agentfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agentfeatures agentfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentfeatures
@@ -4921,7 +6096,7 @@ ALTER TABLE ONLY public.agentfeatures
 
 
 --
--- Name: agentglobalparams agentglobalparams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agentglobalparams agentglobalparams_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentglobalparams
@@ -4929,7 +6104,7 @@ ALTER TABLE ONLY public.agentglobalparams
 
 
 --
--- Name: agentqueueskill agentqueueskill_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agentqueueskill agentqueueskill_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentqueueskill
@@ -4937,15 +6112,7 @@ ALTER TABLE ONLY public.agentqueueskill
 
 
 --
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.alembic_version
-    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
-
-
---
--- Name: application_dest_node application_dest_node_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: application_dest_node application_dest_node_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.application_dest_node
@@ -4953,7 +6120,7 @@ ALTER TABLE ONLY public.application_dest_node
 
 
 --
--- Name: application application_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: application application_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.application
@@ -4961,7 +6128,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- Name: asterisk_file asterisk_file_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file asterisk_file_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file
@@ -4969,7 +6136,7 @@ ALTER TABLE ONLY public.asterisk_file
 
 
 --
--- Name: asterisk_file asterisk_file_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file asterisk_file_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file
@@ -4977,7 +6144,7 @@ ALTER TABLE ONLY public.asterisk_file
 
 
 --
--- Name: asterisk_file_section asterisk_file_section_name_asterisk_file_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file_section asterisk_file_section_name_asterisk_file_id_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_section
@@ -4985,7 +6152,7 @@ ALTER TABLE ONLY public.asterisk_file_section
 
 
 --
--- Name: asterisk_file_section asterisk_file_section_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file_section asterisk_file_section_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_section
@@ -4993,7 +6160,7 @@ ALTER TABLE ONLY public.asterisk_file_section
 
 
 --
--- Name: asterisk_file_variable asterisk_file_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable asterisk_file_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_variable
@@ -5001,7 +6168,39 @@ ALTER TABLE ONLY public.asterisk_file_variable
 
 
 --
--- Name: callerid callerid_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: blocklist_number blocklist_number_number_blocklist_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_number
+    ADD CONSTRAINT blocklist_number_number_blocklist_uuid_key UNIQUE (number, blocklist_uuid);
+
+
+--
+-- Name: blocklist_number blocklist_number_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_number
+    ADD CONSTRAINT blocklist_number_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: blocklist blocklist_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist
+    ADD CONSTRAINT blocklist_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: blocklist_user blocklist_user_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_user
+    ADD CONSTRAINT blocklist_user_pkey PRIMARY KEY (user_uuid, blocklist_uuid);
+
+
+--
+-- Name: callerid callerid_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callerid
@@ -5009,7 +6208,7 @@ ALTER TABLE ONLY public.callerid
 
 
 --
--- Name: callfilter callfilter_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: callfilter callfilter_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfilter
@@ -5017,7 +6216,7 @@ ALTER TABLE ONLY public.callfilter
 
 
 --
--- Name: callfilter callfilter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: callfilter callfilter_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfilter
@@ -5025,7 +6224,7 @@ ALTER TABLE ONLY public.callfilter
 
 
 --
--- Name: callfiltermember callfiltermember_callfilterid_type_typeval_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: callfiltermember callfiltermember_callfilterid_type_typeval_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfiltermember
@@ -5033,7 +6232,7 @@ ALTER TABLE ONLY public.callfiltermember
 
 
 --
--- Name: callfiltermember callfiltermember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: callfiltermember callfiltermember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfiltermember
@@ -5041,7 +6240,7 @@ ALTER TABLE ONLY public.callfiltermember
 
 
 --
--- Name: cel cel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cel cel_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.cel
@@ -5049,7 +6248,7 @@ ALTER TABLE ONLY public.cel
 
 
 --
--- Name: conference conference_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: conference conference_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.conference
@@ -5057,7 +6256,7 @@ ALTER TABLE ONLY public.conference
 
 
 --
--- Name: context context_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: context context_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.context
@@ -5065,7 +6264,7 @@ ALTER TABLE ONLY public.context
 
 
 --
--- Name: context context_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: context context_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.context
@@ -5073,7 +6272,15 @@ ALTER TABLE ONLY public.context
 
 
 --
--- Name: contextinclude contextinclude_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: context context_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.context
+    ADD CONSTRAINT context_uuid_key UNIQUE (uuid);
+
+
+--
+-- Name: contextinclude contextinclude_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contextinclude
@@ -5081,7 +6288,7 @@ ALTER TABLE ONLY public.contextinclude
 
 
 --
--- Name: contextmember contextmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: contextmember contextmember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contextmember
@@ -5089,7 +6296,7 @@ ALTER TABLE ONLY public.contextmember
 
 
 --
--- Name: contextnumbers contextnumbers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: contextnumbers contextnumbers_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contextnumbers
@@ -5097,7 +6304,7 @@ ALTER TABLE ONLY public.contextnumbers
 
 
 --
--- Name: contexttype contexttype_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: contexttype contexttype_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contexttype
@@ -5105,7 +6312,7 @@ ALTER TABLE ONLY public.contexttype
 
 
 --
--- Name: contexttype contexttype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: contexttype contexttype_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.contexttype
@@ -5113,7 +6320,7 @@ ALTER TABLE ONLY public.contexttype
 
 
 --
--- Name: dhcp dhcp_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: dhcp dhcp_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.dhcp
@@ -5121,7 +6328,7 @@ ALTER TABLE ONLY public.dhcp
 
 
 --
--- Name: dialaction dialaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: dialaction dialaction_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.dialaction
@@ -5129,7 +6336,7 @@ ALTER TABLE ONLY public.dialaction
 
 
 --
--- Name: dialpattern dialpattern_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: dialpattern dialpattern_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.dialpattern
@@ -5137,7 +6344,7 @@ ALTER TABLE ONLY public.dialpattern
 
 
 --
--- Name: endpoint_sip endpoint_sip_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip endpoint_sip_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip
@@ -5145,7 +6352,7 @@ ALTER TABLE ONLY public.endpoint_sip
 
 
 --
--- Name: endpoint_sip endpoint_sip_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip endpoint_sip_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip
@@ -5153,7 +6360,7 @@ ALTER TABLE ONLY public.endpoint_sip
 
 
 --
--- Name: endpoint_sip_section_option endpoint_sip_section_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section_option endpoint_sip_section_option_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_section_option
@@ -5161,7 +6368,7 @@ ALTER TABLE ONLY public.endpoint_sip_section_option
 
 
 --
--- Name: endpoint_sip_section endpoint_sip_section_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section endpoint_sip_section_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_section
@@ -5169,7 +6376,7 @@ ALTER TABLE ONLY public.endpoint_sip_section
 
 
 --
--- Name: endpoint_sip_section endpoint_sip_section_type_endpoint_sip_uuid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section endpoint_sip_section_type_endpoint_sip_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_section
@@ -5177,7 +6384,7 @@ ALTER TABLE ONLY public.endpoint_sip_section
 
 
 --
--- Name: endpoint_sip_template endpoint_sip_template_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_template endpoint_sip_template_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_template
@@ -5185,7 +6392,7 @@ ALTER TABLE ONLY public.endpoint_sip_template
 
 
 --
--- Name: extensions extensions_exten_context_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: extensions extensions_exten_context_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.extensions
@@ -5193,7 +6400,7 @@ ALTER TABLE ONLY public.extensions
 
 
 --
--- Name: extensions extensions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: extensions extensions_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.extensions
@@ -5201,7 +6408,7 @@ ALTER TABLE ONLY public.extensions
 
 
 --
--- Name: external_app external_app_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: external_app external_app_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.external_app
@@ -5209,7 +6416,23 @@ ALTER TABLE ONLY public.external_app
 
 
 --
--- Name: features features_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: feature_extension feature_extension_exten_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.feature_extension
+    ADD CONSTRAINT feature_extension_exten_key UNIQUE (exten);
+
+
+--
+-- Name: feature_extension feature_extension_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.feature_extension
+    ADD CONSTRAINT feature_extension_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: features features_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.features
@@ -5217,15 +6440,15 @@ ALTER TABLE ONLY public.features
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_agent_id_extension_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_agent_id_feature_extension_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
-    ADD CONSTRAINT func_key_dest_agent_agent_id_extension_id_key UNIQUE (agent_id, extension_id);
+    ADD CONSTRAINT func_key_dest_agent_agent_id_feature_extension_uuid_key UNIQUE (agent_id, feature_extension_uuid);
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
@@ -5233,7 +6456,7 @@ ALTER TABLE ONLY public.func_key_dest_agent
 
 
 --
--- Name: func_key_dest_bsfilter func_key_dest_bsfilter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_bsfilter func_key_dest_bsfilter_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_bsfilter
@@ -5241,7 +6464,7 @@ ALTER TABLE ONLY public.func_key_dest_bsfilter
 
 
 --
--- Name: func_key_dest_conference func_key_dest_conference_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_conference func_key_dest_conference_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_conference
@@ -5249,7 +6472,7 @@ ALTER TABLE ONLY public.func_key_dest_conference
 
 
 --
--- Name: func_key_dest_custom func_key_dest_custom_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_custom func_key_dest_custom_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_custom
@@ -5257,7 +6480,7 @@ ALTER TABLE ONLY public.func_key_dest_custom
 
 
 --
--- Name: func_key_dest_features func_key_dest_features_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_features func_key_dest_features_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_features
@@ -5265,15 +6488,15 @@ ALTER TABLE ONLY public.func_key_dest_features
 
 
 --
--- Name: func_key_dest_forward func_key_dest_forward_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_forward func_key_dest_forward_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_forward
-    ADD CONSTRAINT func_key_dest_forward_pkey PRIMARY KEY (func_key_id, destination_type_id, extension_id);
+    ADD CONSTRAINT func_key_dest_forward_pkey PRIMARY KEY (func_key_id, destination_type_id, feature_extension_uuid);
 
 
 --
--- Name: func_key_dest_group func_key_dest_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_group func_key_dest_group_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_group
@@ -5281,15 +6504,15 @@ ALTER TABLE ONLY public.func_key_dest_group
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_group_id_extension_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_group_id_feature_extension_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
-    ADD CONSTRAINT func_key_dest_groupmember_group_id_extension_id_key UNIQUE (group_id, extension_id);
+    ADD CONSTRAINT func_key_dest_groupmember_group_id_feature_extension_uuid_key UNIQUE (group_id, feature_extension_uuid);
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
@@ -5297,7 +6520,7 @@ ALTER TABLE ONLY public.func_key_dest_groupmember
 
 
 --
--- Name: func_key_dest_paging func_key_dest_paging_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_paging func_key_dest_paging_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_paging
@@ -5305,7 +6528,15 @@ ALTER TABLE ONLY public.func_key_dest_paging
 
 
 --
--- Name: func_key_dest_park_position func_key_dest_park_position_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_park_position func_key_dest_park_position_parking_lot_id_park_position_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_park_position
+    ADD CONSTRAINT func_key_dest_park_position_parking_lot_id_park_position_key UNIQUE (parking_lot_id, park_position);
+
+
+--
+-- Name: func_key_dest_park_position func_key_dest_park_position_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_park_position
@@ -5313,7 +6544,23 @@ ALTER TABLE ONLY public.func_key_dest_park_position
 
 
 --
--- Name: func_key_dest_queue func_key_dest_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_parking func_key_dest_parking_parking_lot_id_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_parking
+    ADD CONSTRAINT func_key_dest_parking_parking_lot_id_key UNIQUE (parking_lot_id);
+
+
+--
+-- Name: func_key_dest_parking func_key_dest_parking_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_parking
+    ADD CONSTRAINT func_key_dest_parking_pkey PRIMARY KEY (func_key_id, destination_type_id);
+
+
+--
+-- Name: func_key_dest_queue func_key_dest_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_queue
@@ -5321,15 +6568,15 @@ ALTER TABLE ONLY public.func_key_dest_queue
 
 
 --
--- Name: func_key_dest_service func_key_dest_service_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_service func_key_dest_service_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_service
-    ADD CONSTRAINT func_key_dest_service_pkey PRIMARY KEY (func_key_id, destination_type_id, extension_id);
+    ADD CONSTRAINT func_key_dest_service_pkey PRIMARY KEY (func_key_id, destination_type_id, feature_extension_uuid);
 
 
 --
--- Name: func_key_dest_user func_key_dest_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_user func_key_dest_user_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_user
@@ -5337,7 +6584,7 @@ ALTER TABLE ONLY public.func_key_dest_user
 
 
 --
--- Name: func_key_destination_type func_key_destination_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_destination_type func_key_destination_type_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_destination_type
@@ -5345,7 +6592,7 @@ ALTER TABLE ONLY public.func_key_destination_type
 
 
 --
--- Name: func_key_mapping func_key_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_mapping func_key_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_mapping
@@ -5353,7 +6600,7 @@ ALTER TABLE ONLY public.func_key_mapping
 
 
 --
--- Name: func_key_mapping func_key_mapping_template_id_position_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_mapping func_key_mapping_template_id_position_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_mapping
@@ -5361,7 +6608,7 @@ ALTER TABLE ONLY public.func_key_mapping
 
 
 --
--- Name: func_key func_key_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key func_key_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key
@@ -5369,7 +6616,7 @@ ALTER TABLE ONLY public.func_key
 
 
 --
--- Name: func_key_template func_key_template_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_template func_key_template_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_template
@@ -5377,7 +6624,7 @@ ALTER TABLE ONLY public.func_key_template
 
 
 --
--- Name: func_key_type func_key_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_type func_key_type_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_type
@@ -5385,7 +6632,7 @@ ALTER TABLE ONLY public.func_key_type
 
 
 --
--- Name: groupfeatures groupfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: groupfeatures groupfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.groupfeatures
@@ -5393,7 +6640,7 @@ ALTER TABLE ONLY public.groupfeatures
 
 
 --
--- Name: iaxcallnumberlimits iaxcallnumberlimits_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: iaxcallnumberlimits iaxcallnumberlimits_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.iaxcallnumberlimits
@@ -5401,7 +6648,7 @@ ALTER TABLE ONLY public.iaxcallnumberlimits
 
 
 --
--- Name: incall incall_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: incall incall_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.incall
@@ -5409,7 +6656,7 @@ ALTER TABLE ONLY public.incall
 
 
 --
--- Name: infos infos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: infos infos_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.infos
@@ -5417,7 +6664,7 @@ ALTER TABLE ONLY public.infos
 
 
 --
--- Name: ingress_http ingress_http_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ingress_http ingress_http_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ingress_http
@@ -5425,7 +6672,7 @@ ALTER TABLE ONLY public.ingress_http
 
 
 --
--- Name: ingress_http ingress_http_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ingress_http ingress_http_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ingress_http
@@ -5433,7 +6680,7 @@ ALTER TABLE ONLY public.ingress_http
 
 
 --
--- Name: ivr_choice ivr_choice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ivr_choice ivr_choice_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr_choice
@@ -5441,7 +6688,7 @@ ALTER TABLE ONLY public.ivr_choice
 
 
 --
--- Name: ivr ivr_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ivr ivr_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr
@@ -5449,7 +6696,7 @@ ALTER TABLE ONLY public.ivr
 
 
 --
--- Name: line_extension line_extension_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: line_extension line_extension_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.line_extension
@@ -5457,7 +6704,7 @@ ALTER TABLE ONLY public.line_extension
 
 
 --
--- Name: linefeatures linefeatures_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -5465,7 +6712,7 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: linefeatures linefeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -5473,7 +6720,7 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: mail mail_origin_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: mail mail_origin_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.mail
@@ -5481,7 +6728,7 @@ ALTER TABLE ONLY public.mail
 
 
 --
--- Name: mail mail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: mail mail_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.mail
@@ -5489,7 +6736,7 @@ ALTER TABLE ONLY public.mail
 
 
 --
--- Name: meeting_authorization meeting_authorization_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting_authorization meeting_authorization_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting_authorization
@@ -5497,7 +6744,7 @@ ALTER TABLE ONLY public.meeting_authorization
 
 
 --
--- Name: meeting meeting_number_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting meeting_number_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting
@@ -5505,7 +6752,7 @@ ALTER TABLE ONLY public.meeting
 
 
 --
--- Name: meeting_owner meeting_owner_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting_owner meeting_owner_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting_owner
@@ -5513,7 +6760,7 @@ ALTER TABLE ONLY public.meeting_owner
 
 
 --
--- Name: meeting meeting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting meeting_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting
@@ -5521,7 +6768,7 @@ ALTER TABLE ONLY public.meeting
 
 
 --
--- Name: moh moh_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: moh moh_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.moh
@@ -5529,7 +6776,7 @@ ALTER TABLE ONLY public.moh
 
 
 --
--- Name: moh moh_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: moh moh_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.moh
@@ -5537,15 +6784,7 @@ ALTER TABLE ONLY public.moh
 
 
 --
--- Name: monitoring monitoring_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.monitoring
-    ADD CONSTRAINT monitoring_pkey PRIMARY KEY (id);
-
-
---
--- Name: netiface netiface_ifname_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: netiface netiface_ifname_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.netiface
@@ -5553,7 +6792,7 @@ ALTER TABLE ONLY public.netiface
 
 
 --
--- Name: netiface netiface_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: netiface netiface_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.netiface
@@ -5561,7 +6800,7 @@ ALTER TABLE ONLY public.netiface
 
 
 --
--- Name: outcall outcall_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcall outcall_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcall
@@ -5569,7 +6808,7 @@ ALTER TABLE ONLY public.outcall
 
 
 --
--- Name: outcall outcall_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcall outcall_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcall
@@ -5577,7 +6816,7 @@ ALTER TABLE ONLY public.outcall
 
 
 --
--- Name: outcalltrunk outcalltrunk_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcalltrunk outcalltrunk_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcalltrunk
@@ -5585,7 +6824,7 @@ ALTER TABLE ONLY public.outcalltrunk
 
 
 --
--- Name: paging paging_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paging paging_number_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paging
@@ -5593,7 +6832,7 @@ ALTER TABLE ONLY public.paging
 
 
 --
--- Name: paging paging_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paging paging_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paging
@@ -5601,7 +6840,7 @@ ALTER TABLE ONLY public.paging
 
 
 --
--- Name: paginguser paginguser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paginguser paginguser_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paginguser
@@ -5609,7 +6848,7 @@ ALTER TABLE ONLY public.paginguser
 
 
 --
--- Name: parking_lot parking_lot_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: parking_lot parking_lot_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.parking_lot
@@ -5617,7 +6856,23 @@ ALTER TABLE ONLY public.parking_lot
 
 
 --
--- Name: pickup pickup_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phone_number phone_number_number_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.phone_number
+    ADD CONSTRAINT phone_number_number_tenant_uuid_key UNIQUE (number, tenant_uuid);
+
+
+--
+-- Name: phone_number phone_number_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.phone_number
+    ADD CONSTRAINT phone_number_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: pickup pickup_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pickup
@@ -5625,7 +6880,7 @@ ALTER TABLE ONLY public.pickup
 
 
 --
--- Name: pickup pickup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pickup pickup_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pickup
@@ -5633,7 +6888,7 @@ ALTER TABLE ONLY public.pickup
 
 
 --
--- Name: pickupmember pickupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pickupmember pickupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pickupmember
@@ -5641,7 +6896,7 @@ ALTER TABLE ONLY public.pickupmember
 
 
 --
--- Name: pjsip_transport pjsip_transport_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pjsip_transport pjsip_transport_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pjsip_transport
@@ -5649,7 +6904,7 @@ ALTER TABLE ONLY public.pjsip_transport
 
 
 --
--- Name: pjsip_transport_option pjsip_transport_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option pjsip_transport_option_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pjsip_transport_option
@@ -5657,7 +6912,7 @@ ALTER TABLE ONLY public.pjsip_transport_option
 
 
 --
--- Name: pjsip_transport pjsip_transport_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pjsip_transport pjsip_transport_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pjsip_transport
@@ -5665,7 +6920,7 @@ ALTER TABLE ONLY public.pjsip_transport
 
 
 --
--- Name: provisioning provisioning_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: provisioning provisioning_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.provisioning
@@ -5673,7 +6928,7 @@ ALTER TABLE ONLY public.provisioning
 
 
 --
--- Name: queue_log queue_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queue_log queue_log_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queue_log
@@ -5681,7 +6936,7 @@ ALTER TABLE ONLY public.queue_log
 
 
 --
--- Name: queue queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queue queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queue
@@ -5689,7 +6944,7 @@ ALTER TABLE ONLY public.queue
 
 
 --
--- Name: queuefeatures queuefeatures_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queuefeatures queuefeatures_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuefeatures
@@ -5697,7 +6952,7 @@ ALTER TABLE ONLY public.queuefeatures
 
 
 --
--- Name: queuefeatures queuefeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queuefeatures queuefeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuefeatures
@@ -5705,7 +6960,7 @@ ALTER TABLE ONLY public.queuefeatures
 
 
 --
--- Name: queuemember queuemember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queuemember queuemember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuemember
@@ -5713,7 +6968,7 @@ ALTER TABLE ONLY public.queuemember
 
 
 --
--- Name: queuemember queuemember_queue_name_channel_interface_usertype_userid_ca_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queuemember queuemember_queue_name_channel_interface_usertype_userid_ca_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuemember
@@ -5721,31 +6976,7 @@ ALTER TABLE ONLY public.queuemember
 
 
 --
--- Name: queuepenalty queuepenalty_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queuepenalty
-    ADD CONSTRAINT queuepenalty_name_key UNIQUE (name);
-
-
---
--- Name: queuepenalty queuepenalty_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queuepenalty
-    ADD CONSTRAINT queuepenalty_pkey PRIMARY KEY (id);
-
-
---
--- Name: queuepenaltychange queuepenaltychange_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queuepenaltychange
-    ADD CONSTRAINT queuepenaltychange_pkey PRIMARY KEY (queuepenalty_id, seconds);
-
-
---
--- Name: queueskill queueskill_name_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queueskill queueskill_name_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskill
@@ -5753,7 +6984,7 @@ ALTER TABLE ONLY public.queueskill
 
 
 --
--- Name: queueskill queueskill_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queueskill queueskill_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskill
@@ -5761,23 +6992,7 @@ ALTER TABLE ONLY public.queueskill
 
 
 --
--- Name: queueskillcat queueskillcat_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queueskillcat
-    ADD CONSTRAINT queueskillcat_name_key UNIQUE (name);
-
-
---
--- Name: queueskillcat queueskillcat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.queueskillcat
-    ADD CONSTRAINT queueskillcat_pkey PRIMARY KEY (id);
-
-
---
--- Name: queueskillrule queueskillrule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queueskillrule queueskillrule_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskillrule
@@ -5785,7 +7000,7 @@ ALTER TABLE ONLY public.queueskillrule
 
 
 --
--- Name: resolvconf resolvconf_domain_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: resolvconf resolvconf_domain_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.resolvconf
@@ -5793,7 +7008,7 @@ ALTER TABLE ONLY public.resolvconf
 
 
 --
--- Name: resolvconf resolvconf_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: resolvconf resolvconf_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.resolvconf
@@ -5801,7 +7016,7 @@ ALTER TABLE ONLY public.resolvconf
 
 
 --
--- Name: rightcall rightcall_name_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcall rightcall_name_tenant_uuid_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcall
@@ -5809,7 +7024,7 @@ ALTER TABLE ONLY public.rightcall
 
 
 --
--- Name: rightcall rightcall_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcall rightcall_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcall
@@ -5817,7 +7032,7 @@ ALTER TABLE ONLY public.rightcall
 
 
 --
--- Name: rightcallexten rightcallexten_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcallexten rightcallexten_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallexten
@@ -5825,7 +7040,7 @@ ALTER TABLE ONLY public.rightcallexten
 
 
 --
--- Name: rightcallexten rightcallexten_rightcallid_exten_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcallexten rightcallexten_rightcallid_exten_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallexten
@@ -5833,7 +7048,7 @@ ALTER TABLE ONLY public.rightcallexten
 
 
 --
--- Name: rightcallmember rightcallmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcallmember rightcallmember_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallmember
@@ -5841,7 +7056,7 @@ ALTER TABLE ONLY public.rightcallmember
 
 
 --
--- Name: rightcallmember rightcallmember_rightcallid_type_typeval_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcallmember rightcallmember_rightcallid_type_typeval_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallmember
@@ -5849,7 +7064,7 @@ ALTER TABLE ONLY public.rightcallmember
 
 
 --
--- Name: sccpdevice sccpdevice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sccpdevice sccpdevice_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpdevice
@@ -5857,7 +7072,7 @@ ALTER TABLE ONLY public.sccpdevice
 
 
 --
--- Name: sccpgeneralsettings sccpgeneralsettings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sccpgeneralsettings sccpgeneralsettings_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpgeneralsettings
@@ -5865,7 +7080,7 @@ ALTER TABLE ONLY public.sccpgeneralsettings
 
 
 --
--- Name: sccpline sccpline_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sccpline sccpline_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpline
@@ -5873,7 +7088,7 @@ ALTER TABLE ONLY public.sccpline
 
 
 --
--- Name: schedule_path schedule_path_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: schedule_path schedule_path_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule_path
@@ -5881,7 +7096,7 @@ ALTER TABLE ONLY public.schedule_path
 
 
 --
--- Name: schedule schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: schedule schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule
@@ -5889,7 +7104,7 @@ ALTER TABLE ONLY public.schedule
 
 
 --
--- Name: schedule_time schedule_time_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: schedule_time schedule_time_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule_time
@@ -5897,7 +7112,7 @@ ALTER TABLE ONLY public.schedule_time
 
 
 --
--- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.session
@@ -5905,7 +7120,7 @@ ALTER TABLE ONLY public.session
 
 
 --
--- Name: stat_agent_periodic stat_agent_periodic_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic stat_agent_periodic_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_agent_periodic
@@ -5913,7 +7128,7 @@ ALTER TABLE ONLY public.stat_agent_periodic
 
 
 --
--- Name: stat_agent stat_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_agent stat_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_agent
@@ -5921,7 +7136,7 @@ ALTER TABLE ONLY public.stat_agent
 
 
 --
--- Name: stat_call_on_queue stat_call_on_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue stat_call_on_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_call_on_queue
@@ -5929,7 +7144,7 @@ ALTER TABLE ONLY public.stat_call_on_queue
 
 
 --
--- Name: stat_queue_periodic stat_queue_periodic_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic stat_queue_periodic_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_queue_periodic
@@ -5937,7 +7152,7 @@ ALTER TABLE ONLY public.stat_queue_periodic
 
 
 --
--- Name: stat_queue stat_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_queue stat_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_queue
@@ -5945,7 +7160,7 @@ ALTER TABLE ONLY public.stat_queue
 
 
 --
--- Name: stat_switchboard_queue stat_switchboard_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue stat_switchboard_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_switchboard_queue
@@ -5953,7 +7168,7 @@ ALTER TABLE ONLY public.stat_switchboard_queue
 
 
 --
--- Name: staticiax staticiax_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: staticiax staticiax_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticiax
@@ -5961,7 +7176,7 @@ ALTER TABLE ONLY public.staticiax
 
 
 --
--- Name: staticqueue staticqueue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: staticqueue staticqueue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticqueue
@@ -5969,7 +7184,7 @@ ALTER TABLE ONLY public.staticqueue
 
 
 --
--- Name: staticvoicemail staticvoicemail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: staticvoicemail staticvoicemail_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.staticvoicemail
@@ -5977,7 +7192,7 @@ ALTER TABLE ONLY public.staticvoicemail
 
 
 --
--- Name: stats_conf_agent stats_conf_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stats_conf_agent stats_conf_agent_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf_agent
@@ -5985,7 +7200,7 @@ ALTER TABLE ONLY public.stats_conf_agent
 
 
 --
--- Name: stats_conf stats_conf_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stats_conf stats_conf_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf
@@ -5993,7 +7208,7 @@ ALTER TABLE ONLY public.stats_conf
 
 
 --
--- Name: stats_conf stats_conf_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stats_conf stats_conf_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf
@@ -6001,7 +7216,7 @@ ALTER TABLE ONLY public.stats_conf
 
 
 --
--- Name: stats_conf_queue stats_conf_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stats_conf_queue stats_conf_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf_queue
@@ -6009,7 +7224,7 @@ ALTER TABLE ONLY public.stats_conf_queue
 
 
 --
--- Name: stats_conf_xivouser stats_conf_xivouser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stats_conf_xivouser stats_conf_xivouser_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stats_conf_xivouser
@@ -6017,7 +7232,7 @@ ALTER TABLE ONLY public.stats_conf_xivouser
 
 
 --
--- Name: switchboard_member_user switchboard_member_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard_member_user switchboard_member_user_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard_member_user
@@ -6025,7 +7240,7 @@ ALTER TABLE ONLY public.switchboard_member_user
 
 
 --
--- Name: switchboard switchboard_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard switchboard_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard
@@ -6033,7 +7248,7 @@ ALTER TABLE ONLY public.switchboard
 
 
 --
--- Name: tenant tenant_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -6041,7 +7256,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: trunkfeatures trunkfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -6049,7 +7264,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: user_external_app user_external_app_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_external_app user_external_app_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.user_external_app
@@ -6057,7 +7272,7 @@ ALTER TABLE ONLY public.user_external_app
 
 
 --
--- Name: user_line user_line_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_line user_line_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.user_line
@@ -6065,7 +7280,7 @@ ALTER TABLE ONLY public.user_line
 
 
 --
--- Name: usercustom usercustom_interface_intfsuffix_category_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: usercustom usercustom_interface_intfsuffix_category_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.usercustom
@@ -6073,7 +7288,7 @@ ALTER TABLE ONLY public.usercustom
 
 
 --
--- Name: usercustom usercustom_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: usercustom usercustom_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.usercustom
@@ -6081,7 +7296,7 @@ ALTER TABLE ONLY public.usercustom
 
 
 --
--- Name: userfeatures userfeatures_email; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_email; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -6089,7 +7304,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_func_key_private_template_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_func_key_private_template_id_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -6097,7 +7312,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -6105,7 +7320,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_uuid; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_uuid; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -6113,7 +7328,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: useriax useriax_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: useriax useriax_name_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.useriax
@@ -6121,7 +7336,7 @@ ALTER TABLE ONLY public.useriax
 
 
 --
--- Name: useriax useriax_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: useriax useriax_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.useriax
@@ -6129,23 +7344,7 @@ ALTER TABLE ONLY public.useriax
 
 
 --
--- Name: usersip usersip_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.usersip
-    ADD CONSTRAINT usersip_name_key UNIQUE (name);
-
-
---
--- Name: usersip usersip_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.usersip
-    ADD CONSTRAINT usersip_pkey PRIMARY KEY (id);
-
-
---
--- Name: voicemail voicemail_mailbox_context_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: voicemail voicemail_mailbox_context_key; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.voicemail
@@ -6153,7 +7352,7 @@ ALTER TABLE ONLY public.voicemail
 
 
 --
--- Name: voicemail voicemail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: voicemail voicemail_pkey; Type: CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.voicemail
@@ -6161,462 +7360,980 @@ ALTER TABLE ONLY public.voicemail
 
 
 --
--- Name: cel__idx__call_log_id; Type: INDEX; Schema: public; Owner: postgres
+-- Name: agent_login_status__idx__agent_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX agent_login_status__idx__agent_id ON public.agent_login_status USING btree (agent_id);
+
+
+--
+-- Name: agent_membership_status__idx__agent_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX agent_membership_status__idx__agent_id ON public.agent_membership_status USING btree (agent_id);
+
+
+--
+-- Name: agent_membership_status__idx__queue_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX agent_membership_status__idx__queue_id ON public.agent_membership_status USING btree (queue_id);
+
+
+--
+-- Name: agentfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX agentfeatures__idx__tenant_uuid ON public.agentfeatures USING btree (tenant_uuid);
+
+
+--
+-- Name: application__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX application__idx__tenant_uuid ON public.application USING btree (tenant_uuid);
+
+
+--
+-- Name: asterisk_file_section__idx__asterisk_file_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX asterisk_file_section__idx__asterisk_file_id ON public.asterisk_file_section USING btree (asterisk_file_id);
+
+
+--
+-- Name: asterisk_file_variable__idx__asterisk_file_section_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX asterisk_file_variable__idx__asterisk_file_section_id ON public.asterisk_file_variable USING btree (asterisk_file_section_id);
+
+
+--
+-- Name: blocklist__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX blocklist__idx__tenant_uuid ON public.blocklist USING btree (tenant_uuid);
+
+
+--
+-- Name: callfilter__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX callfilter__idx__tenant_uuid ON public.callfilter USING btree (tenant_uuid);
+
+
+--
+-- Name: cel__idx__call_log_id; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX cel__idx__call_log_id ON public.cel USING btree (call_log_id);
 
 
 --
--- Name: cel__idx__eventtime; Type: INDEX; Schema: public; Owner: postgres
+-- Name: cel__idx__eventtime; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX cel__idx__eventtime ON public.cel USING btree (eventtime);
 
 
 --
--- Name: cel__idx__linkedid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: cel__idx__linkedid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX cel__idx__linkedid ON public.cel USING btree (linkedid);
 
 
 --
--- Name: contextmember__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: cel__idx__uniqueid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX cel__idx__uniqueid ON public.cel USING btree (uniqueid);
+
+
+--
+-- Name: conference__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX conference__idx__tenant_uuid ON public.conference USING btree (tenant_uuid);
+
+
+--
+-- Name: context__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX context__idx__tenant_uuid ON public.context USING btree (tenant_uuid);
+
+
+--
+-- Name: contextmember__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX contextmember__idx__context ON public.contextmember USING btree (context);
 
 
 --
--- Name: contextmember__idx__context_type; Type: INDEX; Schema: public; Owner: postgres
+-- Name: contextmember__idx__context_type; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX contextmember__idx__context_type ON public.contextmember USING btree (context, type);
 
 
 --
--- Name: dialaction__idx__action_actionarg1; Type: INDEX; Schema: public; Owner: postgres
+-- Name: dialaction__idx__action_actionarg1; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX dialaction__idx__action_actionarg1 ON public.dialaction USING btree (action, actionarg1);
 
 
 --
--- Name: endpoint_sip_options_view__idx_root; Type: INDEX; Schema: public; Owner: postgres
+-- Name: dialaction__idx__categoryval; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX dialaction__idx__categoryval ON public.dialaction USING btree (categoryval);
+
+
+--
+-- Name: endpoint_sip_options_view__idx_root; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE UNIQUE INDEX endpoint_sip_options_view__idx_root ON public.endpoint_sip_options_view USING btree (root);
 
 
 --
--- Name: extensions__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX endpoint_sip_section__idx__endpoint_sip_uuid ON public.endpoint_sip_section USING btree (endpoint_sip_uuid);
+
+
+--
+-- Name: endpoint_sip_section_option__idx__endpoint_sip_section_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX endpoint_sip_section_option__idx__endpoint_sip_section_uuid ON public.endpoint_sip_section_option USING btree (endpoint_sip_section_uuid);
+
+
+--
+-- Name: extensions__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX extensions__idx__context ON public.extensions USING btree (context);
 
 
 --
--- Name: extensions__idx__exten; Type: INDEX; Schema: public; Owner: postgres
+-- Name: extensions__idx__exten; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX extensions__idx__exten ON public.extensions USING btree (exten);
 
 
 --
--- Name: extensions__idx__type; Type: INDEX; Schema: public; Owner: postgres
+-- Name: extensions__idx__type; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX extensions__idx__type ON public.extensions USING btree (type);
 
 
 --
--- Name: extensions__idx__typeval; Type: INDEX; Schema: public; Owner: postgres
+-- Name: extensions__idx__typeval; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX extensions__idx__typeval ON public.extensions USING btree (typeval);
 
 
 --
--- Name: features__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: features__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX features__idx__category ON public.features USING btree (category);
 
 
 --
--- Name: groupfeatures__idx__name; Type: INDEX; Schema: public; Owner: postgres
+-- Name: func_key__idx__type_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key__idx__type_id ON public.func_key USING btree (type_id);
+
+
+--
+-- Name: func_key_dest_agent__idx__agent_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_dest_agent__idx__agent_id ON public.func_key_dest_agent USING btree (agent_id);
+
+
+--
+-- Name: func_key_dest_bsfilter__idx__filtermember_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_dest_bsfilter__idx__filtermember_id ON public.func_key_dest_bsfilter USING btree (filtermember_id);
+
+
+--
+-- Name: func_key_dest_features__idx__features_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_dest_features__idx__features_id ON public.func_key_dest_features USING btree (features_id);
+
+
+--
+-- Name: func_key_dest_groupmember__idx__group_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_dest_groupmember__idx__group_id ON public.func_key_dest_groupmember USING btree (group_id);
+
+
+--
+-- Name: func_key_dest_paging__idx__paging_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_dest_paging__idx__paging_id ON public.func_key_dest_paging USING btree (paging_id);
+
+
+--
+-- Name: func_key_template__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX func_key_template__idx__tenant_uuid ON public.func_key_template USING btree (tenant_uuid);
+
+
+--
+-- Name: groupfeatures__idx__name; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX groupfeatures__idx__name ON public.groupfeatures USING btree (name);
 
 
 --
--- Name: groupfeatures__idx__uuid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: groupfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX groupfeatures__idx__tenant_uuid ON public.groupfeatures USING btree (tenant_uuid);
+
+
+--
+-- Name: groupfeatures__idx__uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX groupfeatures__idx__uuid ON public.groupfeatures USING btree (uuid);
 
 
 --
--- Name: linefeatures__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: incall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX incall__idx__tenant_uuid ON public.incall USING btree (tenant_uuid);
+
+
+--
+-- Name: ingress_http__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX ingress_http__idx__tenant_uuid ON public.ingress_http USING btree (tenant_uuid);
+
+
+--
+-- Name: ivr__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX ivr__idx__tenant_uuid ON public.ivr USING btree (tenant_uuid);
+
+
+--
+-- Name: ivr_choice__idx__ivr_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX ivr_choice__idx__ivr_id ON public.ivr_choice USING btree (ivr_id);
+
+
+--
+-- Name: line_extension__idx__extension_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX line_extension__idx__extension_id ON public.line_extension USING btree (extension_id);
+
+
+--
+-- Name: line_extension__idx__line_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX line_extension__idx__line_id ON public.line_extension USING btree (line_id);
+
+
+--
+-- Name: linefeatures__idx__application_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX linefeatures__idx__application_uuid ON public.linefeatures USING btree (application_uuid);
+
+
+--
+-- Name: linefeatures__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX linefeatures__idx__context ON public.linefeatures USING btree (context);
 
 
 --
--- Name: linefeatures__idx__device; Type: INDEX; Schema: public; Owner: postgres
+-- Name: linefeatures__idx__device; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX linefeatures__idx__device ON public.linefeatures USING btree (device);
 
 
 --
--- Name: linefeatures__idx__number; Type: INDEX; Schema: public; Owner: postgres
+-- Name: linefeatures__idx__endpoint_custom_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX linefeatures__idx__endpoint_custom_id ON public.linefeatures USING btree (endpoint_custom_id);
+
+
+--
+-- Name: linefeatures__idx__endpoint_sccp_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX linefeatures__idx__endpoint_sccp_id ON public.linefeatures USING btree (endpoint_sccp_id);
+
+
+--
+-- Name: linefeatures__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX linefeatures__idx__endpoint_sip_uuid ON public.linefeatures USING btree (endpoint_sip_uuid);
+
+
+--
+-- Name: linefeatures__idx__number; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX linefeatures__idx__number ON public.linefeatures USING btree (number);
 
 
 --
--- Name: linefeatures__idx__provisioningid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: linefeatures__idx__provisioningid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX linefeatures__idx__provisioningid ON public.linefeatures USING btree (provisioningid);
 
 
 --
--- Name: outcalltrunk__idx__priority; Type: INDEX; Schema: public; Owner: postgres
+-- Name: meeting__idx__guest_endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX meeting__idx__guest_endpoint_sip_uuid ON public.meeting USING btree (guest_endpoint_sip_uuid);
+
+
+--
+-- Name: meeting__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX meeting__idx__tenant_uuid ON public.meeting USING btree (tenant_uuid);
+
+
+--
+-- Name: meeting_authorization__idx__guest_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX meeting_authorization__idx__guest_uuid ON public.meeting_authorization USING btree (guest_uuid);
+
+
+--
+-- Name: meeting_authorization__idx__meeting_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX meeting_authorization__idx__meeting_uuid ON public.meeting_authorization USING btree (meeting_uuid);
+
+
+--
+-- Name: moh__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX moh__idx__tenant_uuid ON public.moh USING btree (tenant_uuid);
+
+
+--
+-- Name: only_one_main_allowed; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE UNIQUE INDEX only_one_main_allowed ON public.phone_number USING btree (main, tenant_uuid) WHERE (main IS TRUE);
+
+
+--
+-- Name: outcall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX outcall__idx__tenant_uuid ON public.outcall USING btree (tenant_uuid);
+
+
+--
+-- Name: outcalltrunk__idx__priority; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX outcalltrunk__idx__priority ON public.outcalltrunk USING btree (priority);
 
 
 --
--- Name: paginguser__idx__pagingid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: paging__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX paging__idx__tenant_uuid ON public.paging USING btree (tenant_uuid);
+
+
+--
+-- Name: paginguser__idx__pagingid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX paginguser__idx__pagingid ON public.paginguser USING btree (pagingid);
 
 
 --
--- Name: queue__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: parking_lot__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX parking_lot__idx__tenant_uuid ON public.parking_lot USING btree (tenant_uuid);
+
+
+--
+-- Name: pickup__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX pickup__idx__tenant_uuid ON public.pickup USING btree (tenant_uuid);
+
+
+--
+-- Name: pjsip_transport_option__idx__pjsip_transport_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX pjsip_transport_option__idx__pjsip_transport_uuid ON public.pjsip_transport_option USING btree (pjsip_transport_uuid);
+
+
+--
+-- Name: queue__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queue__idx__category ON public.queue USING btree (category);
 
 
 --
--- Name: queue_log__idx_agent; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queue_log__idx_agent; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queue_log__idx_agent ON public.queue_log USING btree (agent);
 
 
 --
--- Name: queue_log__idx_callid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queue_log__idx_callid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queue_log__idx_callid ON public.queue_log USING btree (callid);
 
 
 --
--- Name: queue_log__idx_event; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queue_log__idx_event; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queue_log__idx_event ON public.queue_log USING btree (event);
 
 
 --
--- Name: queue_log__idx_time; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queue_log__idx_time; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queue_log__idx_time ON public.queue_log USING btree ("time");
 
 
 --
--- Name: queuefeatures__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuefeatures__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuefeatures__idx__context ON public.queuefeatures USING btree (context);
 
 
 --
--- Name: queuefeatures__idx__number; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuefeatures__idx__number; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuefeatures__idx__number ON public.queuefeatures USING btree (number);
 
 
 --
--- Name: queuemember__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuefeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX queuefeatures__idx__tenant_uuid ON public.queuefeatures USING btree (tenant_uuid);
+
+
+--
+-- Name: queuemember__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuemember__idx__category ON public.queuemember USING btree (category);
 
 
 --
--- Name: queuemember__idx__channel; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuemember__idx__channel; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuemember__idx__channel ON public.queuemember USING btree (channel);
 
 
 --
--- Name: queuemember__idx__userid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuemember__idx__userid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuemember__idx__userid ON public.queuemember USING btree (userid);
 
 
 --
--- Name: queuemember__idx__usertype; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queuemember__idx__usertype; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX queuemember__idx__usertype ON public.queuemember USING btree (usertype);
 
 
 --
--- Name: schedule_path_path; Type: INDEX; Schema: public; Owner: postgres
+-- Name: queueskill__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX queueskill__idx__tenant_uuid ON public.queueskill USING btree (tenant_uuid);
+
+
+--
+-- Name: queueskillrule__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX queueskillrule__idx__tenant_uuid ON public.queueskillrule USING btree (tenant_uuid);
+
+
+--
+-- Name: rightcall__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX rightcall__idx__tenant_uuid ON public.rightcall USING btree (tenant_uuid);
+
+
+--
+-- Name: sccpline__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX sccpline__idx__tenant_uuid ON public.sccpline USING btree (tenant_uuid);
+
+
+--
+-- Name: schedule__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX schedule__idx__tenant_uuid ON public.schedule USING btree (tenant_uuid);
+
+
+--
+-- Name: schedule_path__idx__schedule_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX schedule_path__idx__schedule_id ON public.schedule_path USING btree (schedule_id);
+
+
+--
+-- Name: schedule_path_path; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX schedule_path_path ON public.schedule_path USING btree (path, pathid);
 
 
 --
--- Name: schedule_time__idx__scheduleid_commented; Type: INDEX; Schema: public; Owner: postgres
+-- Name: schedule_time__idx__scheduleid_commented; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX schedule_time__idx__scheduleid_commented ON public.schedule_time USING btree (schedule_id, commented);
 
 
 --
--- Name: session__idx__expire; Type: INDEX; Schema: public; Owner: postgres
+-- Name: session__idx__expire; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX session__idx__expire ON public.session USING btree (expire);
 
 
 --
--- Name: session__idx__identifier; Type: INDEX; Schema: public; Owner: postgres
+-- Name: session__idx__identifier; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX session__idx__identifier ON public.session USING btree (identifier);
 
 
 --
--- Name: stat_agent__idx_name; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_agent__idx_name; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_agent__idx_name ON public.stat_agent USING btree (name);
 
 
 --
--- Name: stat_agent__idx_tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_agent__idx_tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_agent__idx_tenant_uuid ON public.stat_agent USING btree (tenant_uuid);
 
 
 --
--- Name: stat_agent_periodic__idx__stat_agent_id; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic__idx__stat_agent_id; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_agent_periodic__idx__stat_agent_id ON public.stat_agent_periodic USING btree (stat_agent_id);
 
 
 --
--- Name: stat_agent_periodic__idx__time; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic__idx__time; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_agent_periodic__idx__time ON public.stat_agent_periodic USING btree ("time");
 
 
 --
--- Name: stat_call_on_queue__idx_callid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue__idx__stat_agent_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX stat_call_on_queue__idx__stat_agent_id ON public.stat_call_on_queue USING btree (stat_agent_id);
+
+
+--
+-- Name: stat_call_on_queue__idx__stat_queue_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX stat_call_on_queue__idx__stat_queue_id ON public.stat_call_on_queue USING btree (stat_queue_id);
+
+
+--
+-- Name: stat_call_on_queue__idx_callid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_call_on_queue__idx_callid ON public.stat_call_on_queue USING btree (callid);
 
 
 --
--- Name: stat_queue__idx_name; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_queue__idx_name; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_queue__idx_name ON public.stat_queue USING btree (name);
 
 
 --
--- Name: stat_queue__idx_tenant_uuid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_queue__idx_tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_queue__idx_tenant_uuid ON public.stat_queue USING btree (tenant_uuid);
 
 
 --
--- Name: stat_switchboard_queue__idx__queue_id; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic__idx__stat_queue_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX stat_queue_periodic__idx__stat_queue_id ON public.stat_queue_periodic USING btree (stat_queue_id);
+
+
+--
+-- Name: stat_switchboard_queue__idx__queue_id; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_switchboard_queue__idx__queue_id ON public.stat_switchboard_queue USING btree (queue_id);
 
 
 --
--- Name: stat_switchboard_queue__idx__time; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue__idx__time; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stat_switchboard_queue__idx__time ON public.stat_switchboard_queue USING btree ("time");
 
 
 --
--- Name: staticiax__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: staticiax__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX staticiax__idx__category ON public.staticiax USING btree (category);
 
 
 --
--- Name: staticqueue__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: staticqueue__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX staticqueue__idx__category ON public.staticqueue USING btree (category);
 
 
 --
--- Name: staticvoicemail__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: staticvoicemail__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX staticvoicemail__idx__category ON public.staticvoicemail USING btree (category);
 
 
 --
--- Name: stats_conf__idx__disable; Type: INDEX; Schema: public; Owner: postgres
+-- Name: stats_conf__idx__disable; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX stats_conf__idx__disable ON public.stats_conf USING btree (disable);
 
 
 --
--- Name: switchboard_member_user__idx__switchboard_uuid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: switchboard__idx__hold_moh_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX switchboard__idx__hold_moh_uuid ON public.switchboard USING btree (hold_moh_uuid);
+
+
+--
+-- Name: switchboard__idx__queue_moh_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX switchboard__idx__queue_moh_uuid ON public.switchboard USING btree (queue_moh_uuid);
+
+
+--
+-- Name: switchboard__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX switchboard__idx__tenant_uuid ON public.switchboard USING btree (tenant_uuid);
+
+
+--
+-- Name: switchboard_member_user__idx__switchboard_uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX switchboard_member_user__idx__switchboard_uuid ON public.switchboard_member_user USING btree (switchboard_uuid);
 
 
 --
--- Name: trunkfeatures__idx__registercommented; Type: INDEX; Schema: public; Owner: postgres
+-- Name: switchboard_member_user__idx__user_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX switchboard_member_user__idx__user_uuid ON public.switchboard_member_user USING btree (user_uuid);
+
+
+--
+-- Name: tenant__idx__global_sip_template_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX tenant__idx__global_sip_template_uuid ON public.tenant USING btree (global_sip_template_uuid);
+
+
+--
+-- Name: tenant__idx__meeting_guest_sip_template_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX tenant__idx__meeting_guest_sip_template_uuid ON public.tenant USING btree (meeting_guest_sip_template_uuid);
+
+
+--
+-- Name: tenant__idx__registration_trunk_sip_template_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX tenant__idx__registration_trunk_sip_template_uuid ON public.tenant USING btree (registration_trunk_sip_template_uuid);
+
+
+--
+-- Name: tenant__idx__twilio_trunk_sip_template_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX tenant__idx__twilio_trunk_sip_template_uuid ON public.tenant USING btree (twilio_trunk_sip_template_uuid);
+
+
+--
+-- Name: tenant__idx__webrtc_sip_template_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX tenant__idx__webrtc_sip_template_uuid ON public.tenant USING btree (webrtc_sip_template_uuid);
+
+
+--
+-- Name: trunkfeatures__idx__endpoint_custom_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX trunkfeatures__idx__endpoint_custom_id ON public.trunkfeatures USING btree (endpoint_custom_id);
+
+
+--
+-- Name: trunkfeatures__idx__endpoint_iax_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX trunkfeatures__idx__endpoint_iax_id ON public.trunkfeatures USING btree (endpoint_iax_id);
+
+
+--
+-- Name: trunkfeatures__idx__endpoint_sip_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX trunkfeatures__idx__endpoint_sip_uuid ON public.trunkfeatures USING btree (endpoint_sip_uuid);
+
+
+--
+-- Name: trunkfeatures__idx__register_iax_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX trunkfeatures__idx__register_iax_id ON public.trunkfeatures USING btree (register_iax_id);
+
+
+--
+-- Name: trunkfeatures__idx__registercommented; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX trunkfeatures__idx__registercommented ON public.trunkfeatures USING btree (registercommented);
 
 
 --
--- Name: usercustom__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: trunkfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX trunkfeatures__idx__tenant_uuid ON public.trunkfeatures USING btree (tenant_uuid);
+
+
+--
+-- Name: user_line__idx__line_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX user_line__idx__line_id ON public.user_line USING btree (line_id);
+
+
+--
+-- Name: user_line__idx__user_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX user_line__idx__user_id ON public.user_line USING btree (user_id);
+
+
+--
+-- Name: usercustom__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX usercustom__idx__category ON public.usercustom USING btree (category);
 
 
 --
--- Name: usercustom__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: usercustom__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX usercustom__idx__context ON public.usercustom USING btree (context);
 
 
 --
--- Name: usercustom__idx__name; Type: INDEX; Schema: public; Owner: postgres
+-- Name: usercustom__idx__name; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX usercustom__idx__name ON public.usercustom USING btree (name);
 
 
 --
--- Name: userfeatures__idx__agentid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: usercustom__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX usercustom__idx__tenant_uuid ON public.usercustom USING btree (tenant_uuid);
+
+
+--
+-- Name: userfeatures__idx__agentid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__agentid ON public.userfeatures USING btree (agentid);
 
 
 --
--- Name: userfeatures__idx__firstname; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__firstname; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__firstname ON public.userfeatures USING btree (firstname);
 
 
 --
--- Name: userfeatures__idx__lastname; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__func_key_private_template_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX userfeatures__idx__func_key_private_template_id ON public.userfeatures USING btree (func_key_private_template_id);
+
+
+--
+-- Name: userfeatures__idx__func_key_template_id; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX userfeatures__idx__func_key_template_id ON public.userfeatures USING btree (func_key_template_id);
+
+
+--
+-- Name: userfeatures__idx__lastname; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__lastname ON public.userfeatures USING btree (lastname);
 
 
 --
--- Name: userfeatures__idx__loginclient; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__loginclient; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__loginclient ON public.userfeatures USING btree (loginclient);
 
 
 --
--- Name: userfeatures__idx__musiconhold; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__musiconhold; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__musiconhold ON public.userfeatures USING btree (musiconhold);
 
 
 --
--- Name: userfeatures__idx__uuid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
+--
+
+CREATE INDEX userfeatures__idx__tenant_uuid ON public.userfeatures USING btree (tenant_uuid);
+
+
+--
+-- Name: userfeatures__idx__uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__uuid ON public.userfeatures USING btree (uuid);
 
 
 --
--- Name: userfeatures__idx__voicemailid; Type: INDEX; Schema: public; Owner: postgres
+-- Name: userfeatures__idx__voicemailid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX userfeatures__idx__voicemailid ON public.userfeatures USING btree (voicemailid);
 
 
 --
--- Name: useriax__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: useriax__idx__category; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX useriax__idx__category ON public.useriax USING btree (category);
 
 
 --
--- Name: useriax__idx__mailbox; Type: INDEX; Schema: public; Owner: postgres
+-- Name: useriax__idx__mailbox; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX useriax__idx__mailbox ON public.useriax USING btree (mailbox);
 
 
 --
--- Name: usersip__idx__category; Type: INDEX; Schema: public; Owner: postgres
+-- Name: useriax__idx__tenant_uuid; Type: INDEX; Schema: public; Owner: asterisk
 --
 
-CREATE INDEX usersip__idx__category ON public.usersip USING btree (category);
+CREATE INDEX useriax__idx__tenant_uuid ON public.useriax USING btree (tenant_uuid);
 
 
 --
--- Name: voicemail__idx__context; Type: INDEX; Schema: public; Owner: postgres
+-- Name: voicemail__idx__context; Type: INDEX; Schema: public; Owner: asterisk
 --
 
 CREATE INDEX voicemail__idx__context ON public.voicemail USING btree (context);
 
 
 --
--- Name: queue_log change_queue_log_agent; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: queue_log change_queue_log_agent; Type: TRIGGER; Schema: public; Owner: asterisk
 --
 
-CREATE TRIGGER change_queue_log_agent BEFORE INSERT ON public.queue_log FOR EACH ROW WHEN ((((new.event)::text = 'PAUSEALL'::text) OR ((new.event)::text = 'UNPAUSEALL'::text))) EXECUTE PROCEDURE public.set_agent_on_pauseall();
+CREATE TRIGGER change_queue_log_agent BEFORE INSERT ON public.queue_log FOR EACH ROW WHEN ((((new.event)::text = 'PAUSEALL'::text) OR ((new.event)::text = 'UNPAUSEALL'::text))) EXECUTE FUNCTION public.set_agent_on_pauseall();
 
 
 --
--- Name: agentfeatures agentfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: agentfeatures agentfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.agentfeatures
@@ -6624,7 +8341,7 @@ ALTER TABLE ONLY public.agentfeatures
 
 
 --
--- Name: application_dest_node application_dest_node_application_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: application_dest_node application_dest_node_application_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.application_dest_node
@@ -6632,7 +8349,7 @@ ALTER TABLE ONLY public.application_dest_node
 
 
 --
--- Name: application application_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: application application_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.application
@@ -6640,7 +8357,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- Name: asterisk_file_section asterisk_file_section_asterisk_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file_section asterisk_file_section_asterisk_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_section
@@ -6648,7 +8365,7 @@ ALTER TABLE ONLY public.asterisk_file_section
 
 
 --
--- Name: asterisk_file_variable asterisk_file_variable_asterisk_file_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asterisk_file_variable asterisk_file_variable_asterisk_file_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.asterisk_file_variable
@@ -6656,7 +8373,39 @@ ALTER TABLE ONLY public.asterisk_file_variable
 
 
 --
--- Name: callfilter callfilter_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: blocklist_number blocklist_number_blocklist_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_number
+    ADD CONSTRAINT blocklist_number_blocklist_uuid_fkey FOREIGN KEY (blocklist_uuid) REFERENCES public.blocklist(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: blocklist blocklist_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist
+    ADD CONSTRAINT blocklist_tenant_uuid_fkey FOREIGN KEY (tenant_uuid) REFERENCES public.tenant(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: blocklist_user blocklist_user_blocklist_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_user
+    ADD CONSTRAINT blocklist_user_blocklist_uuid_fkey FOREIGN KEY (blocklist_uuid) REFERENCES public.blocklist(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: blocklist_user blocklist_user_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.blocklist_user
+    ADD CONSTRAINT blocklist_user_user_uuid_fkey FOREIGN KEY (user_uuid) REFERENCES public.userfeatures(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: callfilter callfilter_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.callfilter
@@ -6664,7 +8413,7 @@ ALTER TABLE ONLY public.callfilter
 
 
 --
--- Name: conference conference_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: conference conference_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.conference
@@ -6672,15 +8421,39 @@ ALTER TABLE ONLY public.conference
 
 
 --
--- Name: context context_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: context context_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.context
-    ADD CONSTRAINT context_tenant_uuid_fkey FOREIGN KEY (tenant_uuid) REFERENCES public.tenant(uuid);
+    ADD CONSTRAINT context_tenant_uuid_fkey FOREIGN KEY (tenant_uuid) REFERENCES public.tenant(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: endpoint_sip_section endpoint_sip_section_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: contextinclude contextinclude_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.contextinclude
+    ADD CONSTRAINT contextinclude_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: contextmember contextmember_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.contextmember
+    ADD CONSTRAINT contextmember_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: contextnumbers contextnumbers_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.contextnumbers
+    ADD CONSTRAINT contextnumbers_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: endpoint_sip_section endpoint_sip_section_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_section
@@ -6688,7 +8461,7 @@ ALTER TABLE ONLY public.endpoint_sip_section
 
 
 --
--- Name: endpoint_sip_section_option endpoint_sip_section_option_endpoint_sip_section_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_section_option endpoint_sip_section_option_endpoint_sip_section_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_section_option
@@ -6696,7 +8469,7 @@ ALTER TABLE ONLY public.endpoint_sip_section_option
 
 
 --
--- Name: endpoint_sip_template endpoint_sip_template_child_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_template endpoint_sip_template_child_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_template
@@ -6704,7 +8477,7 @@ ALTER TABLE ONLY public.endpoint_sip_template
 
 
 --
--- Name: endpoint_sip_template endpoint_sip_template_parent_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip_template endpoint_sip_template_parent_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip_template
@@ -6712,7 +8485,7 @@ ALTER TABLE ONLY public.endpoint_sip_template
 
 
 --
--- Name: endpoint_sip endpoint_sip_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip endpoint_sip_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip
@@ -6720,7 +8493,7 @@ ALTER TABLE ONLY public.endpoint_sip
 
 
 --
--- Name: endpoint_sip endpoint_sip_transport_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: endpoint_sip endpoint_sip_transport_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.endpoint_sip
@@ -6728,7 +8501,15 @@ ALTER TABLE ONLY public.endpoint_sip
 
 
 --
--- Name: external_app external_app_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: extensions extensions_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.extensions
+    ADD CONSTRAINT extensions_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: external_app external_app_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.external_app
@@ -6736,23 +8517,23 @@ ALTER TABLE ONLY public.external_app
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
-    ADD CONSTRAINT func_key_dest_agent_agent_id_fkey FOREIGN KEY (agent_id) REFERENCES public.agentfeatures(id);
+    ADD CONSTRAINT func_key_dest_agent_agent_id_fkey FOREIGN KEY (agent_id) REFERENCES public.agentfeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_feature_extension_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
-    ADD CONSTRAINT func_key_dest_agent_extension_id_fkey FOREIGN KEY (extension_id) REFERENCES public.extensions(id);
+    ADD CONSTRAINT func_key_dest_agent_feature_extension_uuid_fkey FOREIGN KEY (feature_extension_uuid) REFERENCES public.feature_extension(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_agent func_key_dest_agent_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_agent func_key_dest_agent_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_agent
@@ -6760,7 +8541,7 @@ ALTER TABLE ONLY public.func_key_dest_agent
 
 
 --
--- Name: func_key_dest_bsfilter func_key_dest_bsfilter_filtermember_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_bsfilter func_key_dest_bsfilter_filtermember_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_bsfilter
@@ -6768,7 +8549,7 @@ ALTER TABLE ONLY public.func_key_dest_bsfilter
 
 
 --
--- Name: func_key_dest_bsfilter func_key_dest_bsfilter_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_bsfilter func_key_dest_bsfilter_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_bsfilter
@@ -6776,15 +8557,15 @@ ALTER TABLE ONLY public.func_key_dest_bsfilter
 
 
 --
--- Name: func_key_dest_conference func_key_dest_conference_conference_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_conference func_key_dest_conference_conference_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_conference
-    ADD CONSTRAINT func_key_dest_conference_conference_id_fkey FOREIGN KEY (conference_id) REFERENCES public.conference(id);
+    ADD CONSTRAINT func_key_dest_conference_conference_id_fkey FOREIGN KEY (conference_id) REFERENCES public.conference(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_conference func_key_dest_conference_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_conference func_key_dest_conference_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_conference
@@ -6792,7 +8573,7 @@ ALTER TABLE ONLY public.func_key_dest_conference
 
 
 --
--- Name: func_key_dest_custom func_key_dest_custom_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_custom func_key_dest_custom_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_custom
@@ -6800,15 +8581,15 @@ ALTER TABLE ONLY public.func_key_dest_custom
 
 
 --
--- Name: func_key_dest_features func_key_dest_features_features_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_features func_key_dest_features_features_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_features
-    ADD CONSTRAINT func_key_dest_features_features_id_fkey FOREIGN KEY (features_id) REFERENCES public.features(id);
+    ADD CONSTRAINT func_key_dest_features_features_id_fkey FOREIGN KEY (features_id) REFERENCES public.features(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_features func_key_dest_features_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_features func_key_dest_features_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_features
@@ -6816,15 +8597,15 @@ ALTER TABLE ONLY public.func_key_dest_features
 
 
 --
--- Name: func_key_dest_forward func_key_dest_forward_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_forward func_key_dest_forward_feature_extension_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_forward
-    ADD CONSTRAINT func_key_dest_forward_extension_id_fkey FOREIGN KEY (extension_id) REFERENCES public.extensions(id);
+    ADD CONSTRAINT func_key_dest_forward_feature_extension_uuid_fkey FOREIGN KEY (feature_extension_uuid) REFERENCES public.feature_extension(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_forward func_key_dest_forward_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_forward func_key_dest_forward_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_forward
@@ -6832,7 +8613,7 @@ ALTER TABLE ONLY public.func_key_dest_forward
 
 
 --
--- Name: func_key_dest_group func_key_dest_group_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_group func_key_dest_group_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_group
@@ -6840,23 +8621,23 @@ ALTER TABLE ONLY public.func_key_dest_group
 
 
 --
--- Name: func_key_dest_group func_key_dest_group_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_group func_key_dest_group_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_group
-    ADD CONSTRAINT func_key_dest_group_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.groupfeatures(id);
+    ADD CONSTRAINT func_key_dest_group_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.groupfeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_feature_extension_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
-    ADD CONSTRAINT func_key_dest_groupmember_extension_id_fkey FOREIGN KEY (extension_id) REFERENCES public.extensions(id);
+    ADD CONSTRAINT func_key_dest_groupmember_feature_extension_uuid_fkey FOREIGN KEY (feature_extension_uuid) REFERENCES public.feature_extension(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
@@ -6864,15 +8645,15 @@ ALTER TABLE ONLY public.func_key_dest_groupmember
 
 
 --
--- Name: func_key_dest_groupmember func_key_dest_groupmember_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_groupmember func_key_dest_groupmember_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_groupmember
-    ADD CONSTRAINT func_key_dest_groupmember_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.groupfeatures(id);
+    ADD CONSTRAINT func_key_dest_groupmember_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.groupfeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_paging func_key_dest_paging_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_paging func_key_dest_paging_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_paging
@@ -6880,15 +8661,15 @@ ALTER TABLE ONLY public.func_key_dest_paging
 
 
 --
--- Name: func_key_dest_paging func_key_dest_paging_paging_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_paging func_key_dest_paging_paging_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_paging
-    ADD CONSTRAINT func_key_dest_paging_paging_id_fkey FOREIGN KEY (paging_id) REFERENCES public.paging(id);
+    ADD CONSTRAINT func_key_dest_paging_paging_id_fkey FOREIGN KEY (paging_id) REFERENCES public.paging(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_park_position func_key_dest_park_position_func_key_id_destination_type_i_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_park_position func_key_dest_park_position_func_key_id_destination_type_i_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_park_position
@@ -6896,7 +8677,31 @@ ALTER TABLE ONLY public.func_key_dest_park_position
 
 
 --
--- Name: func_key_dest_queue func_key_dest_queue_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_park_position func_key_dest_park_position_parking_lot_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_park_position
+    ADD CONSTRAINT func_key_dest_park_position_parking_lot_id_fkey FOREIGN KEY (parking_lot_id) REFERENCES public.parking_lot(id) ON DELETE CASCADE;
+
+
+--
+-- Name: func_key_dest_parking func_key_dest_parking_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_parking
+    ADD CONSTRAINT func_key_dest_parking_func_key_id_destination_type_id_fkey FOREIGN KEY (func_key_id, destination_type_id) REFERENCES public.func_key(id, destination_type_id);
+
+
+--
+-- Name: func_key_dest_parking func_key_dest_parking_parking_lot_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.func_key_dest_parking
+    ADD CONSTRAINT func_key_dest_parking_parking_lot_id_fkey FOREIGN KEY (parking_lot_id) REFERENCES public.parking_lot(id) ON DELETE CASCADE;
+
+
+--
+-- Name: func_key_dest_queue func_key_dest_queue_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_queue
@@ -6904,23 +8709,23 @@ ALTER TABLE ONLY public.func_key_dest_queue
 
 
 --
--- Name: func_key_dest_queue func_key_dest_queue_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_queue func_key_dest_queue_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_queue
-    ADD CONSTRAINT func_key_dest_queue_queue_id_fkey FOREIGN KEY (queue_id) REFERENCES public.queuefeatures(id);
+    ADD CONSTRAINT func_key_dest_queue_queue_id_fkey FOREIGN KEY (queue_id) REFERENCES public.queuefeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_service func_key_dest_service_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_service func_key_dest_service_feature_extension_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_service
-    ADD CONSTRAINT func_key_dest_service_extension_id_fkey FOREIGN KEY (extension_id) REFERENCES public.extensions(id);
+    ADD CONSTRAINT func_key_dest_service_feature_extension_uuid_fkey FOREIGN KEY (feature_extension_uuid) REFERENCES public.feature_extension(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_dest_service func_key_dest_service_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_service func_key_dest_service_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_service
@@ -6928,7 +8733,7 @@ ALTER TABLE ONLY public.func_key_dest_service
 
 
 --
--- Name: func_key_dest_user func_key_dest_user_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_user func_key_dest_user_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_user
@@ -6936,15 +8741,15 @@ ALTER TABLE ONLY public.func_key_dest_user
 
 
 --
--- Name: func_key_dest_user func_key_dest_user_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_dest_user func_key_dest_user_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_dest_user
-    ADD CONSTRAINT func_key_dest_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.userfeatures(id);
+    ADD CONSTRAINT func_key_dest_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.userfeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key func_key_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key func_key_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key
@@ -6952,7 +8757,7 @@ ALTER TABLE ONLY public.func_key
 
 
 --
--- Name: func_key_mapping func_key_mapping_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_mapping func_key_mapping_func_key_id_destination_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_mapping
@@ -6960,15 +8765,15 @@ ALTER TABLE ONLY public.func_key_mapping
 
 
 --
--- Name: func_key_mapping func_key_mapping_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_mapping func_key_mapping_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_mapping
-    ADD CONSTRAINT func_key_mapping_template_id_fkey FOREIGN KEY (template_id) REFERENCES public.func_key_template(id);
+    ADD CONSTRAINT func_key_mapping_template_id_fkey FOREIGN KEY (template_id) REFERENCES public.func_key_template(id) ON DELETE CASCADE;
 
 
 --
--- Name: func_key_template func_key_template_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key_template func_key_template_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key_template
@@ -6976,7 +8781,7 @@ ALTER TABLE ONLY public.func_key_template
 
 
 --
--- Name: func_key func_key_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: func_key func_key_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.func_key
@@ -6984,7 +8789,7 @@ ALTER TABLE ONLY public.func_key
 
 
 --
--- Name: groupfeatures groupfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: groupfeatures groupfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.groupfeatures
@@ -6992,7 +8797,7 @@ ALTER TABLE ONLY public.groupfeatures
 
 
 --
--- Name: incall incall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: incall incall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.incall
@@ -7000,7 +8805,7 @@ ALTER TABLE ONLY public.incall
 
 
 --
--- Name: ingress_http ingress_http_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ingress_http ingress_http_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ingress_http
@@ -7008,15 +8813,15 @@ ALTER TABLE ONLY public.ingress_http
 
 
 --
--- Name: ivr_choice ivr_choice_ivr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ivr_choice ivr_choice_ivr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr_choice
-    ADD CONSTRAINT ivr_choice_ivr_id_fkey FOREIGN KEY (ivr_id) REFERENCES public.ivr(id);
+    ADD CONSTRAINT ivr_choice_ivr_id_fkey FOREIGN KEY (ivr_id) REFERENCES public.ivr(id) ON DELETE CASCADE;
 
 
 --
--- Name: ivr ivr_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ivr ivr_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.ivr
@@ -7024,7 +8829,7 @@ ALTER TABLE ONLY public.ivr
 
 
 --
--- Name: line_extension line_extension_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: line_extension line_extension_extension_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.line_extension
@@ -7032,7 +8837,7 @@ ALTER TABLE ONLY public.line_extension
 
 
 --
--- Name: line_extension line_extension_line_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: line_extension line_extension_line_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.line_extension
@@ -7040,7 +8845,7 @@ ALTER TABLE ONLY public.line_extension
 
 
 --
--- Name: linefeatures linefeatures_application_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_application_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -7048,7 +8853,15 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: linefeatures linefeatures_endpoint_custom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.linefeatures
+    ADD CONSTRAINT linefeatures_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: linefeatures linefeatures_endpoint_custom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -7056,7 +8869,7 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: linefeatures linefeatures_endpoint_sccp_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_endpoint_sccp_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -7064,7 +8877,7 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: linefeatures linefeatures_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: linefeatures linefeatures_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.linefeatures
@@ -7072,7 +8885,7 @@ ALTER TABLE ONLY public.linefeatures
 
 
 --
--- Name: meeting_authorization meeting_authorization_meeting_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting_authorization meeting_authorization_meeting_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting_authorization
@@ -7080,7 +8893,7 @@ ALTER TABLE ONLY public.meeting_authorization
 
 
 --
--- Name: meeting meeting_guest_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting meeting_guest_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting
@@ -7088,7 +8901,7 @@ ALTER TABLE ONLY public.meeting
 
 
 --
--- Name: meeting_owner meeting_owner_meeting_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting_owner meeting_owner_meeting_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting_owner
@@ -7096,7 +8909,7 @@ ALTER TABLE ONLY public.meeting_owner
 
 
 --
--- Name: meeting_owner meeting_owner_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting_owner meeting_owner_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting_owner
@@ -7104,7 +8917,7 @@ ALTER TABLE ONLY public.meeting_owner
 
 
 --
--- Name: meeting meeting_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: meeting meeting_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.meeting
@@ -7112,7 +8925,7 @@ ALTER TABLE ONLY public.meeting
 
 
 --
--- Name: moh moh_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: moh moh_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.moh
@@ -7120,7 +8933,7 @@ ALTER TABLE ONLY public.moh
 
 
 --
--- Name: outcall outcall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcall outcall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcall
@@ -7128,15 +8941,15 @@ ALTER TABLE ONLY public.outcall
 
 
 --
--- Name: outcalltrunk outcalltrunk_outcallid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcalltrunk outcalltrunk_outcallid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcalltrunk
-    ADD CONSTRAINT outcalltrunk_outcallid_fkey FOREIGN KEY (outcallid) REFERENCES public.outcall(id);
+    ADD CONSTRAINT outcalltrunk_outcallid_fkey FOREIGN KEY (outcallid) REFERENCES public.outcall(id) ON DELETE CASCADE;
 
 
 --
--- Name: outcalltrunk outcalltrunk_trunkfeaturesid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: outcalltrunk outcalltrunk_trunkfeaturesid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.outcalltrunk
@@ -7144,7 +8957,7 @@ ALTER TABLE ONLY public.outcalltrunk
 
 
 --
--- Name: paging paging_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paging paging_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paging
@@ -7152,7 +8965,7 @@ ALTER TABLE ONLY public.paging
 
 
 --
--- Name: paginguser paginguser_pagingid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paginguser paginguser_pagingid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paginguser
@@ -7160,7 +8973,7 @@ ALTER TABLE ONLY public.paginguser
 
 
 --
--- Name: paginguser paginguser_userfeaturesid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: paginguser paginguser_userfeaturesid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.paginguser
@@ -7168,7 +8981,7 @@ ALTER TABLE ONLY public.paginguser
 
 
 --
--- Name: parking_lot parking_lot_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: parking_lot parking_lot_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.parking_lot
@@ -7176,7 +8989,15 @@ ALTER TABLE ONLY public.parking_lot
 
 
 --
--- Name: pickup pickup_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phone_number phone_number_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
+--
+
+ALTER TABLE ONLY public.phone_number
+    ADD CONSTRAINT phone_number_tenant_uuid_fkey FOREIGN KEY (tenant_uuid) REFERENCES public.tenant(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: pickup pickup_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pickup
@@ -7184,7 +9005,7 @@ ALTER TABLE ONLY public.pickup
 
 
 --
--- Name: pjsip_transport_option pjsip_transport_option_pjsip_transport_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pjsip_transport_option pjsip_transport_option_pjsip_transport_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.pjsip_transport_option
@@ -7192,7 +9013,7 @@ ALTER TABLE ONLY public.pjsip_transport_option
 
 
 --
--- Name: queuefeatures queuefeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queuefeatures queuefeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queuefeatures
@@ -7200,7 +9021,7 @@ ALTER TABLE ONLY public.queuefeatures
 
 
 --
--- Name: queueskill queueskill_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queueskill queueskill_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskill
@@ -7208,7 +9029,7 @@ ALTER TABLE ONLY public.queueskill
 
 
 --
--- Name: queueskillrule queueskillrule_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: queueskillrule queueskillrule_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.queueskillrule
@@ -7216,7 +9037,7 @@ ALTER TABLE ONLY public.queueskillrule
 
 
 --
--- Name: rightcall rightcall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcall rightcall_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcall
@@ -7224,15 +9045,15 @@ ALTER TABLE ONLY public.rightcall
 
 
 --
--- Name: rightcallexten rightcallexten_rightcallid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: rightcallexten rightcallexten_rightcallid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.rightcallexten
-    ADD CONSTRAINT rightcallexten_rightcallid_fkey FOREIGN KEY (rightcallid) REFERENCES public.rightcall(id);
+    ADD CONSTRAINT rightcallexten_rightcallid_fkey FOREIGN KEY (rightcallid) REFERENCES public.rightcall(id) ON DELETE CASCADE;
 
 
 --
--- Name: sccpline sccpline_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sccpline sccpline_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.sccpline
@@ -7240,15 +9061,15 @@ ALTER TABLE ONLY public.sccpline
 
 
 --
--- Name: schedule_path schedule_path_schedule_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: schedule_path schedule_path_schedule_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule_path
-    ADD CONSTRAINT schedule_path_schedule_id_fkey FOREIGN KEY (schedule_id) REFERENCES public.schedule(id);
+    ADD CONSTRAINT schedule_path_schedule_id_fkey FOREIGN KEY (schedule_id) REFERENCES public.schedule(id) ON DELETE CASCADE;
 
 
 --
--- Name: schedule schedule_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: schedule schedule_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.schedule
@@ -7256,7 +9077,7 @@ ALTER TABLE ONLY public.schedule
 
 
 --
--- Name: stat_agent_periodic stat_agent_periodic_stat_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_agent_periodic stat_agent_periodic_stat_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_agent_periodic
@@ -7264,7 +9085,7 @@ ALTER TABLE ONLY public.stat_agent_periodic
 
 
 --
--- Name: stat_call_on_queue stat_call_on_queue_stat_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue stat_call_on_queue_stat_agent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_call_on_queue
@@ -7272,7 +9093,7 @@ ALTER TABLE ONLY public.stat_call_on_queue
 
 
 --
--- Name: stat_call_on_queue stat_call_on_queue_stat_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_call_on_queue stat_call_on_queue_stat_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_call_on_queue
@@ -7280,7 +9101,7 @@ ALTER TABLE ONLY public.stat_call_on_queue
 
 
 --
--- Name: stat_queue_periodic stat_queue_periodic_stat_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_queue_periodic stat_queue_periodic_stat_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_queue_periodic
@@ -7288,7 +9109,7 @@ ALTER TABLE ONLY public.stat_queue_periodic
 
 
 --
--- Name: stat_switchboard_queue stat_switchboard_queue_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: stat_switchboard_queue stat_switchboard_queue_queue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.stat_switchboard_queue
@@ -7296,7 +9117,7 @@ ALTER TABLE ONLY public.stat_switchboard_queue
 
 
 --
--- Name: switchboard switchboard_hold_moh_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard switchboard_hold_moh_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard
@@ -7304,23 +9125,23 @@ ALTER TABLE ONLY public.switchboard
 
 
 --
--- Name: switchboard_member_user switchboard_member_user_switchboard_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard_member_user switchboard_member_user_switchboard_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard_member_user
-    ADD CONSTRAINT switchboard_member_user_switchboard_uuid_fkey FOREIGN KEY (switchboard_uuid) REFERENCES public.switchboard(uuid);
+    ADD CONSTRAINT switchboard_member_user_switchboard_uuid_fkey FOREIGN KEY (switchboard_uuid) REFERENCES public.switchboard(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: switchboard_member_user switchboard_member_user_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard_member_user switchboard_member_user_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard_member_user
-    ADD CONSTRAINT switchboard_member_user_user_uuid_fkey FOREIGN KEY (user_uuid) REFERENCES public.userfeatures(uuid);
+    ADD CONSTRAINT switchboard_member_user_user_uuid_fkey FOREIGN KEY (user_uuid) REFERENCES public.userfeatures(uuid) ON DELETE CASCADE;
 
 
 --
--- Name: switchboard switchboard_queue_moh_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard switchboard_queue_moh_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard
@@ -7328,7 +9149,7 @@ ALTER TABLE ONLY public.switchboard
 
 
 --
--- Name: switchboard switchboard_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: switchboard switchboard_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.switchboard
@@ -7336,7 +9157,7 @@ ALTER TABLE ONLY public.switchboard
 
 
 --
--- Name: tenant tenant_global_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_global_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -7344,7 +9165,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: tenant tenant_meeting_guest_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_meeting_guest_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -7352,7 +9173,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: tenant tenant_registration_trunk_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_registration_trunk_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -7360,7 +9181,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: tenant tenant_twilio_trunk_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_twilio_trunk_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -7368,7 +9189,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: tenant tenant_webrtc_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tenant tenant_webrtc_sip_template_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.tenant
@@ -7376,7 +9197,7 @@ ALTER TABLE ONLY public.tenant
 
 
 --
--- Name: trunkfeatures trunkfeatures_endpoint_custom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_endpoint_custom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -7384,7 +9205,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: trunkfeatures trunkfeatures_endpoint_iax_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_endpoint_iax_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -7392,7 +9213,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: trunkfeatures trunkfeatures_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_endpoint_sip_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -7400,7 +9221,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: trunkfeatures trunkfeatures_register_iax_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_register_iax_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -7408,7 +9229,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: trunkfeatures trunkfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: trunkfeatures trunkfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.trunkfeatures
@@ -7416,7 +9237,7 @@ ALTER TABLE ONLY public.trunkfeatures
 
 
 --
--- Name: user_external_app user_external_app_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_external_app user_external_app_user_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.user_external_app
@@ -7424,23 +9245,23 @@ ALTER TABLE ONLY public.user_external_app
 
 
 --
--- Name: user_line user_line_line_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_line user_line_line_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.user_line
-    ADD CONSTRAINT user_line_line_id_fkey FOREIGN KEY (line_id) REFERENCES public.linefeatures(id);
+    ADD CONSTRAINT user_line_line_id_fkey FOREIGN KEY (line_id) REFERENCES public.linefeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: user_line user_line_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_line user_line_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.user_line
-    ADD CONSTRAINT user_line_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.userfeatures(id);
+    ADD CONSTRAINT user_line_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.userfeatures(id) ON DELETE CASCADE;
 
 
 --
--- Name: usercustom usercustom_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: usercustom usercustom_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.usercustom
@@ -7448,7 +9269,7 @@ ALTER TABLE ONLY public.usercustom
 
 
 --
--- Name: userfeatures userfeatures_func_key_private_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_func_key_private_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -7456,7 +9277,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_func_key_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_func_key_template_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -7464,7 +9285,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -7472,7 +9293,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: userfeatures userfeatures_voicemailid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: userfeatures userfeatures_voicemailid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.userfeatures
@@ -7480,7 +9301,7 @@ ALTER TABLE ONLY public.userfeatures
 
 
 --
--- Name: useriax useriax_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: useriax useriax_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
 ALTER TABLE ONLY public.useriax
@@ -7488,14 +9309,22 @@ ALTER TABLE ONLY public.useriax
 
 
 --
--- Name: usersip usersip_tenant_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: voicemail voicemail_context_fkey; Type: FK CONSTRAINT; Schema: public; Owner: asterisk
 --
 
-ALTER TABLE ONLY public.usersip
-    ADD CONSTRAINT usersip_tenant_uuid_fkey FOREIGN KEY (tenant_uuid) REFERENCES public.tenant(uuid) ON DELETE CASCADE;
+ALTER TABLE ONLY public.voicemail
+    ADD CONSTRAINT voicemail_context_fkey FOREIGN KEY (context) REFERENCES public.context(name) ON DELETE CASCADE;
+
+
+--
+-- Name: endpoint_sip_options_view; Type: MATERIALIZED VIEW DATA; Schema: public; Owner: asterisk
+--
+
+REFRESH MATERIALIZED VIEW public.endpoint_sip_options_view;
 
 
 --
 -- PostgreSQL database dump complete
 --
 
+\unrestrict EVYg4DbBQIMo0myHsCC0PF4gNtTLEdmLNbwgOlu9MSdyNIFw6poV3SGm7K5BwKB
