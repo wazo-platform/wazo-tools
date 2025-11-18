@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ## Updating migration-base-schema.sql
 
 When cleaning up the alembic revisions in xivo-manage-db, the base schema
-needs to be updated accordingly to match the new base revision(the
+needs to be updated accordingly to match the new base revision (the
 revisions are applied on top of migration-base-schema.sql, which should
 match the baseline schema expected by the alembic revisions).
 
@@ -47,7 +47,7 @@ Assuming the new baseline release is 25.14:
    revision;
 
    ```sh
-   # in $LOCAL_GIT_REPOS/xivo-manage-db
+   cd $LOCAL_GIT_REPOS/xivo-manage-db
    git checkout tags/wazo-25.14
    ```
 
@@ -55,7 +55,7 @@ Assuming the new baseline release is 25.14:
    dependencies;
 
     ```sh
-    sed -i 's/master\.zip/refs\/tags\/wazo-25.14\.zip/' requirements.txt
+    sed -i 's/master\.zip/wazo-25.14\.zip/' requirements.txt
     ```
 
 3. Build the database image;
@@ -65,7 +65,6 @@ Assuming the new baseline release is 25.14:
    `Dockerfile`:
 
    ```sh
-   # in $LOCAL_GIT_REPOS/xivo-manage-db
    docker build --no-cache -t wazoplatform/wazo-base-db:latest \
      -f contribs/docker/wazo-base-db/Dockerfile \
      contribs/docker/wazo-base-db
@@ -106,7 +105,7 @@ Assuming the new baseline release is 25.14:
    changes:
 
    ```sh
-   # in $LOCAL_GIT_REPOS/wazo-tools/compare-db
+   cd $LOCAL_GIT_REPOS/wazo-tools/compare-db
    cp $LOCAL_GIT_REPOS/xivo-manage-db/baseline-25.14.sql migration-base-schema.sql
    git diff migration-base-schema.sql
    git commit -m "compare-db: raw baseline schema dump for wazo-25.14"
