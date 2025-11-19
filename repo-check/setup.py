@@ -3,7 +3,7 @@
 import fnmatch
 import os
 
-from distutils.core import setup
+from setuptools import setup
 
 
 def is_package(path):
@@ -23,9 +23,7 @@ setup(
     author_email='dev@avencall.com',
     url='https://github.com/wazo-platform/wazo-tools',
     packages=packages,
-    scripts=['bin/check_local_xivo_repositories',
-             'bin/check_unmerged_branches'],
+    scripts=['bin/check_local_xivo_repositories', 'bin/check_unmerged_branches'],
     license='GPLv3',
     long_description=open('README.md').read(),
-
 )
