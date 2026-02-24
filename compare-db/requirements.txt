@@ -3,6 +3,7 @@ https://github.com/wazo-platform/xivo-lib-python/archive/master.zip # from xivo-
 alembic==1.8.1
 migra[pg]
 pyyaml==6.0
+setuptools<82.0.0  # schemainspect (from migra) need pkg_resources
 sh
 sqlalchemy-utils==0.38.2
 sqlalchemy==1.4.46
