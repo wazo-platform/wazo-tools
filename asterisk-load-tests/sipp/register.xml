@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<!-- REGISTER scenario with digest authentication -->
+<scenario name="Register with Auth">
+
+  <!-- Send initial REGISTER -->
+  <send retrans="500">
+    <![CDATA[
+      REGISTER sip:[remote_ip]:[remote_port] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: <sip:[field0]@[local_ip]>;tag=[call_number]
+      To: <sip:[field0]@[remote_ip]>
+      Call-ID: [call_id]
+      CSeq: 1 REGISTER
+      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
+      Max-Forwards: 70
+      Expires: 3600
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <!-- Expect 401 Unauthorized with challenge -->
+  <recv response="401" auth="true">
+  </recv>
+
+  <!-- Send REGISTER with authentication -->
+  <send retrans="500">
+    <![CDATA[
+      REGISTER sip:[remote_ip]:[remote_port] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: <sip:[field0]@[local_ip]>;tag=[call_number]
+      To: <sip:[field0]@[remote_ip]>
+      Call-ID: [call_id]
+      CSeq: 2 REGISTER
+      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
+      [authentication username=[field0] password=[field1]]
+      Max-Forwards: 70
+      Expires: 3600
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <!-- Expect 200 OK -->
+  <recv response="200">
+  </recv>
+
+  <!-- Keep registration alive - wait and re-register periodically -->
+  <pause milliseconds="60000"/>
+
+  <!-- Re-register -->
+  <send retrans="500">
+    <![CDATA[
+      REGISTER sip:[remote_ip]:[remote_port] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: <sip:[field0]@[local_ip]>;tag=[call_number]
+      To: <sip:[field0]@[remote_ip]>
+      Call-ID: [call_id]
+      CSeq: 3 REGISTER
+      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
+      [authentication username=[field0] password=[field1]]
+      Max-Forwards: 70
+      Expires: 3600
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <recv response="200">
+  </recv>
+
+</scenario>

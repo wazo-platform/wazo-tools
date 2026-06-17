@@ -1,0 +1,34 @@
+# Wazo Asterisk image for load testing, with debugging tools.
+ARG TAG=wazo-26.03
+FROM wazoplatform/asterisk:${TAG}
+
+USER root
+
+# Debugging tools + freeze-check module (loaded by modules.conf).
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gdb \
+    procps \
+    curl \
+    bc \
+    xivo-res-freeze-check \
+    && rm -rf /var/lib/apt/lists/*
+
+# Optional: install a patched asterisk .deb to validate a fix.
+# Place asterisk*.deb in ./patch/ and build with --build-arg PATCH_DEB=1.
+ARG PATCH_DEB=0
+COPY patch/ /tmp/patch/
+RUN if [ "$PATCH_DEB" = "1" ] && ls /tmp/patch/asterisk*.deb 1>/dev/null 2>&1; then \
+        dpkg -i /tmp/patch/asterisk*.deb || apt-get -f install -y; \
+    fi
+
+# Core dumps land in a volume-mounted directory.
+RUN mkdir -p /var/spool/asterisk/cores && \
+    chown asterisk:asterisk /var/spool/asterisk/cores
+RUN echo 'kernel.core_pattern=/var/spool/asterisk/cores/core.%e.%p.%t' \
+    > /etc/sysctl.d/99-coredump.conf || true
+
+RUN mkdir -p /run/asterisk && chown asterisk:asterisk /run/asterisk
+
+EXPOSE 5060/udp 8088
+
+CMD ["asterisk", "-fvvvg"]

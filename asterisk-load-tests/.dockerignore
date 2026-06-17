@@ -1,0 +1,12 @@
+# Keep the build context small. Note: patch/ is intentionally NOT excluded —
+# Dockerfile.asterisk copies it to install an optional patched .deb.
+venv/
+results/
+cores/
+.rmw-waste/
+__pycache__/
+*.pyc
+*.log
+
+# Scenario files are bind-mounted at runtime, not copied at build time.
+scenarios/
