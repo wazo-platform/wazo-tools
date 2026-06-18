@@ -234,7 +234,7 @@ class DeadlockTest:
         url = f"{self.config.ari_url}/channels"
         call_id = next(self.call_counter)
         endpoint_idx = random.randint(0, self.config.num_endpoints - 1)
-        endpoint = f"PJSIP/deadlock-test-{endpoint_idx}"
+        endpoint = f"{self.config.endpoint}-{endpoint_idx}"
 
         if use_stasis:
             params = {
