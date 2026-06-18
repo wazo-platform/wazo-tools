@@ -23,6 +23,11 @@ trap cleanup EXIT
 
 mkdir -p cores results
 
+# Back up any previous result instead of overwriting it (cleaned by `make clean`).
+if [ -f results/load_result.json ]; then
+    mv results/load_result.json "results/load_result.$(date +%Y%m%d-%H%M%S).json"
+fi
+
 echo "============================================"
 echo "Asterisk load test"
 echo "  Duration:     ${DURATION}s"
