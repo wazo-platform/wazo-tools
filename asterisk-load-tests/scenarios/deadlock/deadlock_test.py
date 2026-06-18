@@ -212,8 +212,10 @@ class DeadlockTest:
                 timeout=aiohttp.ClientTimeout(total=5),
             ) as resp:
                 self.stats.polls += 1
-                self.detector.record_poll_ok()
-                return resp.status in (200, 404)
+                ok = resp.status in (200, 404)
+                if ok:
+                    self.detector.record_poll_ok()
+                return ok
         except asyncio.TimeoutError:
             self.stats.poll_errors += 1
             self.stats.poll_timeouts += 1
