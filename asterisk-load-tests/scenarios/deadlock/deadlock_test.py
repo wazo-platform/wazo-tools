@@ -339,10 +339,11 @@ class DeadlockTest:
                     timeout=aiohttp.ClientTimeout(total=timeout_threshold),
                 ):
                     elapsed = time.time() - start
+                    # A response of any speed means Asterisk is not hung.
+                    self.detector.record_health_ok()
                     if elapsed > 2:
                         print(f"[HEALTH] SLOW response: {elapsed:.1f}s")
                     else:
-                        self.detector.record_health_ok()
                         print(
                             f"[HEALTH] OK ({elapsed:.2f}s) - "
                             f"polls: {self.stats.polls:,}, originates: {self.stats.originates:,}"
