@@ -258,11 +258,14 @@ class DeadlockTest:
                 auth=self.auth(),
                 timeout=aiohttp.ClientTimeout(total=10),
             ) as resp:
+                if resp.status not in (200, 201):
+                    self.stats.originate_errors += 1
+                    return False
                 self.stats.originates += 1
-                if use_stasis and resp.status in (200, 201):
+                if use_stasis:
                     data = await resp.json()
                     self.active_channels.add(data.get("id", ""))
-                return resp.status in (200, 201)
+                return True
         except asyncio.TimeoutError:
             self.stats.originate_errors += 1
             self.stats.originate_timeouts += 1
