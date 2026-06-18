@@ -18,6 +18,7 @@ import asyncio
 import json
 import logging
 import random
+import sys
 import time
 from dataclasses import dataclass, field
 from itertools import count
@@ -229,14 +230,14 @@ class LoadGenerator:
         result_path.write_text(json.dumps(result, indent=2))
         logger.info("result written to %s", result_path)
 
-    async def run(self) -> None:
+    async def run(self) -> bool:
         connector = aiohttp.TCPConnector(limit=200)
         async with aiohttp.ClientSession(connector=connector) as session:
             self.session = session
 
             logger.info("checking ARI connectivity at %s", self.config.ari_url)
             if not await self._check_connectivity():
-                return
+                return False
 
             self.stats = LoadStats()
             tasks: list[asyncio.Task] = []
@@ -260,6 +261,7 @@ class LoadGenerator:
             await asyncio.gather(*tasks, return_exceptions=True)
 
             self.write_result()
+            return True
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -315,9 +317,12 @@ def main() -> None:
     args = build_parser().parse_args()
     generator = LoadGenerator(config_from_args(args))
     try:
-        asyncio.run(generator.run())
+        ok = asyncio.run(generator.run())
     except KeyboardInterrupt:
         logger.info("interrupted by user")
+        ok = False
+    if not ok:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
