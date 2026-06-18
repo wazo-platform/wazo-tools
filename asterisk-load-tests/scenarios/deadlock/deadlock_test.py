@@ -143,6 +143,7 @@ class DeadlockTest:
         self.session: Optional[aiohttp.ClientSession] = None
         self.ws: Optional[aiohttp.ClientWebSocketResponse] = None
         self.active_channels: set = set()
+        self.startup_ok = True
 
     def auth(self):
         return aiohttp.BasicAuth(self.config.ari_user, self.config.ari_pass)
@@ -429,6 +430,7 @@ class DeadlockTest:
                 ) as resp:
                     if resp.status != 200:
                         print(f"[ERROR] ARI returned status {resp.status}")
+                        self.startup_ok = False
                         return
                     info = await resp.json()
                     print(
@@ -436,6 +438,7 @@ class DeadlockTest:
                     )
             except Exception as e:
                 print(f"[ERROR] Cannot connect to ARI: {e}")
+                self.startup_ok = False
                 return
 
             # Start workers
@@ -580,7 +583,11 @@ def main():
         test.stats.report()
         test.write_result()
 
-    sys.exit(1 if test.detector.deadlock_detected else 0)
+    if test.detector.deadlock_detected:
+        sys.exit(1)
+    if not test.startup_ok:
+        sys.exit(2)
+    sys.exit(0)
 
 
 if __name__ == "__main__":
