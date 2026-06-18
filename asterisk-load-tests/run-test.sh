@@ -11,7 +11,7 @@ set -e
 set -u
 set -o pipefail
 
-DURATION=${1:-600}
+DURATION=${1:-${DURATION:-600}}
 ASTERISK_TAG=${ASTERISK_TAG:-wazo-26.03}
 
 cleanup() {
