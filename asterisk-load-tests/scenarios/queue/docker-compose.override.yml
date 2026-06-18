@@ -1,0 +1,25 @@
+---
+# Queue scenario overrides, layered on top of ../../docker-compose.yml.
+# Run from the repository root:
+#   docker compose -f docker-compose.yml \
+#     -f scenarios/queue/docker-compose.override.yml up \
+#     --abort-on-container-exit --exit-code-from load-generator
+# Relative paths resolve from the repository root (the base compose file's dir).
+
+services:
+    asterisk:
+        volumes:
+      # Caller + agent endpoints, the [queues] dialplan, and the queue definition.
+      # ari/http/modules stay inherited from the base (app_queue loads via autoload).
+            - ./scenarios/queue/asterisk-config/pjsip.conf:/etc/asterisk/pjsip.conf:ro
+            - ./scenarios/queue/asterisk-config/extensions.conf:/etc/asterisk/extensions.conf:ro
+            - ./scenarios/queue/asterisk-config/queues.conf:/etc/asterisk/queues.conf:ro
+
+  # Reuse the generic ari-load.py: originate callers into the [queues] context
+  # so each answered leg runs Queue(loadtest). Only env vars change.
+    load-generator:
+        environment:
+            - ENDPOINT_PREFIX=PJSIP/queue-caller
+            - CONTEXT=queues
+            - EXTENSION=s
+            - NUM_ENDPOINTS=${NUM_ENDPOINTS:-5}

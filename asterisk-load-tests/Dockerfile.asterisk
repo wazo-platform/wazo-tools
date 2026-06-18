@@ -1,15 +1,28 @@
 # Wazo Asterisk image for load testing, with debugging tools.
-ARG TAG=wazo-26.03
+ARG TAG=wazo-26.06
 FROM wazoplatform/asterisk:${TAG}
 
 USER root
 
 # Debugging tools + freeze-check module (loaded by modules.conf).
+#
+# res_freeze_check is ABI-tied to the exact Asterisk build it was compiled
+# against. The Wazo apt repo (wazo-dev-bookworm) is rolling: it ships only the
+# latest xivo-res-freeze-check, built against the latest Asterisk. The frozen
+# base image ships an older Asterisk, so installing freeze-check alone loads a
+# mismatched module and Asterisk segfaults on startup. There is no
+# release-pinned apt suite to pull a matching older freeze-check from.
+#
+# So upgrade asterisk in the SAME apt transaction as xivo-res-freeze-check:
+# both then come from the same repo snapshot and are ABI-compatible. The base
+# image TAG just selects the starting layer; Asterisk is bumped to the snapshot
+# the freeze-check matches.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gdb \
     procps \
     curl \
     bc \
+    asterisk \
     xivo-res-freeze-check \
     && rm -rf /var/lib/apt/lists/*
 

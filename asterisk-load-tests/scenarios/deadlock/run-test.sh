@@ -19,7 +19,7 @@ cd "$ROOT_DIR"
 
 VERSION=${1:-unpatched}
 DURATION=${2:-600}
-ASTERISK_TAG=${ASTERISK_TAG:-wazo-26.03}
+ASTERISK_TAG=${ASTERISK_TAG:-wazo-26.06}
 
 COMPOSE=(-f docker-compose.yml -f scenarios/deadlock/docker-compose.override.yml)
 

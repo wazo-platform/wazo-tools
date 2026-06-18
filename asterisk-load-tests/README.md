@@ -44,7 +44,7 @@ The load generator is configured through environment variables (see
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `ASTERISK_TAG` | `wazo-26.03` | `wazoplatform/asterisk` image tag |
+| `ASTERISK_TAG` | `wazo-26.06` | `wazoplatform/asterisk` image tag |
 | `DURATION` | `600` | Test duration (seconds) |
 | `POLLERS` | `30` | Concurrent ARI channel-variable pollers |
 | `ORIGINATORS` | `10` | Concurrent call originators |
@@ -73,7 +73,8 @@ asterisk-load-tests/
 ├── asterisk-config/          # ari / http / modules / pjsip / extensions
 ├── sipp/                     # reusable SIPp building blocks (uas, uac, register)
 └── scenarios/
-    └── deadlock/             # worked example: PJSIP_HEADER + ARI deadlock repro
+    ├── deadlock/             # worked example: PJSIP_HEADER + ARI deadlock repro
+    └── queue/               # app_queue load: callers through Queue() to members
 ```
 
 ## Authoring a scenario
@@ -176,7 +177,9 @@ Optionally add a `run-test.sh` (like the deadlock one) that `cd`s to the repo ro
 5. Validate: `docker compose -f docker-compose.yml -f scenarios/<name>/docker-compose.override.yml
    config -q`.
 
-See [`scenarios/deadlock/`](scenarios/deadlock/README.md) for a complete example.
+See [`scenarios/deadlock/`](scenarios/deadlock/README.md) for a complete example,
+or [`scenarios/queue/`](scenarios/queue/README.md) for a config-only scenario that
+reuses `ari-load.py` to load `app_queue`.
 
 ## Testing a patched Asterisk
 
