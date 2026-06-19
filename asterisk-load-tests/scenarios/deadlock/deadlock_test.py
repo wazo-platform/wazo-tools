@@ -580,17 +580,21 @@ def main():
 
     test = DeadlockTest(config)
 
+    interrupted = False
     try:
         asyncio.run(test.run())
     except KeyboardInterrupt:
         print("\n[INTERRUPTED] Test stopped by user")
         test.stats.report()
         test.write_result()
+        interrupted = True
 
     if test.detector.deadlock_detected:
         sys.exit(1)
     if not test.startup_ok:
         sys.exit(2)
+    if interrupted:
+        sys.exit(130)
     sys.exit(0)
 
 
