@@ -101,7 +101,6 @@ class DeadlockDetector:
     _start_time: float = field(default_factory=time.time)
 
     HEALTH_TIMEOUT_THRESHOLD: int = 3
-    POLL_TIMEOUT_THRESHOLD: int = 10
 
     def record_health_timeout(self) -> bool:
         self.consecutive_health_timeouts += 1
@@ -113,9 +112,9 @@ class DeadlockDetector:
         self.consecutive_health_timeouts = 0
 
     def record_poll_timeout(self) -> bool:
+        # Advisory only: parallel pollers make this counter non-consecutive,
+        # so poll timeouts never trigger detection — the health checker does.
         self.consecutive_poll_timeouts += 1
-        if self.consecutive_poll_timeouts >= self.POLL_TIMEOUT_THRESHOLD:
-            self._detect()
         return self.deadlock_detected
 
     def record_poll_ok(self):
@@ -220,9 +219,7 @@ class DeadlockTest:
         except asyncio.TimeoutError:
             self.stats.poll_errors += 1
             self.stats.poll_timeouts += 1
-            if self.detector.record_poll_timeout():
-                print(f"[DEADLOCK] Poll timeout triggered deadlock detection!")
-                self.stop_event.set()
+            self.detector.record_poll_timeout()
             return False
         except Exception:
             self.stats.poll_errors += 1
