@@ -315,7 +315,11 @@ def main() -> None:
         format="%(asctime)s %(levelname)s %(message)s",
     )
     args = build_parser().parse_args()
-    generator = LoadGenerator(config_from_args(args))
+    config = config_from_args(args)
+    if config.num_endpoints < 1:
+        logger.error("--num-endpoints must be >= 1")
+        sys.exit(2)
+    generator = LoadGenerator(config)
     try:
         ok = asyncio.run(generator.run())
     except KeyboardInterrupt:

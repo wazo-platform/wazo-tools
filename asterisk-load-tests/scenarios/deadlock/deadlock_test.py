@@ -574,6 +574,10 @@ def main():
         result_dir=args.result_dir,
     )
 
+    if config.num_endpoints < 1:
+        print("[ERROR] --num-endpoints must be >= 1")
+        sys.exit(2)
+
     test = DeadlockTest(config)
 
     try:
