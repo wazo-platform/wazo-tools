@@ -1,102 +1,225 @@
 #!/usr/bin/env python3
-"""Extract and anonymize relevant coredump snippets for upstream bug report.
+"""Sanitize Asterisk coredump / log excerpts for public sharing.
 
-Reads ast_coredumper output files (brief.txt, info.txt) and Asterisk logs,
-then produces sanitized excerpts suitable for public sharing.
+Redacts PII and customer-identifying tokens (phone numbers, public IPs,
+hostnames, endpoint/trunk names, tenant ids, UUIDs, ...) from ast_coredumper
+output and Asterisk logs before they go into an upstream/public bug report.
+
+Two layers of redaction:
+
+- a built-in structural ruleset for generic Asterisk/Wazo identifiers and PII
+  (always on);
+- caller-supplied literals from --config (brand names, vanity domains, tenant
+  ids, custom SIP headers) which CANNOT be inferred from shape alone.
+
+Sensitive values are replaced with stable counter-based tokens (ENDPOINT_1,
+UUID_2, ...) so that correlation survives sanitization — the same endpoint
+keeps the same token across threads — while identity is removed. The reverse
+mapping is the de-anonymization key; it is written only to --mapping-out,
+never to the sanitized output.
+
+The original incident-specific report builder (deadlock narrative, frame
+selection, res_freeze_check marker) was intentionally dropped in this
+generalization; it remains in git history (commits d2dad71 / f8e7885).
 """
 
+import argparse
+import json
 import re
 import sys
 from pathlib import Path
+from typing import Callable
 
-# Patterns to redact
-PHONE_E164 = re.compile(r'\+\d{10,15}')
-PHONE_NATIONAL = re.compile(r'\b0[1-9]\d{9,10}\b')
-# Customer-identifying trunk/endpoint names: customer_trunk_<uuid>
-CUSTOMER_TRUNK = re.compile(r'customer_trunk_[0-9a-f-]+')
-# Short endpoint tokens (8-char alphanum used as PJSIP endpoint names)
-# Only match when in PJSIP context to avoid false positives
-PJSIP_ENDPOINT = re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(@|/|-)')
-# Customer ID values (numeric, in X-CUSTOMER-ID context)
-CUSTOMER_ID_VAL = re.compile(
-    r'("PJSIP_HEADER\(add,X-CUSTOMER-ID\)", value=0x[0-9a-f]+ )"[0-9]+"'
-)
-HEADER_VAL = re.compile(r'(data=0x[0-9a-f]+ "add", value=0x[0-9a-f]+ )"[0-9]+"')
-# Bare numeric string values (customer IDs etc.) in value= arguments
-VALUE_NUMERIC = re.compile(r'(value=[^ ]+ )"(\d{6,})"')
-# Hostname
-CUSTOMER_HOST = re.compile(r'instance\d+\.voip\d+\.customer\.com')
-# Public IPs (not RFC1918, not loopback, not documentation range)
-PUBLIC_IP = re.compile(
-    r'\b(?!10\.)(?!172\.(?:1[6-9]|2\d|3[01])\.)(?!192\.168\.)(?!127\.)(?!192\.0\.2\.)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b'
-)
-# Personal names in SIP From display names won't appear in brief.txt thread excerpts
-# but guard against them anyway
-SIP_DISPLAY_NAME = re.compile(r'"([A-Z][a-z]+ [A-Z][a-z]+)"')
-# callerid in ast_spawn_extension
-CALLERID_ARG = re.compile(r'(callerid=0x[0-9a-f]+ )"\+?\d{10,15}"')
-# Context names with tenant IDs
-CTX_ID = re.compile(r'ctx-ID\d+-')
-# Wazo app UUIDs
-WAZO_APP = re.compile(r'wazo-app-[0-9a-f-]+')
-# Endpoint tokens in taskprocessor/channel names (8-char alphanum)
-# e.g. pjsip/options/ABcD1234-00000040, pjsip/outsess/ABcD1234-00000040
-TP_ENDPOINT = re.compile(r'(pjsip/(?:options|outsess)/)([A-Za-z0-9]{6,10})(-)')
-# stasis/p:mwi:all/<ext>@<context>-<tp_hex>
-# Formats: <num>@ctx-ID<num>-internal-<hex>-<hex>-<tp>
-#          <num>@default-internal-<token>-<tp>
-#          <num>@ctx-<token>-internal-<hex>-<hex>-<tp>
-MWI_SUB = re.compile(r'(stasis/p:mwi:all/)\d+@\S+')
-# Local channel with endpoint token: Local/<token>@context
-LOCAL_CHAN_ENDPOINT = re.compile(r'(Local/)[A-Za-z0-9]{6,10}(@)')
-# PJSIP channel names: PJSIP/<endpoint>-<hex>
-PJSIP_CHAN = re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(-[0-9a-f]+)')
-# Bridge UUIDs (standalone UUID pattern in bridge/channel table)
-BRIDGE_UUID = re.compile(
-    r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b'
-)
-# grp-ID<num>-<uuid> group identifiers
-GRP_ID = re.compile(r'grp-ID\d+-[0-9a-f-]+')
-# dial_mobile data: dial_mobile,<action>,<endpoint>
-DIAL_MOBILE = re.compile(r'(dial_mobile,\w+,)[A-Za-z0-9]{6,10}')
-# Dial string with SIP contact URI: sip:<user>@<ip>:<port>
-SIP_CONTACT = re.compile(r'sip:[A-Za-z0-9]+@[\d.]+:\d+[^)\s]*')
-# wazo-dial-mobile-<uuid>
-WAZO_DIAL_MOBILE = re.compile(r'wazo-dial-mobile-[0-9a-f-]+')
+# A redaction rule: a compiled pattern and a replacement (str or match->str).
+Replacement = Callable[[re.Match], str] | str
+Rule = tuple[re.Pattern, Replacement]
+
+# Per-country national number plans (opt-in via config phone_country). A single
+# national regex is not generic; bare national numbers are NOT redacted unless a
+# country is configured. Rely otherwise on PHONE_E164 and the callerid/value=
+# context rules.
+NATIONAL_PHONE_PATTERNS = {
+    'FR': re.compile(r'\b0[1-9]\d{8}\b'),
+}
 
 
-def anonymize_line(line: str) -> str:
-    line = CUSTOMER_TRUNK.sub(
-        'example_trunk_XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', line
-    )
-    line = CUSTOMER_HOST.sub('sip.example.com', line)
-    line = CUSTOMER_ID_VAL.sub(r'\1"XXXXXXXX"', line)
-    line = HEADER_VAL.sub(r'\1"XXXXXXXX"', line)
-    line = VALUE_NUMERIC.sub(r'\1"XXXXXXXX"', line)
-    line = CALLERID_ARG.sub(r'\1"+XXXXXXXXXXXX"', line)
-    line = SIP_DISPLAY_NAME.sub('"REDACTED NAME"', line)
-    line = PJSIP_ENDPOINT.sub(r'\1ENDPOINT\3', line)
-    line = MWI_SUB.sub(r'\1XXXXXXX@XXXXX-XXXXX', line)
-    line = CTX_ID.sub('ctx-IDXXXXXXXX-', line)
-    line = WAZO_APP.sub('wazo-app-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', line)
-    line = TP_ENDPOINT.sub(r'\1ENDPOINT\3', line)
-    line = LOCAL_CHAN_ENDPOINT.sub(r'\1ENDPOINT\2', line)
-    line = PJSIP_CHAN.sub(r'\1ENDPOINT\3', line)
-    line = GRP_ID.sub('grp-IDXXXXXXXX-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', line)
-    line = DIAL_MOBILE.sub(r'\1ENDPOINT', line)
-    line = SIP_CONTACT.sub('sip:XXXXX@X.X.X.X:XXXXX', line)
-    line = WAZO_DIAL_MOBILE.sub(
-        'wazo-dial-mobile-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', line
-    )
-    line = PHONE_E164.sub('+XXXXXXXXXXXX', line)
-    line = PHONE_NATIONAL.sub('0XXXXXXXXXX', line)
-    line = PUBLIC_IP.sub('X.X.X.X', line)
-    line = BRIDGE_UUID.sub('XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', line)
-    return line
+class Pseudonymizer:
+    """Maps each distinct sensitive value to a stable counter-based token.
+
+    Counter-based (not hashed) on purpose: a phone-number / numeric-id space is
+    trivially brute-forced, and a leaked salt would de-anonymize everything.
+    """
+
+    def __init__(self) -> None:
+        self._counters: dict[str, int] = {}
+        self._tokens: dict[tuple[str, str], str] = {}
+
+    def token(self, tag: str, value: str) -> str:
+        key = (tag, value)
+        token = self._tokens.get(key)
+        if token is None:
+            count = self._counters.get(tag, 0) + 1
+            self._counters[tag] = count
+            token = f'{tag}_{count}'
+            self._tokens[key] = token
+        return token
+
+    def mapping(self) -> dict[str, str]:
+        """Reverse map token -> original value (the de-anonymization key)."""
+        return {token: value for (_, value), token in self._tokens.items()}
+
+
+class Sanitizer:
+    def __init__(
+        self,
+        pseudo: Pseudonymizer | None = None,
+        literals: tuple[str, ...] = (),
+        domains: tuple[str, ...] = (),
+        headers: tuple[str, ...] = (),
+        extra_patterns: tuple[tuple[str, str], ...] = (),
+        phone_country: str | None = None,
+    ) -> None:
+        self.pseudo = pseudo or Pseudonymizer()
+        self._rules = self._build_rules(
+            literals, domains, headers, extra_patterns, phone_country
+        )
+
+    def _build_rules(
+        self,
+        literals: tuple[str, ...],
+        domains: tuple[str, ...],
+        headers: tuple[str, ...],
+        extra_patterns: tuple[tuple[str, str], ...],
+        phone_country: str | None,
+    ) -> list[Rule]:
+        tok = self.pseudo.token
+        rules: list[Rule] = []
+
+        # --- caller-supplied literals (longest first to avoid partial shadowing)
+        for domain in sorted(set(domains), key=len, reverse=True):
+            rules.append(
+                (re.compile(re.escape(domain)), lambda m: tok('HOST', m.group(0)))
+            )
+        for literal in sorted(set(literals), key=len, reverse=True):
+            rules.append(
+                (re.compile(re.escape(literal)), lambda m: tok('LITERAL', m.group(0)))
+            )
+        for header in headers:
+            rx = re.compile(
+                r'("PJSIP_HEADER\([^,]+,'
+                + re.escape(header)
+                + r'\)", value=0x[0-9a-f]+ )"([^"]*)"'
+            )
+            rules.append(
+                (rx, lambda m: m.group(1) + '"' + tok('HEADERVAL', m.group(2)) + '"')
+            )
+
+        # --- built-in structural ruleset (order is load-bearing) ---
+        rules += [
+            (
+                re.compile(r'"([A-Z][a-z]+ [A-Z][a-z]+)"'),
+                lambda m: '"' + tok('NAME', m.group(1)) + '"',
+            ),
+            (
+                re.compile(r'(callerid=0x[0-9a-f]+ )"\+?(\d{10,15})"'),
+                lambda m: m.group(1) + '"' + tok('PHONE', m.group(2)) + '"',
+            ),
+            (
+                re.compile(r'(value=[^ ]+ )"(\d{6,})"'),
+                lambda m: m.group(1) + '"' + tok('CUSTID', m.group(2)) + '"',
+            ),
+            (
+                re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(@|/|-)'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
+            ),
+            (
+                re.compile(r'(stasis/p:mwi:all/)(\d+@\S+)'),
+                lambda m: m.group(1) + tok('MWISUB', m.group(2)),
+            ),
+            (
+                re.compile(r'(ctx-ID)(\d+)'),
+                lambda m: m.group(1) + tok('TENANT', m.group(2)),
+            ),
+            (
+                re.compile(r'(wazo-app-)([0-9a-f-]+)'),
+                lambda m: m.group(1) + tok('UUID', m.group(2)),
+            ),
+            (
+                re.compile(r'(pjsip/(?:options|outsess)/)([A-Za-z0-9]{6,10})(-)'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
+            ),
+            (
+                re.compile(r'(Local/)([A-Za-z0-9]{6,10})(@)'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
+            ),
+            (
+                re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(-[0-9a-f]+)'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
+            ),
+            (
+                re.compile(r'grp-ID\d+-[0-9a-f-]+'),
+                lambda m: tok('GRP', m.group(0)),
+            ),
+            (
+                re.compile(r'(dial_mobile,\w+,)([A-Za-z0-9]{6,10})\b'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
+            ),
+            (
+                re.compile(r'sip:[A-Za-z0-9]+@[\d.]+:\d+[^)\s]*'),
+                lambda m: tok('CONTACT', m.group(0)),
+            ),
+            (
+                re.compile(r'wazo-dial-mobile-[0-9a-f-]+'),
+                lambda m: tok('WAZODIAL', m.group(0)),
+            ),
+        ]
+
+        if phone_country:
+            national = NATIONAL_PHONE_PATTERNS.get(phone_country)
+            if national is None:
+                raise ValueError(
+                    f'unknown phone_country {phone_country!r}; known: '
+                    f'{sorted(NATIONAL_PHONE_PATTERNS)}'
+                )
+            rules.append((national, lambda m: tok('PHONE', m.group(0))))
+
+        rules += [
+            (re.compile(r'\+\d{10,15}'), lambda m: tok('PHONE', m.group(0))),
+            (
+                re.compile(
+                    r'\b(?!10\.)(?!172\.(?:1[6-9]|2\d|3[01])\.)(?!192\.168\.)'
+                    r'(?!127\.)(?!192\.0\.2\.)'
+                    r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b'
+                ),
+                lambda m: tok('IP', m.group(1)),
+            ),
+            (
+                re.compile(
+                    r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-'
+                    r'[0-9a-f]{4}-[0-9a-f]{12}\b'
+                ),
+                lambda m: tok('UUID', m.group(0)),
+            ),
+        ]
+
+        # --- caller-supplied raw regex escape hatch (applied last) ---
+        rules += [(re.compile(pat), repl) for pat, repl in extra_patterns]
+
+        return rules
+
+    def line(self, text: str) -> str:
+        for pattern, repl in self._rules:
+            text = pattern.sub(repl, text)
+        return text
+
+
+def anonymize_line(text: str) -> str:
+    """Structural-only sanitization of a single line (no caller config)."""
+    return Sanitizer().line(text)
 
 
 def extract_thread(lines: list[str], lwp: int) -> list[str]:
-    """Extract a single thread's backtrace from brief.txt lines."""
+    """Extract a single thread's backtrace from brief.txt lines by LWP."""
     result = []
     in_thread = False
     for line in lines:
@@ -109,32 +232,24 @@ def extract_thread(lines: list[str], lwp: int) -> list[str]:
     return result
 
 
-def extract_system_summary(info_path: Path) -> str:
-    """Extract anonymized system state summary from info.txt."""
-    text = info_path.read_text()
-    lines = text.splitlines()
+def extract_system_summary(info_path: Path, sanitizer: Sanitizer) -> str:
+    """Extract a sanitized system-state summary from an info.txt."""
+    lines = info_path.read_text().splitlines()
+    summary: list[str] = []
 
-    summary_lines = []
+    for line in lines[2:7]:  # header: version, build, uptime
+        summary.append(sanitizer.line(line))
 
-    # Header (version, build, uptime)
-    for line in lines[2:7]:
-        summary_lines.append(anonymize_line(line))
-
-    # TaskProcessors total
     for line in lines:
         if line.startswith('TaskProcessors ('):
-            summary_lines.append('')
-            summary_lines.append(line)
+            summary += ['', line]
             break
 
-    # Table header
     for line in lines:
         if line.startswith('Processor'):
-            summary_lines.append('')
-            summary_lines.append(line)
+            summary += ['', line]
             break
 
-    # Non-sensitive taskprocessors: list individually
     safe_prefixes = (
         'app_voicemail',
         'ast_msg_queue',
@@ -148,16 +263,13 @@ def extract_system_summary(info_path: Path) -> str:
         'pjsip/mwi',
     )
     for line in lines:
-        for pfx in safe_prefixes:
-            if line.startswith(pfx):
-                summary_lines.append(line)
-                break
+        if line.startswith(safe_prefixes):
+            summary.append(line)
 
-    # Summarize categories with counts
     tp_lines = [
         ln for ln in lines if not ln.startswith('Processor') and not ln.startswith('!')
     ]
-    categories = {
+    categories: dict[str, list[str]] = {
         'pjsip/options': [],
         'pjsip/outsess': [],
         'stasis/m:ari:application': [],
@@ -177,148 +289,168 @@ def extract_system_summary(info_path: Path) -> str:
         elif stripped.startswith('stasis/'):
             categories['stasis (other)'].append(stripped)
 
-    summary_lines.append('')
-    summary_lines.append('Taskprocessor categories (names anonymized):')
+    summary += ['', 'Taskprocessor categories (names anonymized):']
     for cat, cat_lines in categories.items():
         if not cat_lines:
             continue
-        # Parse numeric columns for aggregate stats
         queued_total = 0
-        max_depth_max = 0
+        max_depth = 0
         for cl in cat_lines:
             parts = cl.split()
             if len(parts) >= 4:
                 try:
                     queued_total += int(parts[-4])
-                    max_depth_max = max(max_depth_max, int(parts[-3]))
+                    max_depth = max(max_depth, int(parts[-3]))
                 except (ValueError, IndexError):
                     pass
-        summary_lines.append(
+        summary.append(
             f'  {cat}: {len(cat_lines)} taskprocessors, '
-            f'{queued_total} total in queue, '
-            f'max depth {max_depth_max}'
+            f'{queued_total} total in queue, max depth {max_depth}'
         )
 
-    # Channels and bridges count
-    summary_lines.append('')
+    summary.append('')
     for line in lines:
         if line.startswith('Channels (') or line.startswith('Bridges ('):
-            summary_lines.append(line)
+            summary.append(line)
 
-    return '\n'.join(summary_lines)
-
-
-def extract_log_around_crash(
-    log_path: Path, before: int = 5, after: int = 5
-) -> list[str]:
-    """Extract log lines around the crash timestamp."""
-    lines = log_path.read_text().splitlines()
-    # Find the freeze_check error line
-    crash_idx = None
-    for i, line in enumerate(lines):
-        if 'res_freeze_check' in line and 'failed to acquire' in line:
-            crash_idx = i
-            break
-    if crash_idx is None:
-        return ['(res_freeze_check message not found in log)']
-
-    start = max(0, crash_idx - before)
-    end = min(len(lines), crash_idx + after + 1)
-    return [anonymize_line(ln) for ln in lines[start:end]]
+    return '\n'.join(summary)
 
 
-def extract_endpoint_config_evidence(brief_lines: list[str], lwp: int) -> list[str]:
-    """Extract the key frames showing set_var -> PJSIP_HEADER code path."""
-    thread = extract_thread(brief_lines, lwp)
-    # Pick frames #7-#10 which show the set_var -> PJSIP_HEADER -> chan_pjsip_new path
-    evidence = []
-    for line in thread:
-        for frame in ('#7 ', '#8 ', '#9 ', '#10 '):
-            if line.startswith(frame):
-                evidence.append(anonymize_line(line))
-    return evidence
+def load_config(path: Path) -> dict:
+    config = json.loads(path.read_text())
+    if not isinstance(config, dict):
+        raise ValueError('config must be a JSON object')
+    return config
 
 
-def main():
-    base = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('.')
-    prefix = 'core-asterisk-<timestamp>'
-
-    brief_path = base / f'{prefix}-brief.txt'
-    info_path = base / f'{prefix}-info.txt'
-    log_path = base / 'instance-1-logs' / 'instance-1-asterisk-logs' / 'full'
-
-    brief_lines = brief_path.read_text().splitlines()
-
-    # Thread LWPs from the crash analysis
-    # Thread 1158 (LWP 834925) - Dial thread holding channel lock
-    # Thread 780 (LWP 816915) - ARI thread holding container lock
-    dial_thread = extract_thread(brief_lines, 834925)
-    ari_thread = extract_thread(brief_lines, 816915)
-
-    output = []
-    output.append('# Sanitized coredump excerpts for upstream bug report')
-    output.append('')
-
-    # Endpoint set_var evidence
-    output.append('## Evidence of endpoint set_var configuration')
-    output.append('')
-    output.append(
-        'The stack trace shows `PJSIP_HEADER(add,X-CUSTOMER-ID)` being called from'
+def build_sanitizer(config: dict | None) -> Sanitizer:
+    config = config or {}
+    extra = tuple(
+        (entry['pattern'], entry['replacement']) for entry in config.get('patterns', [])
     )
-    output.append(
-        '`chan_pjsip_new()` via the endpoint `channel_vars` loop (set_var config):'
+    return Sanitizer(
+        literals=tuple(config.get('literals', [])),
+        domains=tuple(config.get('domains', [])),
+        headers=tuple(config.get('headers', [])),
+        extra_patterns=extra,
+        phone_country=config.get('phone_country'),
     )
-    output.append('```')
-    for line in extract_endpoint_config_evidence(brief_lines, 834925):
-        output.append(line)
-    output.append('```')
-    output.append('')
 
-    # Deadlock threads
-    output.append(
-        '## Thread A: Dial / chan_pjsip_new — holds channel lock, waiting on serializer'
+
+def _emit(text: str, output: str | None) -> None:
+    if output:
+        Path(output).write_text(text + '\n' if text else '')
+    else:
+        sys.stdout.write(text + '\n' if text else '')
+
+
+def _cmd_filter(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
+    files = args.files or ['-']
+    out_lines = []
+    for name in files:
+        handle = sys.stdin if name == '-' else open(name, encoding='utf-8')
+        try:
+            for line in handle:
+                out_lines.append(sanitizer.line(line.rstrip('\n')))
+        finally:
+            if handle is not sys.stdin:
+                handle.close()
+    _emit('\n'.join(out_lines), args.output)
+
+
+def _cmd_thread(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
+    lines = Path(args.brief).read_text().splitlines()
+    out: list[str] = []
+    for lwp in args.lwp:
+        out += [sanitizer.line(line) for line in extract_thread(lines, lwp)]
+    _emit('\n'.join(out), args.output)
+
+
+def _cmd_log(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
+    lines = Path(args.logfile).read_text().splitlines()
+    marker = re.compile(args.marker)
+    idx = next((i for i, line in enumerate(lines) if marker.search(line)), None)
+    if idx is None:
+        sys.exit(f'marker {args.marker!r} not found in {args.logfile}')
+    start = max(0, idx - args.before)
+    end = min(len(lines), idx + args.after + 1)
+    _emit('\n'.join(sanitizer.line(line) for line in lines[start:end]), args.output)
+
+
+def _cmd_summary(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
+    _emit(extract_system_summary(Path(args.info), sanitizer), args.output)
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=(__doc__ or '').splitlines()[0])
+    parser.add_argument('--config', type=Path, help='JSON config of caller literals')
+    parser.add_argument(
+        '--mapping-out',
+        type=Path,
+        help='write the token->value de-anonymization key here (keep private)',
     )
-    output.append('```')
-    for line in dial_thread:
-        output.append(anonymize_line(line))
-    output.append('```')
-    output.append('')
-    output.append(
-        '## Thread B: ARI GET channel variable — holds container lock, '
-        'waiting on channel lock'
+    parser.add_argument(
+        '--structural-only',
+        action='store_true',
+        help='acknowledge running without caller literals (suppresses warning)',
     )
-    output.append('```')
-    for line in ari_thread:
-        output.append(anonymize_line(line))
-    output.append('```')
-    output.append('')
+    parser.add_argument('-o', '--output', help='write to file instead of stdout')
 
-    # Log excerpt
-    if log_path.exists():
-        output.append('## Asterisk log around crash time')
-        output.append('```')
-        for line in extract_log_around_crash(log_path):
-            output.append(line)
-        output.append('```')
-        output.append('')
+    sub = parser.add_subparsers(dest='cmd', required=True)
 
-    # System state
-    output.append('## System state at crash')
-    output.append('```')
-    output.append(extract_system_summary(info_path))
-    output.append('```')
+    p_filter = sub.add_parser('filter', help='sanitize lines from files or stdin')
+    p_filter.add_argument('files', nargs='*', help='input files (default: stdin)')
+    p_filter.set_defaults(func=_cmd_filter)
 
-    result = '\n'.join(output)
-    out_path = base / 'sanitized-coredump-excerpts.md'
-    out_path.write_text(result + '\n')
-    print(f'Written to {out_path}')
+    p_thread = sub.add_parser('thread', help='extract & sanitize thread(s) by LWP')
+    p_thread.add_argument('brief', help='ast_coredumper brief.txt')
+    p_thread.add_argument(
+        '--lwp',
+        type=int,
+        action='append',
+        required=True,
+        help='thread LWP (repeatable)',
+    )
+    p_thread.set_defaults(func=_cmd_thread)
 
-    # Anonymized info.txt (full structure preserved)
-    info_lines = info_path.read_text().splitlines()
-    anon_info = '\n'.join(anonymize_line(ln) for ln in info_lines)
-    anon_info_path = base / 'sanitized-info.txt'
-    anon_info_path.write_text(anon_info + '\n')
-    print(f'Written to {anon_info_path}')
+    p_log = sub.add_parser('log', help='extract & sanitize log lines around a marker')
+    p_log.add_argument('logfile')
+    p_log.add_argument(
+        '--marker', required=True, help='regex marking the line of interest'
+    )
+    p_log.add_argument('--before', type=int, default=5)
+    p_log.add_argument('--after', type=int, default=5)
+    p_log.set_defaults(func=_cmd_log)
+
+    p_summary = sub.add_parser('summary', help='sanitized system-state summary')
+    p_summary.add_argument('info', help='ast_coredumper info.txt')
+    p_summary.set_defaults(func=_cmd_summary)
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _build_parser().parse_args(argv)
+    config = load_config(args.config) if args.config else None
+
+    has_literals = bool(
+        config
+        and (config.get('literals') or config.get('domains') or config.get('headers'))
+    )
+    if not has_literals and not args.structural_only:
+        print(
+            'WARNING: no caller literals configured (--config). Brand names, '
+            'vanity hostnames, tenant slugs and custom header values will NOT '
+            'be redacted — only generic structural patterns. Pass --config or '
+            '--structural-only to acknowledge.',
+            file=sys.stderr,
+        )
+
+    sanitizer = build_sanitizer(config)
+    args.func(args, sanitizer)
+
+    if args.mapping_out:
+        args.mapping_out.write_text(json.dumps(sanitizer.pseudo.mapping(), indent=2))
 
 
 if __name__ == '__main__':
