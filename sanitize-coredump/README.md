@@ -39,3 +39,15 @@ logic to the coredump at hand, then run it.
 `instance-1-logs/instance-1-asterisk-logs/full` log).
 
 Requires Python 3 only (standard library).
+
+## Tests
+
+`test_sanitize_coredump.py` asserts that every redaction pattern actually fires
+on representative input — for a sanitizer a silent non-firing rule is a leak.
+Run with `pytest` from this directory.
+
+## Generalizing beyond this incident
+
+The reusable core here is the line sanitizer. Turning it into a general-purpose
+tool (config-driven customer literals, per-country phone handling, consistent
+pseudonymization, a CLI) is designed in [`GENERALIZATION-PLAN.md`](./GENERALIZATION-PLAN.md).
