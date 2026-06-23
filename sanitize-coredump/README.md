@@ -1,53 +1,93 @@
 # sanitize-coredump
 
-Extract and anonymize relevant Asterisk coredump snippets so they can be shared
-in a public/upstream bug report without leaking customer-identifying data
-(phone numbers, public IPs, hostnames, endpoint/trunk names, tenant UUIDs, ...).
+Sanitize Asterisk coredump / log excerpts so they can be shared in a
+public/upstream bug report without leaking customer-identifying data (phone
+numbers, public IPs, hostnames, endpoint/trunk names, tenant ids, UUIDs, ...).
 
-It reads [`ast_coredumper`](https://github.com/asterisk/asterisk/blob/master/contrib/scripts/ast_coredumper)
-output (`*-brief.txt`, `*-info.txt`) together with the Asterisk `full` log,
-redacts sensitive tokens line-by-line, and writes:
+It works on [`ast_coredumper`](https://github.com/asterisk/asterisk/blob/master/contrib/scripts/ast_coredumper)
+output (`*-brief.txt`, `*-info.txt`) and Asterisk logs.
 
-- `sanitized-coredump-excerpts.md` — a curated report (deadlock threads,
-  endpoint config evidence, log around the crash, system-state summary)
-- `sanitized-info.txt` — the full `info.txt` with the same redaction applied
+## How it redacts
 
-## Status: incident-specific template
+Two layers:
 
-This script was written for a specific incident (the 20XX-XX-XX customer upgrade
-deadlock) and is **not** a general-purpose tool. Several things are hardcoded
-and must be adapted before reuse:
+- a **built-in structural ruleset** for generic Asterisk/Wazo identifiers and
+  PII (endpoints, channels, MWI subscriptions, tenant/group ids, UUIDs, SIP
+  contacts, E.164 phone numbers, public IPs, ...) — always on;
+- **caller-supplied literals** from `--config` (brand names, vanity domains,
+  tenant slugs, custom SIP headers). These cannot be inferred from shape alone,
+  so without a config they are **not** redacted — the tool warns loudly on
+  stderr when run without one (pass `--structural-only` to acknowledge).
 
-- `prefix` — the `core-asterisk-<timestamp>` filename prefix (in `main()`)
-- the thread LWPs of interest (`834925`, `816915`)
-- the crash marker used to locate the log excerpt (`res_freeze_check ...
-  failed to acquire`)
-- customer-specific redaction patterns (`customer_trunk_*`,
-  `instance*.voip*.customer.com`)
-
-Keep it as a starting point: copy it, adjust the patterns and the extraction
-logic to the coredump at hand, then run it.
+Sensitive values are replaced with stable counter-based tokens (`ENDPOINT_1`,
+`UUID_2`, ...) rather than blanked out, so correlation survives sanitization:
+the same endpoint keeps the same token across threads. The reverse
+token→value map (the de-anonymization key) is written **only** to
+`--mapping-out`, never to the sanitized output — keep it private.
 
 ## Usage
 
 ```sh
-./sanitize-coredump.py [DIR]
+# sanitize a file or stdin (stream filter)
+./sanitize-coredump.py --config customer.json filter core-info.txt > clean-info.txt
+cat core-brief.txt | ./sanitize-coredump.py --structural-only filter
+
+# extract & sanitize specific thread backtraces by LWP
+./sanitize-coredump.py --config customer.json thread core-brief.txt --lwp 834925 --lwp 816915
+
+# extract & sanitize log lines around a marker
+./sanitize-coredump.py --config customer.json log full \
+    --marker 'res_freeze_check.*failed to acquire' --before 5 --after 5
+
+# sanitized system-state summary from info.txt
+./sanitize-coredump.py --config customer.json summary core-info.txt
+
+# keep the de-anonymization key for your own later reference
+./sanitize-coredump.py --config customer.json --mapping-out key.json filter core-info.txt
 ```
 
-`DIR` defaults to the current directory and must contain the
-`ast_coredumper` output files (and optionally the
-`instance-1-logs/instance-1-asterisk-logs/full` log).
+Global options: `--config FILE`, `--mapping-out FILE`, `--structural-only`,
+`-o/--output FILE`. Requires Python 3 only (standard library).
 
-Requires Python 3 only (standard library).
+### Config file (JSON)
+
+```json
+{
+  "literals": ["acmecorp"],
+  "domains": ["instance1.voip2.acmecorp.com"],
+  "headers": ["X-CUSTOMER-ID"],
+  "phone_country": "FR",
+  "patterns": [{"pattern": "secret-\\d+", "replacement": "REDACTED"}]
+}
+```
+
+- `literals` / `domains` — strings redacted everywhere (consistent tokens).
+- `headers` — the value of these PJSIP headers (in gdb arg dumps) is redacted.
+- `phone_country` — opt into a per-country national-number pattern (currently
+  `FR`). National numbers are otherwise not caught; see design notes below.
+- `patterns` — raw regex→replacement escape hatch, applied last.
 
 ## Tests
 
 `test_sanitize_coredump.py` asserts that every redaction pattern actually fires
-on representative input — for a sanitizer a silent non-firing rule is a leak.
-Run with `pytest` from this directory.
+on representative input (a silent non-firing rule is a leak), plus token
+consistency/distinctness, idempotency (generated tokens are never re-matched),
+config-literal redaction, and the CLI's config-gate warning and mapping
+handling. Run with `pytest` from this directory.
 
-## Generalizing beyond this incident
+## Design notes & open items
 
-The reusable core here is the line sanitizer. Turning it into a general-purpose
-tool (config-driven customer literals, per-country phone handling, consistent
-pseudonymization, a CLI) is designed in [`GENERALIZATION-PLAN.md`](./GENERALIZATION-PLAN.md).
+- **National phone numbers** are redacted only when `phone_country` is set,
+  because a single national regex is not generic — number plans differ per
+  country (length, leading digits, trunk prefix). E.164 numbers and the
+  `callerid`/`value=` context rules are always covered; do not assume bare
+  national numbers are caught otherwise. Future options: more per-country
+  patterns, context-aware detection, or a vetted library (`phonenumbers`).
+- **Pseudonymization is counter-based, not hashed**, on purpose: a
+  phone-number / numeric-id space is trivially brute-forced and a leaked salt
+  would de-anonymize everything. The reverse map stays out of published output
+  by construction (only `--mapping-out`).
+
+The earlier incident-specific report builder (the 20XX-XX-XX customer deadlock
+narrative, frame selection, `res_freeze_check` marker) was intentionally
+dropped here; it remains in git history (commits `d2dad71` / `f8e7885`).
