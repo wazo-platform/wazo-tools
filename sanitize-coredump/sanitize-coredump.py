@@ -74,6 +74,7 @@ def anonymize_line(line: str) -> str:
     line = HEADER_VAL.sub(r'\1"XXXXXXXX"', line)
     line = VALUE_NUMERIC.sub(r'\1"XXXXXXXX"', line)
     line = CALLERID_ARG.sub(r'\1"+XXXXXXXXXXXX"', line)
+    line = SIP_DISPLAY_NAME.sub('"REDACTED NAME"', line)
     line = PJSIP_ENDPOINT.sub(r'\1ENDPOINT\3', line)
     line = MWI_SUB.sub(r'\1XXXXXXX@XXXXX-XXXXX', line)
     line = CTX_ID.sub('ctx-IDXXXXXXXX-', line)
