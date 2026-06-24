@@ -154,8 +154,11 @@ class Sanitizer:
                 lambda m: m.group(1) + '"' + tok('CUSTID', m.group(2)) + '"',
             ),
             (
-                re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(@|/|-)'),
-                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
+                # endpoint terminates at any non-word char (@ / - & , ; space
+                # ...); excluding '_' keeps generated TAG_n tokens from
+                # re-matching (idempotency).
+                re.compile(r'(PJSIP/)([A-Za-z0-9]{6,10})(?![A-Za-z0-9_])'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
             ),
             (
                 re.compile(r'(stasis/p:mwi:all/)(\d+@\S+)'),
