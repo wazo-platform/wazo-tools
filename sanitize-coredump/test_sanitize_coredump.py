@@ -51,6 +51,11 @@ REDACTION_CASES = [
     pytest.param('channel PJSIP/ABcD1234@ctx active', 'ABcD1234', id='pjsip endpoint'),
     pytest.param('PJSIP/ABcD1234-0000abcd hung up', 'ABcD1234', id='pjsip channel'),
     pytest.param(
+        'dialstring PJSIP/ysy7AakU&PJSIP/other',
+        'ysy7AakU',
+        id='pjsip endpoint before &',
+    ),
+    pytest.param(
         'Local/ABcD1234@default-0001', 'ABcD1234', id='local channel endpoint'
     ),
     pytest.param(
@@ -132,7 +137,7 @@ def test_distinct_values_get_distinct_tokens():
 
 def test_sanitization_does_not_rematch_generated_tokens():
     line = (
-        'PJSIP/ABcD1234-0000abcd dial_mobile,join,EfGh5678 '
+        'PJSIP/ABcD1234-0000abcd&PJSIP/ZyXw9876 dial_mobile,join,EfGh5678 '
         'sip:user123@1.2.3.4:5060 12345678-1234-1234-1234-123456789abc '
         'ctx-ID42 wazo-app-ab12cd34-ef56 +33612345678'
     )
