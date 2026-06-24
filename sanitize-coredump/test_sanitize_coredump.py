@@ -118,6 +118,11 @@ def test_trunk_name_fully_redacted():
     assert '1a2b3c4d' not in out
 
 
+def test_trunk_rule_does_not_mangle_non_id_names():
+    # a config-like name (no uuid id) must be left intact, not half-eaten
+    assert anonymize_line('default_trunk_config') == 'default_trunk_config'
+
+
 # --- pseudonymization mechanics ---
 
 
