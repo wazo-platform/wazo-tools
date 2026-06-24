@@ -138,7 +138,9 @@ class Sanitizer:
             # per-trunk id are customer-correlating, so token the whole name.
             # Runs before the brand-literal rule so the slug is captured here.
             (
-                re.compile(r'[A-Za-z0-9]+_trunk_[0-9a-f](?:[0-9a-f-]*[0-9a-f])?'),
+                # require >=8 hex for the id so non-id names like
+                # default_trunk_config are not mangled.
+                re.compile(r'[A-Za-z0-9]+_trunk_[0-9a-f]{8}[0-9a-f-]*'),
                 lambda m: tok('TRUNK', m.group(0)),
             ),
             (
