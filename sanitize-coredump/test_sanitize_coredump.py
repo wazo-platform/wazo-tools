@@ -72,6 +72,16 @@ REDACTION_CASES = [
         id='bridge uuid',
     ),
     pytest.param(
+        'ref 0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4 seen',
+        '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4',
+        id='truncated trunk uuid (9-hex tail)',
+    ),
+    pytest.param(
+        'branch=z9hG4bKPj0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4678;alias',
+        '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4678',
+        id='uuid glued to SIP Via branch prefix',
+    ),
+    pytest.param(
         'contact sip:user123@1.2.3.4:5060;ob', 'user123', id='sip contact uri'
     ),
     pytest.param('peer 8.8.8.8 reachable', '8.8.8.8', id='public ip'),
@@ -91,6 +101,16 @@ def test_private_ip_is_preserved():
 
 def test_loopback_ip_is_preserved():
     assert '127.0.0.1' in anonymize_line('bound to 127.0.0.1:5060')
+
+
+def test_trunk_name_fully_redacted():
+    # real trunk ids carry a non-standard UUID the UUID rule misses, so the
+    # dedicated trunk rule must capture the whole <slug>_trunk_<id> name.
+    out = anonymize_line(
+        'PJSIP/customer_trunk_1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5-00000bc0 up'
+    )
+    assert 'customer_trunk' not in out
+    assert '1a2b3c4d' not in out
 
 
 # --- pseudonymization mechanics ---
@@ -142,6 +162,13 @@ def test_config_domain_is_redacted():
     assert 'customer.com' not in out
 
 
+def test_config_domain_redacted_even_when_gdb_truncated():
+    sanitizer = Sanitizer(domains=('instance1.voip3.customer.com',))
+    assert 'voip3' not in sanitizer.line('aor user@instance1.voip3.bo"..., payload')
+    # gdb may cut even shorter, mid-second-label
+    assert 'instance1' not in sanitizer.line('<sip:abc@instance1.v"..., payload')
+
+
 def test_config_header_value_is_redacted():
     out = Sanitizer(headers=('X-TENANT-NAME',)).line(
         '"PJSIP_HEADER(add,X-TENANT-NAME)", value=0x7f001234 "AcmeCorp"'
@@ -160,6 +187,15 @@ def test_national_phone_redacted_when_country_configured():
 def test_cli_filter_sanitizes(tmp_path, capsys):
     src = tmp_path / 'in.txt'
     src.write_text('peer 8.8.8.8 reachable\n')
+    main(['--structural-only', 'filter', str(src)])
+    out = capsys.readouterr().out
+    assert '8.8.8.8' not in out
+    assert 'IP_1' in out
+
+
+def test_cli_filter_handles_non_utf8_bytes(tmp_path, capsys):
+    src = tmp_path / 'bin.txt'
+    src.write_bytes(b'peer 8.8.8.8 \x97 raw byte\n')
     main(['--structural-only', 'filter', str(src)])
     out = capsys.readouterr().out
     assert '8.8.8.8' not in out
