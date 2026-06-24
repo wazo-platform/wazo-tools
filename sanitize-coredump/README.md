@@ -63,8 +63,8 @@ Global options: `--config FILE`, `--mapping-out FILE`, `--structural-only`,
 
 - `literals` / `domains` — strings redacted everywhere (consistent tokens).
 - `headers` — the value of these PJSIP headers (in gdb arg dumps) is redacted.
-- `phone_country` — opt into a per-country national-number pattern (currently
-  `FR`). National numbers are otherwise not caught; see design notes below.
+- `phone_country` — opt into a per-country national-number pattern (`FR`,
+  `UK`). National numbers are otherwise not caught; see design notes below.
 - `patterns` — raw regex→replacement escape hatch, applied last.
 
 ## Tests
@@ -87,6 +87,12 @@ handling. Run with `pytest` from this directory.
   phone-number / numeric-id space is trivially brute-forced and a leaked salt
   would de-anonymize everything. The reverse map stays out of published output
   by construction (only `--mapping-out`).
+- **Robust to real coredump data**: non-UTF-8 bytes are replaced rather than
+  crashing the run; configured `domains` also match gdb-truncated fragments
+  (`instance1.voip3.bo"...`); UUID-shaped ids are matched with a loose tail so
+  non-standard/truncated trunk UUIDs are caught. Verified against a real
+  coredump: brand, hostnames, trunk UUIDs, E.164/national phones and public
+  IPs all redacted (RFC 5737 `192.0.2.0/24` documentation IPs are kept).
 
 The earlier incident-specific report builder (the 20XX-XX-XX customer deadlock
 narrative, frame selection, `res_freeze_check` marker) was intentionally

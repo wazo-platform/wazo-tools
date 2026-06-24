@@ -24,6 +24,7 @@ generalization; it remains in git history (commits d2dad71 / f8e7885).
 """
 
 import argparse
+import io
 import json
 import re
 import sys
@@ -40,7 +41,25 @@ Rule = tuple[re.Pattern, Replacement]
 # context rules.
 NATIONAL_PHONE_PATTERNS = {
     'FR': re.compile(r'\b0[1-9]\d{8}\b'),
+    'UK': re.compile(r'\b0\d{9,10}\b'),
 }
+
+
+def _truncatable_domain_regex(domain: str) -> str:
+    """Regex matching ``domain`` or any gdb-truncated prefix of it.
+
+    gdb cuts long strings at arbitrary points (``instance1.v"...``), so an
+    exact match misses the fragments. Keep a fixed head (the first dot-label,
+    at least 7 chars so a short generic prefix is not over-matched) and make
+    every following character independently optional.
+    """
+    labels = domain.split('.')
+    head_len = min(len(domain), max(len(labels[0]), 7))
+    head = re.escape(domain[:head_len])
+    tail = ''
+    for char in reversed(domain[head_len:]):
+        tail = f'(?:{re.escape(char)}{tail})?'
+    return head + tail
 
 
 class Pseudonymizer:
@@ -95,14 +114,13 @@ class Sanitizer:
         tok = self.pseudo.token
         rules: list[Rule] = []
 
-        # --- caller-supplied literals (longest first to avoid partial shadowing)
+        # --- caller-supplied domains and headers (specific contexts, run early)
         for domain in sorted(set(domains), key=len, reverse=True):
             rules.append(
-                (re.compile(re.escape(domain)), lambda m: tok('HOST', m.group(0)))
-            )
-        for literal in sorted(set(literals), key=len, reverse=True):
-            rules.append(
-                (re.compile(re.escape(literal)), lambda m: tok('LITERAL', m.group(0)))
+                (
+                    re.compile(_truncatable_domain_regex(domain)),
+                    lambda m: tok('HOST', m.group(0)),
+                )
             )
         for header in headers:
             rx = re.compile(
@@ -116,6 +134,13 @@ class Sanitizer:
 
         # --- built-in structural ruleset (order is load-bearing) ---
         rules += [
+            # Wazo trunk endpoint names <slug>_trunk_<hexid>; the slug AND the
+            # per-trunk id are customer-correlating, so token the whole name.
+            # Runs before the brand-literal rule so the slug is captured here.
+            (
+                re.compile(r'[A-Za-z0-9]+_trunk_[0-9a-f](?:[0-9a-f-]*[0-9a-f])?'),
+                lambda m: tok('TRUNK', m.group(0)),
+            ),
             (
                 re.compile(r'"([A-Z][a-z]+ [A-Z][a-z]+)"'),
                 lambda m: '"' + tok('NAME', m.group(1)) + '"',
@@ -194,13 +219,26 @@ class Sanitizer:
                 lambda m: tok('IP', m.group(1)),
             ),
             (
+                # UUID-shaped identifiers. The tail length is intentionally
+                # loose ([0-9a-f]+, not {12}) because real data carries
+                # truncated trunk UUIDs (8-4-4-4-9). No leading \b either: UUIDs
+                # appear glued to a prefix in SIP Via branches
+                # (z9hG4bKPj<uuid>). Over-redact rather than miss a
+                # customer-correlating id.
                 re.compile(
-                    r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-'
-                    r'[0-9a-f]{4}-[0-9a-f]{12}\b'
+                    r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]+'
                 ),
                 lambda m: tok('UUID', m.group(0)),
             ),
         ]
+
+        # --- caller-supplied brand literals (generic substrings, run late so
+        # they only catch standalone mentions, not parts of compound names
+        # already tokenized above; longest first to avoid partial shadowing)
+        for literal in sorted(set(literals), key=len, reverse=True):
+            rules.append(
+                (re.compile(re.escape(literal)), lambda m: tok('LITERAL', m.group(0)))
+            )
 
         # --- caller-supplied raw regex escape hatch (applied last) ---
         rules += [(re.compile(pat), repl) for pat, repl in extra_patterns]
@@ -234,7 +272,7 @@ def extract_thread(lines: list[str], lwp: int) -> list[str]:
 
 def extract_system_summary(info_path: Path, sanitizer: Sanitizer) -> str:
     """Extract a sanitized system-state summary from an info.txt."""
-    lines = info_path.read_text().splitlines()
+    lines = _read_text(info_path).splitlines()
     summary: list[str] = []
 
     for line in lines[2:7]:  # header: version, build, uptime
@@ -316,6 +354,18 @@ def extract_system_summary(info_path: Path, sanitizer: Sanitizer) -> str:
     return '\n'.join(summary)
 
 
+def _read_text(path: str | Path) -> str:
+    # Coredump logs routinely contain non-UTF-8 bytes; replace them rather than
+    # crash (and never round-trip raw bytes into the sanitized output).
+    return Path(path).read_text(encoding='utf-8', errors='replace')
+
+
+def _open_text(name: str) -> io.TextIOBase:
+    if name == '-':
+        return io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8', errors='replace')
+    return open(name, encoding='utf-8', errors='replace')
+
+
 def load_config(path: Path) -> dict:
     config = json.loads(path.read_text())
     if not isinstance(config, dict):
@@ -348,18 +398,18 @@ def _cmd_filter(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
     files = args.files or ['-']
     out_lines = []
     for name in files:
-        handle = sys.stdin if name == '-' else open(name, encoding='utf-8')
+        handle = _open_text(name)
         try:
             for line in handle:
                 out_lines.append(sanitizer.line(line.rstrip('\n')))
         finally:
-            if handle is not sys.stdin:
+            if name != '-':
                 handle.close()
     _emit('\n'.join(out_lines), args.output)
 
 
 def _cmd_thread(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
-    lines = Path(args.brief).read_text().splitlines()
+    lines = _read_text(args.brief).splitlines()
     out: list[str] = []
     for lwp in args.lwp:
         out += [sanitizer.line(line) for line in extract_thread(lines, lwp)]
@@ -367,7 +417,7 @@ def _cmd_thread(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
 
 
 def _cmd_log(args: argparse.Namespace, sanitizer: Sanitizer) -> None:
-    lines = Path(args.logfile).read_text().splitlines()
+    lines = _read_text(args.logfile).splitlines()
     marker = re.compile(args.marker)
     idx = next((i for i, line in enumerate(lines) if marker.search(line)), None)
     if idx is None:
