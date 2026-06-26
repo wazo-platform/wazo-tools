@@ -91,9 +91,22 @@ handling. Run with `pytest` from this directory.
 - **Robust to real coredump data**: non-UTF-8 bytes are replaced rather than
   crashing the run; configured `domains` also match gdb-truncated fragments
   (`instance1.voip3.bo"...`); UUID-shaped ids are matched with a loose tail so
-  non-standard/truncated trunk UUIDs are caught. Verified against a real
-  coredump: brand, hostnames, trunk UUIDs, E.164/national phones and public
-  IPs all redacted (RFC 5737 `192.0.2.0/24` documentation IPs are kept).
+  non-standard/truncated trunk UUIDs are caught. Verified against real coredumps
+  from several deployments (RFC 5737 `192.0.2.0/24` documentation IPs are kept).
+- **Endpoint/trunk/context names** are redacted structurally in the standard
+  Asterisk positions — `PJSIP/<ep>`, `pjsip/{options,outsess,outreg}/<ep>`,
+  `Local/<ep>`, `stasis/p:endpoint:PJSIP/<ep>`, `<slug>_trunk_<id>`,
+  `ctx-<tenant>` — and cover names that are hex UUIDs *or* human/business
+  names (e.g. `dstny_trunk_ChapelleTrucksServices`, `ALLIANZ_ANNE_BAILLET_UNYC`,
+  `ctx-CABINETOPH`). Standard Wazo names with underscores (`wazo_wait`,
+  `WAZO_USER`) and C/C++ backtrace symbols (`ast_channel_lock`, `basic_string`)
+  are deliberately **not** matched — underscore-bearing names are only redacted
+  in those anchored contexts, never globally.
+- **Deployment-specific naming** that appears outside the anchored contexts
+  (e.g. an endpoint name after `@` in a dial string, where it shares the
+  position with `@wazo_wait`) cannot be inferred structurally. Redact it with a
+  `--config` `patterns` entry keyed on the deployment's stable marker, e.g.
+  `{"patterns": [{"pattern": "[A-Za-z0-9_]+_UNYC", "replacement": "ENDPOINT"}]}`.
 
 The earlier incident-specific report builder (the 20XX-XX-XX customer deadlock
 narrative, frame selection, `res_freeze_check` marker) was intentionally
