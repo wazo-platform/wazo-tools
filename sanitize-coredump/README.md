@@ -13,7 +13,8 @@ Two layers:
 
 - a **built-in structural ruleset** for generic Asterisk/Wazo identifiers and
   PII (endpoints, channels, MWI subscriptions, tenant/group ids, UUIDs, SIP
-  contacts, E.164 phone numbers, public IPs, ...) — always on;
+  contacts, E.164 phone numbers, public IPv4/IPv6 addresses, ...) — always on
+  (loopback/private IPv4 and loopback/link-local/ULA IPv6 are preserved);
 - **caller-supplied literals** from `--config` (brand names, vanity domains,
   tenant slugs, custom SIP headers). These cannot be inferred from shape alone,
   so without a config they are **not** redacted — the tool warns loudly on

@@ -44,6 +44,28 @@ NATIONAL_PHONE_PATTERNS = {
     'UK': re.compile(r'\b0\d{9,10}\b'),
 }
 
+# IPv6 matcher. Only "strong" forms are matched (full 8 groups, a hex group
+# before '::', or IPv4-mapped/embedded) so bare 'ns::Sym' tokens common in gdb
+# backtraces are not mangled; the digit requirement (enforced in the
+# replacement) further rules out pure-letter symbols like 'cafe::babe'.
+_H6 = r'[0-9A-Fa-f]{1,4}'
+_OCTET = r'(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])'
+_IPV4 = rf'(?:{_OCTET}\.){{3}}{_OCTET}'
+IPV6 = re.compile(
+    r'(?<![0-9A-Fa-f:.])(?:'
+    rf'(?:{_H6}:){{7}}{_H6}'  # full 1:2:3:4:5:6:7:8
+    rf'|(?:{_H6}:){{1,7}}:'  # 1:: ... 1:2:3:4:5:6:7::
+    rf'|(?:{_H6}:){{1,6}}:{_H6}'  # 1::8
+    rf'|(?:{_H6}:){{1,5}}(?::{_H6}){{1,2}}'
+    rf'|(?:{_H6}:){{1,4}}(?::{_H6}){{1,3}}'
+    rf'|(?:{_H6}:){{1,3}}(?::{_H6}){{1,4}}'
+    rf'|(?:{_H6}:){{1,2}}(?::{_H6}){{1,5}}'
+    rf'|{_H6}:(?::{_H6}){{1,6}}'
+    rf'|(?:{_H6}:){{1,4}}:{_IPV4}'  # IPv4-embedded
+    rf'|::(?:[fF]{{4}}(?::0{{1,4}})?:)?{_IPV4}'  # IPv4-mapped ::ffff:1.2.3.4
+    r')(?![0-9A-Fa-f:.])'
+)
+
 
 def _truncatable_domain_regex(domain: str) -> str:
     """Regex matching ``domain`` or any gdb-truncated prefix of it.
@@ -213,8 +235,18 @@ class Sanitizer:
                 )
             rules.append((national, lambda m: tok('PHONE', m.group(0))))
 
+        def ipv6_repl(m: re.Match) -> str:
+            addr = m.group(0)
+            if not any(c.isdigit() for c in addr):
+                return addr  # no digit: almost certainly a symbol, not an address
+            low = addr.lower()
+            if low == '::1' or low.startswith(('fe8', 'fe9', 'fea', 'feb', 'fc', 'fd')):
+                return addr  # loopback / link-local / ULA: not customer-identifying
+            return tok('IP', addr)
+
         rules += [
             (re.compile(r'\+\d{10,15}'), lambda m: tok('PHONE', m.group(0))),
+            (IPV6, ipv6_repl),
             (
                 re.compile(
                     r'\b(?!10\.)(?!172\.(?:1[6-9]|2\d|3[01])\.)(?!192\.168\.)'
