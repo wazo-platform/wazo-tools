@@ -90,6 +90,17 @@ REDACTION_CASES = [
         'contact sip:user123@1.2.3.4:5060;ob', 'user123', id='sip contact uri'
     ),
     pytest.param('peer 8.8.8.8 reachable', '8.8.8.8', id='public ip'),
+    pytest.param(
+        'peer 2606:4700:4700::1111 up',
+        '2606:4700:4700::1111',
+        id='public ipv6 compressed',
+    ),
+    pytest.param(
+        'addr 2a00:1450:4007:80f::200e end',
+        '2a00:1450:4007:80f::200e',
+        id='public ipv6',
+    ),
+    pytest.param('sock ::ffff:8.8.8.8 bound', '8.8.8.8', id='ipv4-mapped ipv6'),
 ]
 
 
@@ -106,6 +117,18 @@ def test_private_ip_is_preserved():
 
 def test_loopback_ip_is_preserved():
     assert '127.0.0.1' in anonymize_line('bound to 127.0.0.1:5060')
+
+
+def test_ipv6_loopback_and_link_local_preserved():
+    assert '::1' in anonymize_line('bind [::1]:5060')
+    assert 'fe80::1' in anonymize_line('iface fe80::1 up')
+
+
+def test_ipv6_rule_does_not_corrupt_cpp_symbols_or_timestamps():
+    # gdb backtraces are full of ns::Sym tokens and HH:MM:SS timestamps
+    assert anonymize_line('frame ast::unload_resource') == 'frame ast::unload_resource'
+    assert anonymize_line('cafe::babe handler') == 'cafe::babe handler'
+    assert anonymize_line('reload at 11:20:54 done') == 'reload at 11:20:54 done'
 
 
 def test_trunk_name_fully_redacted():
