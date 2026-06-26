@@ -19,6 +19,7 @@ _spec.loader.exec_module(_module)
 
 anonymize_line = _module.anonymize_line
 Sanitizer = _module.Sanitizer
+extract_system_summary = _module.extract_system_summary
 main = _module.main
 
 
@@ -101,6 +102,16 @@ REDACTION_CASES = [
         id='public ipv6',
     ),
     pytest.param('sock ::ffff:8.8.8.8 bound', '8.8.8.8', id='ipv4-mapped ipv6'),
+    pytest.param(
+        'id A1B2C3D4-E5F6-7A8B-9C0D-E1F2A3B4C5D6 seen',
+        'A1B2C3D4-E5F6-7A8B-9C0D-E1F2A3B4C5D6',
+        id='uppercase-hex uuid',
+    ),
+    pytest.param(
+        'PJSIP/customer_trunk_DEADBEEF-1111-2222-3333-44445555 up',
+        'DEADBEEF',
+        id='uppercase-hex trunk id',
+    ),
 ]
 
 
@@ -131,6 +142,40 @@ def test_ipv6_rule_does_not_corrupt_cpp_symbols_or_timestamps():
     assert anonymize_line('reload at 11:20:54 done') == 'reload at 11:20:54 done'
 
 
+def test_sip_contact_with_ipv6_collapses_to_single_token():
+    out = anonymize_line('c sip:user42@[2606:4700::1111]:5060;ob done')
+    assert 'user42' not in out  # user redacted, not just the address
+    assert '2606:4700' not in out
+    assert out.count('CONTACT_') == 1  # one token, not a half-redacted URI
+    assert 'IP_' not in out  # not split by the standalone IPv6 rule
+
+
+def test_summary_sanitizes_safe_prefix_lines(tmp_path):
+    # the safe_prefix taskprocessor lines must be sanitized, not emitted raw
+    info = tmp_path / 'info.txt'
+    info.write_text(
+        '\n'.join(
+            [
+                'header0',
+                'header1',
+                'Asterisk 22 built',
+                'started',
+                'reload',
+                '',
+                '',
+                'TaskProcessors (1):',
+                '',
+                'Processor   Processed',
+                'pjsip/messaging  a1b2c3d4-e5f6-7a8b-9c0d-112233445566  0  0',
+                'Channels (0)',
+                'Bridges (0)',
+            ]
+        )
+    )
+    out = extract_system_summary(info, Sanitizer())
+    assert 'a1b2c3d4-e5f6-7a8b-9c0d-112233445566' not in out
+
+
 def test_trunk_name_fully_redacted():
     # real trunk ids carry a non-standard UUID the UUID rule misses, so the
     # dedicated trunk rule must capture the whole <slug>_trunk_<id> name.
@@ -141,9 +186,13 @@ def test_trunk_name_fully_redacted():
     assert '1a2b3c4d' not in out
 
 
-def test_trunk_rule_does_not_mangle_non_id_names():
-    # a config-like name (no uuid id) must be left intact, not half-eaten
-    assert anonymize_line('default_trunk_config') == 'default_trunk_config'
+def test_human_named_trunk_is_redacted():
+    # real trunk ids are not always hex UUIDs; some carry person/business names
+    out = anonymize_line('PJSIP/dstny_trunk_Adil_Aube-0000021c answered')
+    assert 'Adil_Aube' not in out
+    assert 'dstny_trunk' not in out
+    out2 = anonymize_line('chan dstny_trunk_ChapelleTrucksServices-00000216 up')
+    assert 'ChapelleTrucksServices' not in out2
 
 
 # --- pseudonymization mechanics ---

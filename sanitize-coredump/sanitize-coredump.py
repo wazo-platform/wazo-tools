@@ -156,13 +156,15 @@ class Sanitizer:
 
         # --- built-in structural ruleset (order is load-bearing) ---
         rules += [
-            # Wazo trunk endpoint names <slug>_trunk_<hexid>; the slug AND the
-            # per-trunk id are customer-correlating, so token the whole name.
-            # Runs before the brand-literal rule so the slug is captured here.
+            # Wazo trunk endpoint names <slug>_trunk_<id>; the slug AND the id
+            # are customer-correlating, so token the whole name. The id is not
+            # always a hex UUID — real deployments use human/business names
+            # (e.g. dstny_trunk_ChapelleTrucksServices), so match any identifier
+            # after '_trunk_'. Validated across the support corpus that
+            # '_trunk_' only ever appears inside endpoint names, so this does
+            # not over-redact unrelated text. Runs before the brand-literal rule.
             (
-                # require >=8 hex for the id so non-id names like
-                # default_trunk_config are not mangled.
-                re.compile(r'[A-Za-z0-9]+_trunk_[0-9a-f]{8}[0-9a-f-]*'),
+                re.compile(r'[A-Za-z0-9]+_trunk_[A-Za-z0-9][A-Za-z0-9_-]*'),
                 lambda m: tok('TRUNK', m.group(0)),
             ),
             (
@@ -193,7 +195,7 @@ class Sanitizer:
                 lambda m: m.group(1) + tok('TENANT', m.group(2)),
             ),
             (
-                re.compile(r'(wazo-app-)([0-9a-f-]+)'),
+                re.compile(r'(wazo-app-)([0-9a-fA-F-]+)'),
                 lambda m: m.group(1) + tok('UUID', m.group(2)),
             ),
             (
@@ -209,7 +211,7 @@ class Sanitizer:
                 lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
             ),
             (
-                re.compile(r'grp-ID\d+-[0-9a-f-]+'),
+                re.compile(r'grp-ID\d+-[0-9a-fA-F-]+'),
                 lambda m: tok('GRP', m.group(0)),
             ),
             (
@@ -217,11 +219,14 @@ class Sanitizer:
                 lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
             ),
             (
-                re.compile(r'sip:[A-Za-z0-9]+@[\d.]+:\d+[^)\s]*'),
+                # host is dotted IPv4 or a bracketed IPv6 literal; runs before
+                # the standalone IPv6 rule so the whole URI is one token (user
+                # included), not a half-redacted address.
+                re.compile(r'sip:[A-Za-z0-9]+@(?:[\d.]+|\[[0-9A-Fa-f:]+\]):\d+[^)\s]*'),
                 lambda m: tok('CONTACT', m.group(0)),
             ),
             (
-                re.compile(r'wazo-dial-mobile-[0-9a-f-]+'),
+                re.compile(r'wazo-dial-mobile-[0-9a-fA-F-]+'),
                 lambda m: tok('WAZODIAL', m.group(0)),
             ),
         ]
@@ -263,7 +268,8 @@ class Sanitizer:
                 # (z9hG4bKPj<uuid>). Over-redact rather than miss a
                 # customer-correlating id.
                 re.compile(
-                    r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]+'
+                    r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-'
+                    r'[0-9a-fA-F]{4}-[0-9a-fA-F]+'
                 ),
                 lambda m: tok('UUID', m.group(0)),
             ),
@@ -339,7 +345,7 @@ def extract_system_summary(info_path: Path, sanitizer: Sanitizer) -> str:
     )
     for line in lines:
         if line.startswith(safe_prefixes):
-            summary.append(line)
+            summary.append(sanitizer.line(line))
 
     tp_lines = [
         ln for ln in lines if not ln.startswith('Processor') and not ln.startswith('!')
@@ -386,7 +392,7 @@ def extract_system_summary(info_path: Path, sanitizer: Sanitizer) -> str:
     summary.append('')
     for line in lines:
         if line.startswith('Channels (') or line.startswith('Bridges ('):
-            summary.append(line)
+            summary.append(sanitizer.line(line))
 
     return '\n'.join(summary)
 
