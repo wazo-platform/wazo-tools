@@ -44,6 +44,32 @@ NATIONAL_PHONE_PATTERNS = {
     'UK': re.compile(r'\b0\d{9,10}\b'),
 }
 
+# Pseudonym tokens are TAG_<n>. To let endpoint-name rules match underscore-
+# bearing names (e.g. ACS_INTERIM_UNYC) without re-matching a generated token,
+# guard against anything shaped like a token.
+_TOKEN_TAGS = (
+    'ENDPOINT',
+    'TRUNK',
+    'IP',
+    'UUID',
+    'PHONE',
+    'CONTACT',
+    'NAME',
+    'TENANT',
+    'GRP',
+    'MWISUB',
+    'CUSTID',
+    'HOST',
+    'HEADERVAL',
+    'WAZODIAL',
+    'WAZOAPP',
+    'LITERAL',
+)
+_NOT_A_TOKEN = r'(?!(?:' + '|'.join(_TOKEN_TAGS) + r')_\d)'
+# An endpoint name carrying at least one underscore (business/customer names
+# like ALLIANZ_ANNE_BAILLET_UNYC), never a generated token.
+_UNDERSCORE_NAME = _NOT_A_TOKEN + r'[A-Za-z0-9]+(?:_[A-Za-z0-9]+)+'
+
 # IPv6 matcher. Only "strong" forms are matched (full 8 groups, a hex group
 # before '::', or IPv4-mapped/embedded) so bare 'ns::Sym' tokens common in gdb
 # backtraces are not mangled; the digit requirement (enforced in the
@@ -167,6 +193,29 @@ class Sanitizer:
                 re.compile(r'[A-Za-z0-9]+_trunk_[A-Za-z0-9][A-Za-z0-9_-]*'),
                 lambda m: tok('TRUNK', m.group(0)),
             ),
+            # Endpoint names carrying underscores (business/customer names such
+            # as ALLIANZ_ANNE_BAILLET_UNYC) in registration/option/channel
+            # contexts. The [A-Za-z0-9]{6,10} rules below only cover token-shaped
+            # names; these cover the underscored ones. Shared ENDPOINT tag keeps
+            # the same endpoint correlated across contexts.
+            (
+                re.compile(rf'(pjsip/(?:options|outsess|outreg)/)({_UNDERSCORE_NAME})'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
+            ),
+            (
+                re.compile(rf'(PJSIP/)({_UNDERSCORE_NAME})'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
+            ),
+            (
+                re.compile(rf'(Local/)({_UNDERSCORE_NAME})'),
+                lambda m: m.group(1) + tok('ENDPOINT', m.group(2)),
+            ),
+            # NOTE: endpoint names also appear after '@' (PJSIP/<res>@<endpoint>),
+            # but that position is shared with standard Wazo contexts/vars
+            # (@wazo_wait, @WAZO_USER) which must NOT be redacted, so it cannot be
+            # handled structurally. A deployment whose endpoint names carry a
+            # stable marker (e.g. the *_UNYC suffix) should redact them via a
+            # --config pattern.
             (
                 re.compile(r'"([A-Z][a-z]+ [A-Z][a-z]+)"'),
                 lambda m: '"' + tok('NAME', m.group(1)) + '"',
@@ -191,7 +240,10 @@ class Sanitizer:
                 lambda m: m.group(1) + tok('MWISUB', m.group(2)),
             ),
             (
-                re.compile(r'(ctx-ID)(\d+)'),
+                # context names ctx-<tenant>-internal-...; the tenant is
+                # numeric (ctx-ID42) or a (often truncated) business name
+                # (ctx-CABINETOPH). Guard against re-matching a TENANT_n token.
+                re.compile(rf'(ctx-)({_NOT_A_TOKEN}[A-Za-z0-9]+)'),
                 lambda m: m.group(1) + tok('TENANT', m.group(2)),
             ),
             (
@@ -199,7 +251,9 @@ class Sanitizer:
                 lambda m: m.group(1) + tok('UUID', m.group(2)),
             ),
             (
-                re.compile(r'(pjsip/(?:options|outsess)/)([A-Za-z0-9]{6,10})(-)'),
+                re.compile(
+                    r'(pjsip/(?:options|outsess|outreg)/)([A-Za-z0-9]{6,10})(-)'
+                ),
                 lambda m: m.group(1) + tok('ENDPOINT', m.group(2)) + m.group(3),
             ),
             (

@@ -69,6 +69,11 @@ REDACTION_CASES = [
         id='mwi subscription',
     ),
     pytest.param('in ctx-ID42-internal', 'ctx-ID42', id='context tenant id'),
+    pytest.param(
+        'ctx-CABINETOPH-internal-3b554589-908c up',
+        'CABINETOPH',
+        id='context business name',
+    ),
     pytest.param('wazo-app-ab12cd34-ef56 started', 'ab12cd34', id='wazo app uuid'),
     pytest.param('wazo-dial-mobile-ab12cd34-ef56', 'ab12cd34', id='wazo dial mobile'),
     pytest.param('grp-ID5-ab12cd34-ef56', 'ab12cd34', id='group id'),
@@ -186,6 +191,30 @@ def test_trunk_name_fully_redacted():
     assert '1a2b3c4d' not in out
 
 
+def test_underscored_endpoint_names_are_redacted():
+    # business/customer names appear as endpoint names in several contexts
+    assert 'ALLIANZ' not in anonymize_line(
+        'pjsip/options/ALLIANZ_ANNE_BAILLET_UNYC-0000f868   23949   0'
+    )
+    assert 'BOULANGERIE' not in anonymize_line(
+        'pjsip/outreg/BOULANGERIE_GERARD_UNYC-00000228 x'
+    )
+    assert 'CABINET' not in anonymize_line(
+        'stasis/p:endpoint:PJSIP/CABINET_ANTUNEZ_UNYC-00008105 y'
+    )
+    assert 'ACS_INTERIM' not in anonymize_line(
+        'chan PJSIP/ACS_INTERIM_UNYC-0000abcd up'
+    )
+
+
+def test_underscored_endpoint_correlates_across_contexts():
+    sanitizer = Sanitizer()
+    a = sanitizer.line('pjsip/options/FEE_PAPILLON_UNYC-0000f868')
+    b = sanitizer.line('stasis/p:endpoint:PJSIP/FEE_PAPILLON_UNYC-00008105')
+    assert 'ENDPOINT_1' in a and 'ENDPOINT_1' in b  # same endpoint, same token
+    assert 'FEE_PAPILLON' not in a + b
+
+
 def test_human_named_trunk_is_redacted():
     # real trunk ids are not always hex UUIDs; some carry person/business names
     out = anonymize_line('PJSIP/dstny_trunk_Adil_Aube-0000021c answered')
@@ -216,7 +245,8 @@ def test_sanitization_does_not_rematch_generated_tokens():
     line = (
         'PJSIP/ABcD1234-0000abcd&PJSIP/ZyXw9876 dial_mobile,join,EfGh5678 '
         'sip:user123@1.2.3.4:5060 12345678-1234-1234-1234-123456789abc '
-        'ctx-ID42 wazo-app-ab12cd34-ef56 +33612345678'
+        'ctx-ID42 wazo-app-ab12cd34-ef56 +33612345678 '
+        'pjsip/options/ACS_INTERIM_UNYC-00008107 PJSIP/FEE_PAPILLON_UNYC-0000abcd'
     )
     once = Sanitizer().line(line)
     twice = Sanitizer().line(once)
