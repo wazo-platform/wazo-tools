@@ -181,6 +181,34 @@ See [`scenarios/deadlock/`](scenarios/deadlock/README.md) for a complete example
 or [`scenarios/queue/`](scenarios/queue/README.md) for a config-only scenario that
 reuses `ari-load.py` to load `app_queue`.
 
+## Selecting the Asterisk build
+
+The base image `TAG` only picks the starting layer; the actual Asterisk +
+`xivo-res-freeze-check` installed are controlled by build args on
+`Dockerfile.asterisk` (also exposed as env vars on the `asterisk` service):
+
+| Build arg / env | Default | Purpose |
+| --- | --- | --- |
+| `MIRROR` | Wazo mirror | apt mirror base URL (must use a key already trusted by the base image) |
+| `APT_SUITE` | _(empty)_ | suite to add as an apt source, e.g. `asterisk-rc`; empty = the base image's rolling `wazo-dev-bookworm` |
+| `ASTERISK_VERSION` | _(empty)_ | exact `asterisk` version to pin; empty = newest in the suite |
+| `FREEZE_CHECK_VERSION` | _(empty)_ | exact `xivo-res-freeze-check` version to pin |
+
+`res_freeze_check` is ABI-tied to the exact Asterisk build, so pin both to
+versions from the **same** snapshot (or leave both empty). List candidates with
+`apt-cache madison asterisk xivo-res-freeze-check` inside the base image.
+
+```bash
+# Reproducible RC build, both packages pinned to one snapshot:
+APT_SUITE=asterisk-rc \
+ASTERISK_VERSION=8:22.10.0-1~wazo1~astrc.deb12 \
+FREEZE_CHECK_VERSION=26.07~20260618.175836.0c83795.deb12 \
+  docker compose build asterisk
+```
+
+`docker-compose.asterisk-rc.yml` is a ready-made override that sets
+`APT_SUITE=asterisk-rc`.
+
 ## Testing a patched Asterisk
 
 To validate a fix, drop a patched `asterisk*.deb` in `patch/` and build with

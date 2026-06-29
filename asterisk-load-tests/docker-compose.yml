@@ -6,6 +6,10 @@ services:
             dockerfile: Dockerfile.asterisk
             args:
                 TAG: ${ASTERISK_TAG:-wazo-26.06}
+                MIRROR: ${MIRROR:-http://mirror.wazo.community/debian/}
+                APT_SUITE: ${APT_SUITE:-}
+                ASTERISK_VERSION: ${ASTERISK_VERSION:-}
+                FREEZE_CHECK_VERSION: ${FREEZE_CHECK_VERSION:-}
         container_name: loadtest-asterisk
         ports:
             - 8088:8088 # ARI HTTP

@@ -16,22 +16,27 @@ at the queue dialplan via environment variables.
 ## Call flow
 
 ```text
-ari-load.py ──originate──► PJSIP/queue-caller-N ──answered──► [queues] s
-                                                                  │
-                                                        Queue(loadtest-{1,2})
-                                                                  │  rrmemory
-                                                                  ▼
-                                              PJSIP/agent-0..7 ──► SIPp UAS (answers) ──► bridge
+ari-load.py ─originate─► PJSIP/queue-caller-N ─► [queues] s
+                          (caller UAS: sipp)        │
+                                            Queue(loadtest-{1,2})
+                                                    │  rrmemory
+                                                    ▼
+                          PJSIP/agent-0..7 ─► sipp-agent UAS ─► bridge ─► talk 2s ─► agent BYE
 ```
 
-- **queue-caller-N** — the leg the load generator originates; its static
-  contact is the SIPp UAS, so the caller leg answers, then runs
-  `Queue(loadtest-{1,2})` (queue chosen at random in the dialplan).
-- **agent-0..7** — queue members (`queues.conf`), shared by both queues; app_queue
-  dials them to deliver queued callers. Their contact is also the SIPp UAS, so
-  delivery answers and bridges.
+- **queue-caller-N** — the leg the load generator originates; its contact is the
+  base **`sipp`** UAS, so the caller leg answers, then runs `Queue(loadtest-{1,2})`
+  (queue chosen at random in the dialplan). That UAS just waits for Asterisk's BYE.
+- **agent-0..7** — queue members (`queues.conf`), shared by both queues. Their
+  contact is a **separate `sipp-agent` UAS** that answers, holds for a ~2s talk
+  time, then **hangs up itself** (`sipp-agent-uas.xml`). That release is what
+  frees the member so the queue connects the next caller and `Completed`/talktime
+  actually advance — with a single shared UAS that never hangs up, members latch
+  to "In use" and the queue stalls (callers answered but never serviced).
 
-Both legs terminate at the SIPp UAS, which answers unlimited calls.
+Adjust the talk time via the `<pause milliseconds="2000"/>` in
+`sipp-agent-uas.xml`. Service capacity is roughly `members / talk_time`; raise it
+by adding `agent-N` endpoints + `member =>` lines or shortening the talk time.
 
 ## Run
 
@@ -73,6 +78,27 @@ Two regimes, switched in `asterisk-config/queues.conf`:
 To scale members, add `agent-N` endpoints in `pjsip.conf` and matching
 `member => PJSIP/agent-N` lines in `queues.conf`.
 
+### Loading the agent path
+
+To actually saturate agents (rather than the queue-waiting path), three things matter:
+
+- **`autofill = yes`** in `queues.conf` `[general]` — **required**. Asterisk
+  defaults it to `no`, which serves callers strictly one at a time even with
+  many free agents, so the queue dials only a trickle of members and stalls
+  under load. With `yes`, waiting callers are distributed to free agents in
+  parallel.
+- **A `Queue()` timeout** (5th arg, e.g. `Queue(q,,,,20)` in `extensions.conf`)
+  bounds the waiting backlog — unserved callers abandon at 20s instead of piling
+  to the channel ceiling and starving the connect path.
+- **Raised `nofile`** on both `sipp` and `sipp-agent` (override) — the agent UAS
+  handles the bulk of short, churning calls; at 1024 fds it caps out and stops
+  answering after a few dozen calls.
+
+Reference run — 50 members, 500 ms talk, `Queue(,,,,20)`, ORIGINATORS=80: ~2,100
+calls serviced by agents in 120 s (~18/s, evenly spread 30–51 per agent), 0
+abandons, holdtime ~0 s, Asterisk healthy. Without `autofill = yes` the same
+config completes ~40 calls then stalls with tens of thousands abandoning.
+
 ## Results
 
 - `results/load_result.json` — originate/poll stats from `ari-load.py`.
@@ -93,4 +119,5 @@ docker exec loadtest-asterisk asterisk -rx "core show channels count"
 - `asterisk-config/pjsip.conf` — caller (`queue-caller-N`) + member (`agent-N`) endpoints.
 - `asterisk-config/extensions.conf` — `[queues]` context running `Queue(loadtest-{1,2})`.
 - `asterisk-config/queues.conf` — `shared_lastcall`, the two queues, and their shared members.
+- `sipp-agent-uas.xml` — agent-side UAS: answers, talks ~2s, then sends BYE (frees the member).
 - `run-test.sh` — convenience runner.

@@ -4,27 +4,49 @@ FROM wazoplatform/asterisk:${TAG}
 
 USER root
 
-# Debugging tools + freeze-check module (loaded by modules.conf).
+# Where to install Asterisk + freeze-check from, and which versions.
+#
+#   MIRROR     : apt mirror base URL (must use the same signing key already
+#                trusted by the base image, e.g. the Wazo mirror).
+#   APT_SUITE  : suite/distribution on that mirror to add as an apt source.
+#                Empty = use only what the base image already has (the rolling
+#                wazo-dev-bookworm). e.g. asterisk-rc for the RC snapshot.
+#   *_VERSION  : exact package version to pin (apt "pkg=version" syntax). Empty
+#                = the newest the configured suite offers. Asterisk and
+#                freeze-check are ABI-tied, so pin them to versions from the SAME
+#                snapshot (or leave both empty). List candidates with:
+#                  apt-cache madison asterisk xivo-res-freeze-check
+#                e.g. APT_SUITE=asterisk-rc
+#                     ASTERISK_VERSION=8:22.10.0-1~wazo1~astrc.deb12
+#                     FREEZE_CHECK_VERSION=26.07~20260618.175836.0c83795.deb12
+ARG MIRROR=http://mirror.wazo.community/debian/
+ARG APT_SUITE=
+ARG ASTERISK_VERSION=
+ARG FREEZE_CHECK_VERSION=
+
+# Debugging tools + Asterisk + the freeze-check module (loaded by modules.conf).
 #
 # res_freeze_check is ABI-tied to the exact Asterisk build it was compiled
-# against. The Wazo apt repo (wazo-dev-bookworm) is rolling: it ships only the
-# latest xivo-res-freeze-check, built against the latest Asterisk. The frozen
-# base image ships an older Asterisk, so installing freeze-check alone loads a
-# mismatched module and Asterisk segfaults on startup. There is no
-# release-pinned apt suite to pull a matching older freeze-check from.
-#
-# So upgrade asterisk in the SAME apt transaction as xivo-res-freeze-check:
-# both then come from the same repo snapshot and are ABI-compatible. The base
-# image TAG just selects the starting layer; Asterisk is bumped to the snapshot
-# the freeze-check matches.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdb \
-    procps \
-    curl \
-    bc \
-    asterisk \
-    xivo-res-freeze-check \
-    && rm -rf /var/lib/apt/lists/*
+# against, so Asterisk and xivo-res-freeze-check must come from the same apt
+# snapshot — otherwise the module mismatches the binary and Asterisk segfaults
+# on startup. Installing both in one transaction keeps them matched; pinning to
+# APT_SUITE (-t) and/or exact versions draws both from one release snapshot. The
+# base image TAG only selects the starting layer. --allow-downgrades lets a
+# pinned version replace the (possibly newer) one baked into the base image.
+RUN set -eu; \
+    TGT=""; \
+    if [ -n "$APT_SUITE" ]; then \
+        echo "deb $MIRROR $APT_SUITE main" \
+            > "/etc/apt/sources.list.d/wazo-$APT_SUITE.list"; \
+        TGT="-t $APT_SUITE"; \
+    fi; \
+    ast_pkg="asterisk${ASTERISK_VERSION:+=$ASTERISK_VERSION}"; \
+    fz_pkg="xivo-res-freeze-check${FREEZE_CHECK_VERSION:+=$FREEZE_CHECK_VERSION}"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gdb procps curl bc; \
+    apt-get install -y --no-install-recommends --allow-downgrades \
+        $TGT "$ast_pkg" "$fz_pkg"; \
+    rm -rf /var/lib/apt/lists/*
 
 # Optional: install a patched asterisk .deb to validate a fix.
 # Place asterisk*.deb in ./patch/ and build with --build-arg PATCH_DEB=1.

@@ -1,0 +1,23 @@
+---
+# Vanilla variant: run against unpatched upstream Asterisk (asterisk-vanilla)
+# with no xivo-res-freeze-check module. Layer it AFTER the base and any
+# scenario override, e.g.:
+#
+#   docker compose -f docker-compose.yml \
+#     -f scenarios/queue/docker-compose.override.yml \
+#     -f docker-compose.vanilla.yml \
+#     build asterisk
+#   docker compose ...same -f flags... up \
+#     --abort-on-container-exit --exit-code-from load-generator
+#
+# Without freeze-check there is no SIGABRT-on-freeze: a hang surfaces as ARI
+# health-check timeouts and stalled progress in the load generator's log.
+services:
+    asterisk:
+        build:
+            args:
+                ASTERISK_PKG: asterisk-vanilla
+                FREEZE_CHECK: '0'
+        volumes:
+      # modules.conf without the res_freeze_check.so load line.
+            - ./asterisk-config/modules-vanilla.conf:/etc/asterisk/modules.conf:ro
