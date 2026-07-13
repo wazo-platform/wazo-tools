@@ -147,6 +147,15 @@ def test_ipv6_rule_does_not_corrupt_cpp_symbols_or_timestamps():
     assert anonymize_line('reload at 11:20:54 done') == 'reload at 11:20:54 done'
 
 
+def test_letter_only_ipv6_with_enough_groups_is_redacted():
+    # a 2-group letter-only match (cafe::babe) is kept as a likely ns::Sym false
+    # positive, but a longer letter-only match is structurally implausible as a
+    # C++ symbol and is a real address leak if left alone.
+    out = anonymize_line('peer dead:beef:cafe::face reachable')
+    assert 'dead:beef:cafe::face' not in out
+    assert 'IP_' in out
+
+
 def test_sip_contact_with_ipv6_collapses_to_single_token():
     out = anonymize_line('c sip:user42@[2606:4700::1111]:5060;ob done')
     assert 'user42' not in out  # user redacted, not just the address
