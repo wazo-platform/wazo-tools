@@ -296,8 +296,12 @@ class Sanitizer:
 
         def ipv6_repl(m: re.Match) -> str:
             addr = m.group(0)
-            if not any(c.isdigit() for c in addr):
-                return addr  # no digit: almost certainly a symbol, not an address
+            groups = re.split(r':+', addr.strip(':'))
+            if not any(c.isdigit() for c in addr) and len(groups) <= 2:
+                # short letter-only match (e.g. cafe::babe): a C++ ns::Sym
+                # token, not an address. Longer letter-only matches are kept
+                # below, since real addresses can be written in pure hex.
+                return addr
             low = addr.lower()
             if low == '::1' or low.startswith(('fe8', 'fe9', 'fea', 'feb', 'fc', 'fd')):
                 return addr  # loopback / link-local / ULA: not customer-identifying
