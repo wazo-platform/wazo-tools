@@ -163,7 +163,7 @@ class Sanitizer:
         rules: list[Rule] = []
 
         # --- caller-supplied domains and headers (specific contexts, run early)
-        for domain in sorted(set(domains), key=len, reverse=True):
+        for domain in sorted(filter(None, set(domains)), key=len, reverse=True):
             rules.append(
                 (
                     re.compile(_truncatable_domain_regex(domain)),
@@ -332,13 +332,13 @@ class Sanitizer:
         # --- caller-supplied brand literals (generic substrings, run late so
         # they only catch standalone mentions, not parts of compound names
         # already tokenized above; longest first to avoid partial shadowing)
-        for literal in sorted(set(literals), key=len, reverse=True):
+        for literal in sorted(filter(None, set(literals)), key=len, reverse=True):
             rules.append(
                 (re.compile(re.escape(literal)), lambda m: tok('LITERAL', m.group(0)))
             )
 
         # --- caller-supplied raw regex escape hatch (applied last) ---
-        rules += [(re.compile(pat), repl) for pat, repl in extra_patterns]
+        rules += [(re.compile(pat), repl) for pat, repl in extra_patterns if pat]
 
         return rules
 

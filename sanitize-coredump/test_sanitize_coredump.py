@@ -288,6 +288,16 @@ def test_config_header_value_is_redacted():
     assert 'AcmeCorp' not in out
 
 
+def test_empty_config_literal_is_ignored():
+    out = Sanitizer(literals=('', 'customer')).line('hello customer world')
+    assert out == 'hello LITERAL_1 world'
+
+
+def test_empty_config_domain_is_ignored():
+    out = Sanitizer(domains=('',)).line('hello world this is a test')
+    assert out == 'hello world this is a test'
+
+
 def test_national_phone_redacted_when_country_configured():
     out = Sanitizer(phone_country='FR').line('from 0612345678 here')
     assert '0612345678' not in out
