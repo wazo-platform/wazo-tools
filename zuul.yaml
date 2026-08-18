@@ -1,0 +1,14 @@
+---
+    - job:
+          name: check-db-schema
+          abstract: true
+          description: >-
+              Compare a service's SQLAlchemy models against its own alembic
+              migrations; parent this job and see check-db-schema/README.md.
+          parent: wazo-tox-py311
+          pre-run: zuul.d/playbooks/check-db-schema/pre-run.yaml
+          post-run: zuul.d/playbooks/check-db-schema/fetch-logs.yaml
+          required-projects:
+              - wazo-platform/wazo-tools
+          vars:
+              tox_envlist: check-db-schema
