@@ -94,7 +94,10 @@ commands =
 
 ### Step 3: Add the Zuul job
 
-Add the shared Zuul job to the service's `zuul.yaml`.
+The shared `check-db-schema` job lives in `wazo-production-sf-jobs`,
+in order to be inheritable by other wazo-platform projects.
+
+Add the job to the service's `zuul.yaml`.
 
 ```yaml
 - job:
