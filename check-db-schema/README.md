@@ -44,7 +44,7 @@ Follow these steps to add a new service to this check.
 ### Step 1: Add a config file
 
 Add a config file to the service repository. The default path is
-`contribs/check-db-schema.ini`.
+`check-db-schema.ini`, at the repository root.
 
 ```ini
 [check-db-schema]

@@ -74,7 +74,7 @@ def main() -> int:
     )
     parser.add_argument(
         '--config',
-        default='contribs/check-db-schema.ini',
+        default='check-db-schema.ini',
         help='Path to the service config file, relative to --project-root',
     )
     args = parser.parse_args()
