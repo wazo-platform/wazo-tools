@@ -98,10 +98,8 @@ def main() -> int:
         for e in section.get('extensions', DEFAULT_EXTENSIONS).split(',')
         if e.strip()
     )
-    db_prefix = section.get('db-prefix') or models_module_name.split('.')[0]
-
-    installed_uri = f'{args.server_uri}/{db_prefix}_installed'
-    migrated_uri = f'{args.server_uri}/{db_prefix}_migrated'
+    installed_uri = f'{args.server_uri}/installed'
+    migrated_uri = f'{args.server_uri}/migrated'
 
     log('Building the schema from the models...')
     build_installed_database(installed_uri, base, alembic_ini, alembic_dir, extensions)

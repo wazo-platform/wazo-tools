@@ -51,7 +51,6 @@ Add a config file to the service repository. The default path is
 models = wazo_dird.database:Base
 alembic-ini = alembic.ini
 alembic-dir = alembic
-db-prefix = dird
 ```
 
 The config fields are:
@@ -68,9 +67,6 @@ The config fields are:
   creates these extensions before it runs the migrations. This field is
   optional. The default is `uuid-ossp,unaccent,hstore`, the set every Wazo
   service already uses. Set it only if a service needs a different set.
-- `db-prefix`: the name prefix for the two throwaway databases
-  (`<prefix>_installed` and `<prefix>_migrated`). This field is optional.
-  The default is the first part of the `models` value.
 
 ### Step 2: Add a tox environment
 
