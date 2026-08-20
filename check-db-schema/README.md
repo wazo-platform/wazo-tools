@@ -25,7 +25,7 @@ from an empty database. Use `wazo-tools/compare-db` instead.
 
 ## How the tool works
 
-The script `check_db_schema.py` builds two throwaway databases on the same
+The script `check-db-schema.py` builds two throwaway databases on the same
 Postgres server:
 
 - one database from the models, with `Base.metadata.create_all()`
@@ -88,7 +88,7 @@ deps =
 pass_env =
     CHECK_DB_SCHEMA_SERVER_URI
 commands =
-    python {toxinidir}/../wazo-tools/check-db-schema/check_db_schema.py \
+    python {toxinidir}/../wazo-tools/check-db-schema/check-db-schema.py \
         {env:CHECK_DB_SCHEMA_SERVER_URI:postgresql://postgres:postgres@localhost:5432}
 ```
 

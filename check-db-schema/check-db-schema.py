@@ -13,11 +13,11 @@ difference and exits with an error.
 For the full setup steps, read check-db-schema/README.md.
 
 Usage:
-    python check_db_schema.py <server-uri>
-    python check_db_schema.py --project-root <path> --config <path> <server-uri>
+    python check-db-schema.py <server-uri>
+    python check-db-schema.py --project-root <path> --config <path> <server-uri>
 
 Example:
-    python check_db_schema.py postgresql://postgres:postgres@localhost:5432
+    python check-db-schema.py postgresql://postgres:postgres@localhost:5432
 """
 
 from __future__ import annotations
