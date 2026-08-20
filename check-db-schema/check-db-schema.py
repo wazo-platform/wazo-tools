@@ -35,6 +35,8 @@ from alembic import command as alembic_command  # type: ignore[attr-defined]
 from alembic.config import Config as AlembicConfig
 from migra import Migration
 
+# Extensions used across every Wazo service's Postgres schema.
+DEFAULT_EXTENSIONS = 'uuid-ossp,unaccent,hstore'
 LOGGER_NAME = 'check_db_schema'
 LOGGING_CONFIG = {
     'version': 1,
@@ -92,7 +94,9 @@ def main() -> int:
     alembic_ini = os.path.join(project_root, section.get('alembic-ini', 'alembic.ini'))
     alembic_dir = os.path.join(project_root, section.get('alembic-dir', 'alembic'))
     extensions = tuple(
-        e.strip() for e in section.get('extensions', '').split(',') if e.strip()
+        e.strip()
+        for e in section.get('extensions', DEFAULT_EXTENSIONS).split(',')
+        if e.strip()
     )
     db_prefix = section.get('db-prefix') or models_module_name.split('.')[0]
 
