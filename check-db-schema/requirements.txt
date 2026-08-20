@@ -1,2 +1,2 @@
 migra[pg]
-setuptools<82.0.0  # schemainspect (from migra) needs pkg_resources
+setuptools<82  # schemainspect (from migra) needs pkg_resources
