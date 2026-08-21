@@ -25,7 +25,6 @@ from __future__ import annotations
 import argparse
 import importlib
 import logging
-import logging.config
 import os
 import sys
 from configparser import ConfigParser
@@ -38,15 +37,6 @@ from migra import Migration
 # Extensions used across every Wazo service's Postgres schema.
 DEFAULT_EXTENSIONS = 'uuid-ossp,unaccent,hstore'
 LOGGER_NAME = 'check_db_schema'
-LOGGING_CONFIG = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {'default': {'format': '%(levelname)-5.5s [%(name)s] %(message)s'}},
-    'handlers': {'console': {'class': 'logging.StreamHandler', 'formatter': 'default'}},
-    'loggers': {
-        LOGGER_NAME: {'level': 'INFO', 'handlers': ['console'], 'propagate': False}
-    },
-}
 log = logging.getLogger(LOGGER_NAME).info
 
 
