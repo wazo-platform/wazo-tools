@@ -37,11 +37,7 @@ makes sure the version table does not show up as a difference.
 Then the tool compares the two databases with `migra`. Any difference
 means the models and the migrations do not agree on the schema.
 
-## Add a service
-
-Follow these steps to add a new service to this check.
-
-### Step 1: Add a config file
+## Configure a service
 
 Add a config file to the service repository. The default path is
 `check-db-schema.ini`, at the repository root.
@@ -68,61 +64,9 @@ The config fields are:
   optional. The default is `uuid-ossp,unaccent,hstore`, the set every Wazo
   service already uses. Set it only if a service needs a different set.
 
-### Step 2: Add a tox environment
-
-Add a tox environment to the service's own `tox.ini`. Zuul checks out
-`wazo-tools` next to the service through `required-projects`. For local
-use, clone `wazo-tools` next to the service repository.
-
-```ini
-[testenv:check-db-schema]
-base_python = python3.11
-use_develop = true
-deps =
-    -rrequirements.txt
-    -r{toxinidir}/../wazo-tools/check-db-schema/requirements.txt
-pass_env =
-    CHECK_DB_SCHEMA_SERVER_URI
-commands =
-    python {toxinidir}/../wazo-tools/check-db-schema/check-db-schema.py \
-        {env:CHECK_DB_SCHEMA_SERVER_URI:postgresql://postgres:postgres@localhost:5432}
-```
-
-### Step 3: Add the Zuul job
-
-The shared `check-db-schema` job lives in `wazo-production-sf-jobs`,
-in order to be inheritable by other wazo-platform projects.
-
-Add the job to the service's `zuul.yaml`.
-
-```yaml
-- job:
-    name: <service>-check-db-schema
-    parent: check-db-schema
-
-- project:
-    wazo-check:
-      jobs:
-        - <service>-check-db-schema
-    wazo-gate:
-      jobs:
-        - <service>-check-db-schema
-```
-
-### Step 4 (optional): Guard the alembic logging config
-
-Some services call `fileConfig(config.config_file_name)` in
-`alembic/env.py` with no condition. If your service does this, add a
-guard. xivo-manage-db, wazo-auth, and wazo-call-logd already use this
-guard:
-
-```python
-if config.get_main_option('configure_logging', 'true') == 'true':
-    fileConfig(config.config_file_name)
-```
-
-This step is optional. The tool restores its own logger after each
-alembic command, with or without the guard.
+For how to wire this tool into a service's own tox environment and Zuul
+job (including the `check-db-schema` job in `wazo-production-sf-jobs`),
+see the rollout plan in Notion, PRODUCT-341.
 
 ## Develop this tool
 
