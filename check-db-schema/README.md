@@ -64,10 +64,6 @@ The config fields are:
   optional. The default is `uuid-ossp,unaccent,hstore`, the set every Wazo
   service already uses. Set it only if a service needs a different set.
 
-For how to wire this tool into a service's own tox environment and Zuul
-job (including the `check-db-schema` job in `wazo-production-sf-jobs`),
-see the rollout plan in Notion, PRODUCT-341.
-
 ## Develop this tool
 
 To test a change to this tool, run it directly against a real service.
