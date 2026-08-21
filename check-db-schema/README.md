@@ -126,9 +126,16 @@ alembic command, with or without the guard.
 
 ## Develop this tool
 
-To test a change to this tool, run it against a real service.
+To test a change to this tool, run it directly against a real service.
 
-First, start a throwaway Postgres server:
+Install this tool's dependencies and the target service in one virtualenv:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt -e /path/to/wazo-dird
+```
+
+Start a throwaway Postgres server:
 
 ```sh
 docker compose up -d
@@ -138,10 +145,10 @@ docker compose port postgres 5432
 The second command prints a port number. Use this port number as
 `<port>` in the next command.
 
-Then run the tool through tox:
+Then run the script directly:
 
 ```sh
-CHECK_DB_SCHEMA_PROJECT=/path/to/wazo-dird \
-CHECK_DB_SCHEMA_SERVER_URI=postgresql://postgres:check-db-schema@127.0.0.1:<port> \
-tox -e check-db-schema
+.venv/bin/python check-db-schema.py \
+    --project-root /path/to/wazo-dird \
+    postgresql://postgres:check-db-schema@127.0.0.1:<port>
 ```
