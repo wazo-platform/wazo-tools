@@ -103,8 +103,8 @@ def main() -> int:
     if differences:
         log(
             'The models describe a schema that differs from the one the '
-            'migrations install. Statements below would migrate the model '
-            'schema to match the installed one; update the models '
+            'migrations install. Statements below would migrate the code model '
+            'schema to match the migration-based schema; update the models '
             'to match instead of applying them:\n' + differences
         )
         return 1
