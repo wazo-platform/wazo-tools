@@ -50,16 +50,7 @@ LOGGING_CONFIG = {
 log = logging.getLogger(LOGGER_NAME).info
 
 
-def configure_logging() -> None:
-    # A service's alembic/env.py calls fileConfig(alembic.ini) on every
-    # alembic command run here, which disables this logger since that ini
-    # does not list it; call this again after each alembic command to
-    # restore it.
-    logging.config.dictConfig(LOGGING_CONFIG)
-
-
 def main() -> int:
-    configure_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -137,7 +128,6 @@ def build_installed_database(
     alembic_command.stamp(
         build_alembic_config(db_uri, alembic_ini, alembic_dir), 'head'
     )
-    configure_logging()
 
 
 def build_migrated_database(
@@ -147,7 +137,6 @@ def build_migrated_database(
     alembic_command.upgrade(
         build_alembic_config(db_uri, alembic_ini, alembic_dir), 'head'
     )
-    configure_logging()
 
 
 def reset_database(db_uri: str, extensions: tuple[str, ...]) -> None:
