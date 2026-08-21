@@ -1,2 +1,4 @@
+SQLAlchemy
+alembic
 migra[pg]
 setuptools<82  # schemainspect (from migra) needs pkg_resources
