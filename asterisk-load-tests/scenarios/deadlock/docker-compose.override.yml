@@ -1,0 +1,58 @@
+---
+# Deadlock scenario overrides, layered on top of ../../docker-compose.yml.
+# Run from the repository root:
+#   docker compose -f docker-compose.yml \
+#     -f scenarios/deadlock/docker-compose.override.yml up
+# Relative paths resolve from the repository root (the base compose file's dir).
+
+services:
+    asterisk:
+        volumes:
+      # Endpoints with PJSIP_HEADER set_var + the inbound SIPp trunk.
+            - ./scenarios/deadlock/asterisk-config/pjsip.conf:/etc/asterisk/pjsip.conf:ro
+            - ./scenarios/deadlock/asterisk-config/extensions.conf:/etc/asterisk/extensions.conf:ro
+
+  # Answer outgoing calls slowly to keep the PJSIP serializer busy.
+    sipp:
+        command: [-sf, /scenarios/uas-slow.xml, -p, '5060', -m, '1000000', -l, '500']
+        volumes:
+            - ./scenarios/deadlock/sipp-uas-slow.xml:/scenarios/uas-slow.xml:ro
+
+  # Inbound calls that trigger Dial() through the PJSIP_HEADER endpoints.
+    sipp-uac:
+        image: ctaloi/sipp:latest
+        container_name: loadtest-sipp-uac
+        depends_on:
+            asterisk:
+                condition: service_healthy
+            sipp:
+                condition: service_started
+        command:
+            - -sf
+            - /scenarios/uac.xml
+            - -r
+            - ${SIPP_UAC_RATE:-10}
+            - -rp
+            - '1000'
+            - -m
+            - ${SIPP_UAC_MAX_CALLS:-100000}
+            - -l
+            - '200'
+            - -d
+            - '5000'
+            - asterisk:5060
+        volumes:
+            - ./sipp/uac.xml:/scenarios/uac.xml:ro
+        expose:
+            - 5060/udp
+
+  # Run the deadlock-detecting driver instead of the generic one.
+    load-generator:
+        environment:
+            - ENDPOINT=PJSIP/deadlock-test
+            - CONTEXT=deadlock-test
+            - NUM_ENDPOINTS=${NUM_ENDPOINTS:-5}
+        volumes:
+            - ./scenarios/deadlock/deadlock_test.py:/app/deadlock_test.py:ro
+            - ./scenarios/deadlock/loadgen-run.sh:/app/loadgen-run.sh:ro
+        command: [bash, /app/loadgen-run.sh]

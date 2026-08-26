@@ -1,0 +1,6 @@
+# Ruff config scoped to the asterisk-load-tests project.
+line-length = 120
+
+[per-file-ignores]
+# Scenario debug output uses f-strings without placeholders intentionally.
+"scenarios/deadlock/deadlock_test.py" = ["F541"]

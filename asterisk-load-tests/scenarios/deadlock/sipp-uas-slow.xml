@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<!-- Slow UAS scenario - simulates production carrier latency -->
+<scenario name="Slow UAS">
+
+  <!-- Wait for INVITE -->
+  <recv request="INVITE" crlf="true">
+  </recv>
+
+  <!-- Send 100 Trying immediately -->
+  <send>
+    <![CDATA[SIP/2.0 100 Trying
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Content-Length: 0
+
+]]>
+  </send>
+
+  <!-- Simulate carrier processing delay - longer to block serializer -->
+  <pause milliseconds="1000"/>
+
+  <!-- Send 180 Ringing -->
+  <send>
+    <![CDATA[SIP/2.0 180 Ringing
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+Content-Length: 0
+
+]]>
+  </send>
+
+  <!-- Simulate answer delay - key for serializer blocking -->
+  <pause milliseconds="2000"/>
+
+  <!-- Send 200 OK with SDP -->
+  <send retrans="500">
+    <![CDATA[SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+Content-Type: application/sdp
+Content-Length: [len]
+
+v=0
+o=sipp 1 1 IN IP[local_ip_type] [local_ip]
+s=sipp call
+c=IN IP[media_ip_type] [media_ip]
+t=0 0
+m=audio [media_port] RTP/AVP 0 8
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+
+]]>
+  </send>
+
+  <!-- Wait for ACK -->
+  <recv request="ACK" timeout="5000" crlf="true">
+  </recv>
+
+  <!-- Wait for BYE from Asterisk (via dialplan or Stasis) -->
+  <recv request="BYE" timeout="10000" crlf="true">
+  </recv>
+
+  <!-- Send 200 OK for BYE -->
+  <send>
+    <![CDATA[SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:]
+[last_Call-ID:]
+[last_CSeq:]
+Content-Length: 0
+
+]]>
+  </send>
+
+</scenario>

@@ -1,0 +1,78 @@
+---
+services:
+    asterisk:
+        build:
+            context: .
+            dockerfile: Dockerfile.asterisk
+            args:
+                TAG: ${ASTERISK_TAG:-wazo-26.06}
+                MIRROR: ${MIRROR:-http://mirror.wazo.community/debian/}
+                APT_SUITE: ${APT_SUITE:-}
+                ASTERISK_VERSION: ${ASTERISK_VERSION:-}
+                FREEZE_CHECK_VERSION: ${FREEZE_CHECK_VERSION:-}
+        container_name: loadtest-asterisk
+        ports:
+            - 8088:8088 # ARI HTTP
+            - 5060:5060/udp # SIP
+        volumes:
+            - ./asterisk-config/ari.conf:/etc/asterisk/ari.conf:ro
+            - ./asterisk-config/http.conf:/etc/asterisk/http.conf:ro
+            - ./asterisk-config/pjsip.conf:/etc/asterisk/pjsip.conf:ro
+            - ./asterisk-config/extensions.conf:/etc/asterisk/extensions.conf:ro
+            - ./asterisk-config/modules.conf:/etc/asterisk/modules.conf:ro
+            - ./cores:/var/spool/asterisk/cores:rw
+        ulimits:
+            core:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - SYS_PTRACE # for gcore
+        healthcheck:
+            test: [CMD, asterisk, -rx, core show version]
+            interval: 5s
+            timeout: 10s
+            retries: 5
+            start_period: 30s
+
+  # SIPp UAS: answers the calls Asterisk dials out.
+    sipp:
+        image: ctaloi/sipp:latest
+        container_name: loadtest-sipp
+        depends_on:
+            asterisk:
+                condition: service_healthy
+        command: [-sf, /scenarios/uas.xml, -p, '5060', -m, '1000000', -l, '500']
+        volumes:
+            - ./sipp/uas.xml:/scenarios/uas.xml:ro
+        expose:
+            - 5060/udp
+
+    load-generator:
+        build:
+            context: .
+            dockerfile: Dockerfile.loadgen
+        container_name: loadtest-loadgen
+        depends_on:
+            asterisk:
+                condition: service_healthy
+            sipp:
+                condition: service_started
+        environment:
+            - PYTHONUNBUFFERED=1
+            - ARI_URL=http://asterisk:8088/ari
+            - ARI_USER=${ARI_USER:-loadtest}
+            - ARI_PASS=${ARI_PASS:-loadtest}
+            - ENDPOINT_PREFIX=PJSIP/loadtest
+            - CONTEXT=loadtest
+            - DURATION=${DURATION:-600}
+            - POLLERS=${POLLERS:-30}
+            - ORIGINATORS=${ORIGINATORS:-10}
+            - POLL_INTERVAL=${POLL_INTERVAL:-0.005}
+            - ORIGINATE_INTERVAL=${ORIGINATE_INTERVAL:-0.02}
+            - NUM_ENDPOINTS=${NUM_ENDPOINTS:-3}
+            - RESULT_DIR=/results
+        volumes:
+            - ./results:/results
