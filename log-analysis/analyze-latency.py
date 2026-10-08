@@ -16,15 +16,15 @@ JUNK_TOKEN_RE = re.compile(r'/token/(null|undefined|[0-9]+)\b')
 
 RESPONSE_RE = re.compile(
     r'^(?:\w{3} +\d+ \d{2}:\d{2}:\d{2} \S+ \S+\[\d+\]: )?'
-    r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+ \[\d+\] \(\w+\) \(\S+\): '
-    r'response to (\S+) in ([0-9.]+)s: ([A-Z]+) (.*) (\d{3})\s*$'
+    r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+(?: \w+)? \[(?:pid )?\d+\](?: \[tid \d+\])? \(\w+\) \(\S+\): '
+    r'response to (\S+) in ([0-9.]+)s: ([A-Z]+) (.*) (\d{3})(?: \[span_id=.*\])?\s*$'
 )
 
 
 def normalize_path(url: str) -> str:
     path = urlparse(url).path
     # strip nginx proxy prefix
-    for prefix in ('/api/auth', '/api/confd', '/api/calld'):
+    for prefix in ('/api/auth', '/api/confd', '/api/calld', '/api/dird'):
         if path.startswith(prefix):
             path = path[len(prefix) :]
             break
