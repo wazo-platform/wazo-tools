@@ -1,0 +1,17 @@
+---
+# Release-candidate variant: install Asterisk and xivo-res-freeze-check from the
+# Wazo 'asterisk-rc' apt suite (same mirror/key as the base image), where both
+# are built from one snapshot and so are ABI-matched. Layer it after the base
+# and any scenario override:
+#
+#   docker compose -f docker-compose.yml \
+#     -f scenarios/queue/docker-compose.override.yml \
+#     -f docker-compose.asterisk-rc.yml \
+#     build asterisk
+#   docker compose ...same -f flags... up \
+#     --abort-on-container-exit --exit-code-from load-generator
+services:
+    asterisk:
+        build:
+            args:
+                APT_SUITE: asterisk-rc

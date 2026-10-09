@@ -1,0 +1,32 @@
+# Generic ARI load generator.
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ari-load.py .
+
+# Wrapper turning environment variables into CLI arguments.
+COPY <<'EOF' /app/run.sh
+#!/bin/bash
+exec python3 ari-load.py \
+    --ari-url "${ARI_URL:-http://localhost:8088/ari}" \
+    --ari-user "${ARI_USER:-loadtest}" \
+    --ari-pass "${ARI_PASS:-loadtest}" \
+    --endpoint-prefix "${ENDPOINT_PREFIX:-PJSIP/loadtest}" \
+    --context "${CONTEXT:-loadtest}" \
+    --extension "${EXTENSION:-s}" \
+    --duration "${DURATION:-600}" \
+    --pollers "${POLLERS:-30}" \
+    --originators "${ORIGINATORS:-10}" \
+    --poll-interval "${POLL_INTERVAL:-0.005}" \
+    --originate-interval "${ORIGINATE_INTERVAL:-0.02}" \
+    --num-endpoints "${NUM_ENDPOINTS:-3}" \
+    --result-dir "${RESULT_DIR:-/results}"
+EOF
+
+RUN chmod +x /app/run.sh
+
+CMD ["/app/run.sh"]

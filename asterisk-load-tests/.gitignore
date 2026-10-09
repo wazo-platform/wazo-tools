@@ -1,0 +1,11 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Test artifacts
+cores/
+results/
+
+# Patched packages dropped in for fix-validation runs
+patch/*.deb

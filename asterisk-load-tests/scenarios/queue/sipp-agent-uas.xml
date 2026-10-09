@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<!-- Agent-side UAS: answers the call the queue delivers, holds it for a talk
+     time, then HANGS UP (sends BYE itself). This frees the queue member so the
+     queue can connect the next caller, unlike the caller-side UAS which only
+     waits for Asterisk to send BYE.
+
+     The in-dialog BYE is built from headers captured off the INVITE so it
+     matches the dialog Asterisk created:
+       To   = INVITE's From (remote URI + remote tag)
+       From = INVITE's To  + our local tag ([call_number])
+       R-URI/target = Asterisk's Contact -->
+<scenario name="Agent UAS answer + talk + hangup">
+
+  <recv request="INVITE" crlf="true">
+    <action>
+      <!-- Remote side (caller = Asterisk): full From value and Contact URI. -->
+      <ereg regexp="(.*)" search_in="hdr" header="From:" assign_to="remote_from"/>
+      <ereg regexp="(.*)" search_in="hdr" header="To:" assign_to="local_to"/>
+      <ereg regexp="sip:[^&gt;]*" search_in="hdr" header="Contact:"
+            assign_to="remote_target"/>
+    </action>
+  </recv>
+
+  <send>
+    <![CDATA[
+      SIP/2.0 100 Trying
+      [last_Via:]
+      [last_From:]
+      [last_To:];tag=[call_number]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <send retrans="500">
+    <![CDATA[
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:];tag=[call_number]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=sipp 1 1 IN IP[local_ip_type] [local_ip]
+      s=sipp call
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [media_port] RTP/AVP 0 8
+      a=rtpmap:0 PCMU/8000
+      a=rtpmap:8 PCMA/8000
+
+    ]]>
+  </send>
+
+  <recv request="ACK" timeout="5000" crlf="true">
+  </recv>
+
+  <!-- Talk time, then the agent hangs up. -->
+  <pause milliseconds="500"/>
+
+  <send retrans="500">
+    <![CDATA[
+      BYE [$remote_target] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: [$local_to];tag=[call_number]
+      To: [$remote_from]
+      [last_Call-ID:]
+      CSeq: 2 BYE
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Max-Forwards: 70
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <recv response="200" timeout="5000" crlf="true">
+  </recv>
+
+</scenario>

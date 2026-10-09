@@ -1,0 +1,69 @@
+# Wazo Asterisk image for load testing, with debugging tools.
+ARG TAG=wazo-26.06
+FROM wazoplatform/asterisk:${TAG}
+
+USER root
+
+# Where to install Asterisk + freeze-check from, and which versions.
+#
+#   MIRROR     : apt mirror base URL (must use the same signing key already
+#                trusted by the base image, e.g. the Wazo mirror).
+#   APT_SUITE  : suite/distribution on that mirror to add as an apt source.
+#                Empty = use only what the base image already has (the rolling
+#                wazo-dev-bookworm). e.g. asterisk-rc for the RC snapshot.
+#   *_VERSION  : exact package version to pin (apt "pkg=version" syntax). Empty
+#                = the newest the configured suite offers. Asterisk and
+#                freeze-check are ABI-tied, so pin them to versions from the SAME
+#                snapshot (or leave both empty). List candidates with:
+#                  apt-cache madison asterisk xivo-res-freeze-check
+#                e.g. APT_SUITE=asterisk-rc
+#                     ASTERISK_VERSION=8:22.10.0-1~wazo1~astrc.deb12
+#                     FREEZE_CHECK_VERSION=26.07~20260618.175836.0c83795.deb12
+ARG MIRROR=http://mirror.wazo.community/debian/
+ARG APT_SUITE=
+ARG ASTERISK_VERSION=
+ARG FREEZE_CHECK_VERSION=
+
+# Debugging tools + Asterisk + the freeze-check module (loaded by modules.conf).
+#
+# res_freeze_check is ABI-tied to the exact Asterisk build it was compiled
+# against, so Asterisk and xivo-res-freeze-check must come from the same apt
+# snapshot — otherwise the module mismatches the binary and Asterisk segfaults
+# on startup. Installing both in one transaction keeps them matched; pinning to
+# APT_SUITE (-t) and/or exact versions draws both from one release snapshot. The
+# base image TAG only selects the starting layer. --allow-downgrades lets a
+# pinned version replace the (possibly newer) one baked into the base image.
+RUN set -eu; \
+    TGT=""; \
+    if [ -n "$APT_SUITE" ]; then \
+        echo "deb $MIRROR $APT_SUITE main" \
+            > "/etc/apt/sources.list.d/wazo-$APT_SUITE.list"; \
+        TGT="-t $APT_SUITE"; \
+    fi; \
+    ast_pkg="asterisk${ASTERISK_VERSION:+=$ASTERISK_VERSION}"; \
+    fz_pkg="xivo-res-freeze-check${FREEZE_CHECK_VERSION:+=$FREEZE_CHECK_VERSION}"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gdb procps curl bc; \
+    apt-get install -y --no-install-recommends --allow-downgrades \
+        $TGT "$ast_pkg" "$fz_pkg"; \
+    rm -rf /var/lib/apt/lists/*
+
+# Optional: install a patched asterisk .deb to validate a fix.
+# Place asterisk*.deb in ./patch/ and build with --build-arg PATCH_DEB=1.
+ARG PATCH_DEB=0
+COPY patch/ /tmp/patch/
+RUN if [ "$PATCH_DEB" = "1" ] && ls /tmp/patch/asterisk*.deb 1>/dev/null 2>&1; then \
+        dpkg -i /tmp/patch/asterisk*.deb || apt-get -f install -y; \
+    fi
+
+# Core dumps land in a volume-mounted directory.
+RUN mkdir -p /var/spool/asterisk/cores && \
+    chown asterisk:asterisk /var/spool/asterisk/cores
+RUN echo 'kernel.core_pattern=/var/spool/asterisk/cores/core.%e.%p.%t' \
+    > /etc/sysctl.d/99-coredump.conf || true
+
+RUN mkdir -p /run/asterisk && chown asterisk:asterisk /run/asterisk
+
+EXPOSE 5060/udp 8088
+
+CMD ["asterisk", "-fvvvg"]

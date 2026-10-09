@@ -1,0 +1,56 @@
+---
+# Queue scenario overrides, layered on top of ../../docker-compose.yml.
+# Run from the repository root:
+#   docker compose -f docker-compose.yml \
+#     -f scenarios/queue/docker-compose.override.yml up \
+#     --abort-on-container-exit --exit-code-from load-generator
+# Relative paths resolve from the repository root (the base compose file's dir).
+
+services:
+    asterisk:
+        volumes:
+      # Caller + agent endpoints, the [queues] dialplan, and the queue definition.
+      # ari/http/modules stay inherited from the base (app_queue loads via autoload).
+            - ./scenarios/queue/asterisk-config/pjsip.conf:/etc/asterisk/pjsip.conf:ro
+            - ./scenarios/queue/asterisk-config/extensions.conf:/etc/asterisk/extensions.conf:ro
+            - ./scenarios/queue/asterisk-config/queues.conf:/etc/asterisk/queues.conf:ro
+
+  # The base sipp (caller UAS) defaults to a 1024 open-files limit; at queue
+  # load that caps concurrent calls and it stops answering. Raise it to match
+  # the asterisk service.
+    sipp:
+        ulimits:
+            nofile:
+                soft: 65536
+                hard: 65536
+
+  # Agent-side UAS: answers the call the queue delivers, holds for a talk time,
+  # then hangs up (sends BYE) so the member frees and the queue completes calls.
+  # The agent-N AORs in pjsip.conf point here (sipp-agent); the caller AORs keep
+  # pointing at the base `sipp` UAS.
+    sipp-agent:
+        image: ctaloi/sipp:latest
+        container_name: loadtest-sipp-agent
+        depends_on:
+            asterisk:
+                condition: service_healthy
+        command: [-sf, /scenarios/agent-uas.xml, -p, '5060', -m, '1000000', -l, '20000']
+        volumes:
+            - ./scenarios/queue/sipp-agent-uas.xml:/scenarios/agent-uas.xml:ro
+        expose:
+            - 5060/udp
+      # Same fd-limit fix: the agent UAS handles the bulk of short, churning
+      # calls, so it needs plenty of file descriptors.
+        ulimits:
+            nofile:
+                soft: 65536
+                hard: 65536
+
+  # Reuse the generic ari-load.py: originate callers into the [queues] context
+  # so each answered leg runs Queue(loadtest). Only env vars change.
+    load-generator:
+        environment:
+            - ENDPOINT_PREFIX=PJSIP/queue-caller
+            - CONTEXT=queues
+            - EXTENSION=s
+            - NUM_ENDPOINTS=${NUM_ENDPOINTS:-5}
